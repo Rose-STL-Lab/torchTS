@@ -1,5 +1,5 @@
 <a href="https://torchts.ai">
-  <img width="350" src="./torchts_logo.png" alt="TorchTS Logo" />
+  <img width="350" src="./torchTS_logo.png" alt="TorchTS Logo" />
 </a>
 
 <hr/>
