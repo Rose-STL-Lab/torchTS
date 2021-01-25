@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "torchts"
+version = "0.1.0"
+description = "Time series forecasting with PyTorch"
+authors = [
+    "Kevin Lane <k2lane@eng.ucsd.edu>",
+    "Aparna Gupta <apgupta@eng.ucsd.edu>",
+    "Raul Martinez <rgm001@eng.ucsd.edu>",
+    "Daniel Roten <daroten@eng.ucsd.edu>",
+    "Akash Shah <apshah@eng.ucsd.edu>"
+]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/Rose-STL-Lab/torchTS"
+documentation = "https://rose-stl-lab.github.io/torchTS"
+keywords = ["time-series", "machine-learning", "pytorch"]
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+torch = "^1.7.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
