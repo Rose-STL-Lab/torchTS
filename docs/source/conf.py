@@ -12,7 +12,6 @@
 
 import os
 import sys
-import asteroid_sphinx_theme
 
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_ROOT = os.path.join(PATH_HERE, '..', '..')
@@ -66,7 +65,7 @@ html_theme_options = {
     "canonical_url": "https://github.com/Rose-STL-Lab/torchTS",
     "collapse_navigation": False,
     "display_version": True,
-    'logo':'_static/images/torchTS_logo.png',
+    'logo': '_static/images/torchTS_logo.png',
     'logo_only': True,
 }
 
