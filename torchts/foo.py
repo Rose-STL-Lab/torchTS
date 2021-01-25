@@ -12,4 +12,3 @@ def demo(pair_wise_losses):
         - :class:`torch.Tensor`:
           Notice that those two spaces, not a tab.
     """
-
