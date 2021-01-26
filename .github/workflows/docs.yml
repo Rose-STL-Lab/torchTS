@@ -44,3 +44,4 @@ jobs:
           BASE_BRANCH: main
           FOLDER: docs/build/html
           CLEAN: true
+          CLEAN_EXCLUDE: '["README.md"]'
