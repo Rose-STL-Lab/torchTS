@@ -27,7 +27,7 @@ jobs:
       - name: Restore cache
         uses: actions/cache@v2.1.3
         with:
-          path: ${{ matrix.poetry_cache }}
+          path: ~/.cache/pypoetry
           key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
