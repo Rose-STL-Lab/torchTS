@@ -1,0 +1,46 @@
+name: Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.1
+
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@v4
+
+      - name: Write environment information to a file
+        run: |
+          pwd > environment
+          python --version >> environment
+
+      - name: Restore cache
+        uses: actions/cache@v2.1.3
+        with:
+          path: ${{ matrix.poetry_cache }}
+          key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build documentation
+        run: poetry run make -C docs html
+
+      - name: Deploy documentation
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          BASE_BRANCH: master
+          FOLDER: docs/build/html
+          CLEAN: true
