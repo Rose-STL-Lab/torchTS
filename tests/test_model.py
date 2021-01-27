@@ -23,3 +23,4 @@ def test_model():
     y = slope * x + intercept
 
     assert (model(x) == y).all()
+    assert (model.predict(x) == y).all()
