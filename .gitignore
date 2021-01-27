@@ -4,5 +4,8 @@
 # Python byte code
 *.pyc
 
+# pytest
+.coverage*
+
 # Sphinx
 docs/build/
