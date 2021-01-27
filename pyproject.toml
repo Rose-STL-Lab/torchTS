@@ -21,6 +21,7 @@ torch = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
+pytest-cov = "^2.11.1"
 Sphinx = "^3.4.3"
 asteroid-sphinx-theme = "^0.0.3"
 
