@@ -29,7 +29,7 @@ jobs:
         run: echo ::set-output name=hash::$(python --version | sha256sum | cut -d' ' -f1)
 
       - name: Restore cache
-        uses: actions/cache@v2.1.3
+        uses: actions/cache@v2.1.4
         with:
           path: ~/.cache/pre-commit
           key: pre-commit|${{ steps.hash.outputs.hash }}|${{ hashFiles('.pre-commit-config.yaml') }}
@@ -78,7 +78,7 @@ jobs:
           python --version >> environment
 
       - name: Restore cache
-        uses: actions/cache@v2.1.3
+        uses: actions/cache@v2.1.4
         if: runner.os != 'Windows'
         with:
           path: ${{ matrix.poetry_cache }}
