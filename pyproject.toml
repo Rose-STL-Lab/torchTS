@@ -17,7 +17,7 @@ keywords = ["time-series", "machine-learning", "pytorch"]
 
 [tool.poetry.dependencies]
 python = "^3.6.2"
-torch = "^1.7.1"
+torch = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
