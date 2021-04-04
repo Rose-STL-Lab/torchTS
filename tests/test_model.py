@@ -4,8 +4,8 @@ from torchts.core.model import TimeSeriesModel
 
 
 class LinearModel(TimeSeriesModel):
-    def __init__(self, slope, intercept):
-        super().__init__()
+    def __init__(self, slope, intercept, **kwargs):
+        super().__init__(**kwargs)
         self.line = torch.nn.Linear(1, 1)
         self.line.weight = torch.nn.Parameter(slope * torch.ones_like(self.line.weight))
         self.line.bias = torch.nn.Parameter(intercept * torch.ones_like(self.line.bias))
@@ -14,7 +14,7 @@ class LinearModel(TimeSeriesModel):
         return self.line(x)
 
 
-def test_model():
+def test_forward():
     slope = 2
     intercept = -1
     model = LinearModel(slope, intercept)
@@ -24,3 +24,25 @@ def test_model():
 
     assert (model(x) == y).all()
     assert (model.predict(x) == y).all()
+
+
+def test_train():
+    torch.manual_seed(0)
+
+    slope_init = 2
+    intercept_init = -1
+    lr = 0.1
+    max_epochs = 100
+    model = LinearModel(slope_init, intercept_init, lr=lr, max_epochs=max_epochs)
+
+    slope_true = 1
+    intercept_true = 0
+    n = 1000
+    x = torch.rand(n, 1)
+    y = slope_true * x + intercept_true
+
+    model.fit(x, y)
+
+    tol = 1e-4
+    assert torch.abs(model.line.weight - slope_true) < tol
+    assert torch.abs(model.line.bias - intercept_true) < tol
