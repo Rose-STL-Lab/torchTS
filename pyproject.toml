@@ -20,7 +20,7 @@ python = "^3.6.2"
 torch = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.1"
+pytest = "^6.2.3"
 pytest-cov = "^2.11.1"
 Sphinx = "^3.5.3"
 asteroid-sphinx-theme = "^0.0.3"
