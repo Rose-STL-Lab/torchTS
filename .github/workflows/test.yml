@@ -35,7 +35,7 @@ jobs:
           key: pre-commit|${{ steps.hash.outputs.hash }}|${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run pre-commit
-        uses: pre-commit/action@v2.0.0
+        uses: pre-commit/action@v2.0.1
 
   test:
     name: '${{ matrix.os_name }}: Python ${{ matrix.python }}'
