@@ -14,24 +14,24 @@ import os
 import sys
 
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
-PATH_ROOT = os.path.join(PATH_HERE, '..', '..')
+PATH_ROOT = os.path.join(PATH_HERE, "..", "..")
 sys.path.insert(0, os.path.abspath(PATH_ROOT))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'TorchTS'
-copyright = '2020, Rose Yu'
-author = 'Rose Yu'
+project = "TorchTS"
+copyright = "2020, Rose Yu"
+author = "Rose Yu"
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = "0.1.0"
 
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
@@ -45,7 +45,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -58,33 +58,33 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'asteroid_sphinx_theme'
-html_logo = '_static/images/torchTS_logo.png'
+html_theme = "asteroid_sphinx_theme"
+html_logo = "_static/images/torchTS_logo.png"
 
 html_theme_options = {
     "pytorch_project": "tutorials",
     "canonical_url": "https://github.com/Rose-STL-Lab/torchTS",
     "collapse_navigation": False,
     "display_version": True,
-    'logo': '_static/images/torchTS_logo.png',
-    'logo_only': True,
+    "logo": "_static/images/torchTS_logo.png",
+    "logo_only": True,
 }
 
 # html_context = {
 #     "display_github": True,
-#     "github_user": 'Rose-STL-Lab',
-#     "github_repo": 'torchTS',
-#     "github_version": 'master',
+#     "github_user": "Rose-STL-Lab",
+#     "github_repo": "torchTS",
+#     "github_version": "master",
 #     "conf_py_path": "/docs/", # needs leading and trailing slashes!
 # }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 templates_path = ["_templates"]
 
 
 html_css_files = [
-    'css/custom.css',
+    "css/custom.css",
 ]
