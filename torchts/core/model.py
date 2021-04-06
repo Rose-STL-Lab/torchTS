@@ -26,9 +26,8 @@ class TimeSeriesModel(ABC, nn.Module):
         if not isinstance(self.optimizer, optim.Optimizer):
             self.optimizer = self.optimizer(self.parameters(), lr=self.lr)
 
-        loader = DataLoader(
-            TensorDataset(x, y), batch_size=self.batch_size, shuffle=True
-        )
+        dataset = TensorDataset(x, y)
+        loader = DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
 
         for _ in range(self.max_epochs):
             self.fit_step(loader)
