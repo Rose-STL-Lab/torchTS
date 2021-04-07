@@ -1,30 +1,32 @@
 from abc import ABC, abstractmethod
+from functools import partial
 
 from torch import nn, optim
 from torch.utils.data import DataLoader, TensorDataset
+
+DEFAULT_LOSS = nn.MSELoss()
+DEFAULT_OPT = partial(optim.SGD, lr=1e-2)
 
 
 class TimeSeriesModel(ABC, nn.Module):
     def __init__(
         self,
-        criterion=nn.MSELoss,
-        optimizer=optim.SGD,
-        lr=1e-2,
+        criterion=DEFAULT_LOSS,
+        optimizer=DEFAULT_OPT,
         max_epochs=10,
         batch_size=128,
         device="cpu",
     ):
         super().__init__()
-        self.criterion = criterion()
+        self.criterion = criterion
         self.optimizer = optimizer
-        self.lr = lr
         self.max_epochs = max_epochs
         self.batch_size = batch_size
         self.device = device
 
     def fit(self, x, y):
         if not isinstance(self.optimizer, optim.Optimizer):
-            self.optimizer = self.optimizer(self.parameters(), lr=self.lr)
+            self.optimizer = self.optimizer(self.parameters())
 
         dataset = TensorDataset(x, y)
         loader = DataLoader(dataset, batch_size=self.batch_size, shuffle=True)

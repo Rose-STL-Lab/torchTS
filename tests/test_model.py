@@ -1,4 +1,7 @@
+from functools import partial
+
 import torch
+from torch import nn, optim
 
 from torchts.core.model import TimeSeriesModel
 
@@ -6,9 +9,9 @@ from torchts.core.model import TimeSeriesModel
 class LinearModel(TimeSeriesModel):
     def __init__(self, slope, intercept, **kwargs):
         super().__init__(**kwargs)
-        self.line = torch.nn.Linear(1, 1)
-        self.line.weight = torch.nn.Parameter(slope * torch.ones_like(self.line.weight))
-        self.line.bias = torch.nn.Parameter(intercept * torch.ones_like(self.line.bias))
+        self.line = nn.Linear(1, 1)
+        self.line.weight = nn.Parameter(slope * torch.ones_like(self.line.weight))
+        self.line.bias = nn.Parameter(intercept * torch.ones_like(self.line.bias))
 
     def forward(self, x):
         return self.line(x)
@@ -31,9 +34,11 @@ def test_train():
 
     slope_init = 2
     intercept_init = -1
-    lr = 0.1
+    optimizer = partial(optim.SGD, lr=0.1)
     max_epochs = 100
-    model = LinearModel(slope_init, intercept_init, lr=lr, max_epochs=max_epochs)
+    model = LinearModel(
+        slope_init, intercept_init, optimizer=optimizer, max_epochs=max_epochs
+    )
 
     slope_true = 1
     intercept_true = 0
