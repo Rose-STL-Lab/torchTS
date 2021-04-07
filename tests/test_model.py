@@ -35,10 +35,7 @@ def test_train():
     slope_init = 2
     intercept_init = -1
     optimizer = partial(optim.SGD, lr=0.1)
-    max_epochs = 100
-    model = LinearModel(
-        slope_init, intercept_init, optimizer=optimizer, max_epochs=max_epochs
-    )
+    model = LinearModel(slope_init, intercept_init, optimizer=optimizer)
 
     slope_true = 1
     intercept_true = 0
@@ -46,7 +43,8 @@ def test_train():
     x = torch.rand(n, 1)
     y = slope_true * x + intercept_true
 
-    model.fit(x, y)
+    max_epochs = 100
+    model.fit(x, y, max_epochs=max_epochs)
 
     tol = 1e-4
     assert torch.abs(model.line.weight - slope_true) < tol

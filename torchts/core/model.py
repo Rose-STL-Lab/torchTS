@@ -13,25 +13,21 @@ class TimeSeriesModel(ABC, nn.Module):
         self,
         criterion=DEFAULT_LOSS,
         optimizer=DEFAULT_OPT,
-        max_epochs=10,
-        batch_size=128,
         device="cpu",
     ):
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
-        self.max_epochs = max_epochs
-        self.batch_size = batch_size
         self.device = device
 
-    def fit(self, x, y):
+    def fit(self, x, y, max_epochs=10, batch_size=128):
         if not isinstance(self.optimizer, optim.Optimizer):
             self.optimizer = self.optimizer(self.parameters())
 
         dataset = TensorDataset(x, y)
-        loader = DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-        for _ in range(self.max_epochs):
+        for _ in range(max_epochs):
             self.fit_step(loader)
 
     def fit_step(self, loader):
