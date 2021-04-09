@@ -9,12 +9,7 @@ DEFAULT_OPT = partial(optim.SGD, lr=1e-2)
 
 
 class TimeSeriesModel(ABC, nn.Module):
-    def __init__(
-        self,
-        criterion=DEFAULT_LOSS,
-        optimizer=DEFAULT_OPT,
-        device="cpu",
-    ):
+    def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, device="cpu"):
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
