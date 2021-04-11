@@ -59,11 +59,12 @@ exclude_patterns = []
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = "asteroid_sphinx_theme"
 html_theme_path = [asteroid_sphinx_theme.get_html_theme_path()]
-html_logo = "_static/images/torchTS_logo.png"
 
+# Theme options are theme-specific and customize the look and feel of a theme
+# further.  For a list of options available for each theme, see the
+# documentation.
 html_theme_options = {
     "pytorch_project": "tutorials",
     "canonical_url": "https://github.com/Rose-STL-Lab/torchTS",
@@ -72,6 +73,8 @@ html_theme_options = {
     "logo": "_static/images/torchTS_logo.png",
     "logo_only": True,
 }
+
+html_logo = "_static/images/torchTS_logo.png"
 
 # html_context = {
 #     "display_github": True,
