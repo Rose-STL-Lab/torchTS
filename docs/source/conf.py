@@ -13,6 +13,8 @@
 import os
 import sys
 
+import asteroid_sphinx_theme
+
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_ROOT = os.path.join(PATH_HERE, "..", "..")
 sys.path.insert(0, os.path.abspath(PATH_ROOT))
@@ -59,6 +61,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = "asteroid_sphinx_theme"
+html_theme_path = [asteroid_sphinx_theme.get_html_theme_path()]
 html_logo = "_static/images/torchTS_logo.png"
 
 html_theme_options = {
