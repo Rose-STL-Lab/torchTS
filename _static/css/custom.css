@@ -1,3 +1,7 @@
 .tutorials-header .header-logo {
   background-image: url("../images/torchTS_logo.png");
 }
+
+span.pre {
+  background: inherit;
+}
