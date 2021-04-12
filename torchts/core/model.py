@@ -18,14 +18,6 @@ class TimeSeriesModel(ABC, nn.Module):
     """
 
     def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, device="cpu"):
-        """Creates a new `TimeSeriesModel`.
-
-        Args:
-            criterion: Loss function
-            optimizer (`torch.optim.Optimizer`): Optimizer
-            device (str): Device
-        """
-
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
