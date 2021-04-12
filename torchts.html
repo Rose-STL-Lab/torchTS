@@ -295,7 +295,8 @@ Notice that those two spaces, not a tab.</p></li>
 <dl class="py class">
 <dt id="torchts.core.model.TimeSeriesModel">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">torchts.core.model.</span></code><code class="sig-name descname"><span class="pre">TimeSeriesModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">criterion=MSELoss()</span></em>, <em class="sig-param"><span class="pre">optimizer=functools.partial(&lt;class</span> <span class="pre">'torch.optim.sgd.SGD'&gt;</span></em>, <em class="sig-param"><span class="pre">lr=0.01)</span></em>, <em class="sig-param"><span class="pre">device='cpu'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#torchts.core.model.TimeSeriesModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for all TorchTS models.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Base class for all TorchTS models.</p>
 <dl class="py attribute">
 <dt id="torchts.core.model.TimeSeriesModel.criterion">
 <code class="sig-name descname"><span class="pre">criterion</span></code><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.criterion" title="Permalink to this definition">¶</a></dt>
