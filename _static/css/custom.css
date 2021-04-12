@@ -6,6 +6,10 @@ span.pre {
   background: inherit;
 }
 
+code span.pre {
+  color: #262626;
+}
+
 article.pytorch-article .class .method dt {
   font-weight: 500;
 }
