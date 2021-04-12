@@ -12,6 +12,11 @@ torchts.foo module
    :undoc-members:
    :show-inheritance:
 
+Base classes
+------------
+
+.. automodule:: torchts.core.model
+
 Module contents
 ---------------
 
