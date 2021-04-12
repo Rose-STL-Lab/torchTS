@@ -297,34 +297,15 @@ Notice that those two spaces, not a tab.</p></li>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">torchts.core.model.</span></code><code class="sig-name descname"><span class="pre">TimeSeriesModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">criterion=MSELoss()</span></em>, <em class="sig-param"><span class="pre">optimizer=functools.partial(&lt;class</span> <span class="pre">'torch.optim.sgd.SGD'&gt;</span></em>, <em class="sig-param"><span class="pre">lr=0.01)</span></em>, <em class="sig-param"><span class="pre">device='cpu'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#torchts.core.model.TimeSeriesModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Base class for all TorchTS models.</p>
-<dl class="py attribute">
-<dt id="torchts.core.model.TimeSeriesModel.criterion">
-<code class="sig-name descname"><span class="pre">criterion</span></code><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.criterion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loss function</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="torchts.core.model.TimeSeriesModel.optimizer">
-<code class="sig-name descname"><span class="pre">optimizer</span></code><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.optimizer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Optimizer</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><cite>torch.optim.Optimizer</cite></p>
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>criterion</strong> – Loss function</p></li>
+<li><p><strong>optimizer</strong> (<cite>torch.optim.Optimizer</cite>) – Optimizer</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device</p></li>
+</ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="torchts.core.model.TimeSeriesModel.device">
-<code class="sig-name descname"><span class="pre">device</span></code><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Device</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt id="torchts.core.model.TimeSeriesModel.fit">
 <code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.fit" title="Permalink to this definition">¶</a></dt>
@@ -361,10 +342,7 @@ Notice that those two spaces, not a tab.</p></li>
 <dd class="field-odd"><p><strong>x</strong> (<cite>torch.Tensor</cite>) – Input data</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Predicted data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><cite>torch.Tensor</cite></p>
+<dd class="field-even"><p><cite>torch.Tensor</cite> – Predicted data</p>
 </dd>
 </dl>
 </dd></dl>
@@ -378,10 +356,7 @@ Notice that those two spaces, not a tab.</p></li>
 <dd class="field-odd"><p><strong>x</strong> (<cite>torch.Tensor</cite>) – Input data</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Predicted data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><cite>torch.Tensor</cite></p>
+<dd class="field-even"><p><cite>torch.Tensor</cite> – Predicted data</p>
 </dd>
 </dl>
 </dd></dl>
