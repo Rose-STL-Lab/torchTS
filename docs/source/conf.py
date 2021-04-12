@@ -43,6 +43,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
 ]
 
