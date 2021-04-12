@@ -62,7 +62,7 @@ pygments_style = None
 
 # Autodoc config
 autodoc_inherit_docstrings = False
-autodoc_default_options = {"members": True}
+autodoc_default_options = {"members": True, "show-inheritance": True}
 
 
 # -- Options for HTML output -------------------------------------------------
