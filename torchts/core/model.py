@@ -11,7 +11,7 @@ DEFAULT_OPT = partial(optim.SGD, lr=1e-2)
 class TimeSeriesModel(ABC, nn.Module):
     """Base class for all TorchTS models.
 
-    Attributes:
+    Args:
         criterion: Loss function
         optimizer (torch.optim.Optimizer): Optimizer
         device (str): Device
