@@ -13,7 +13,7 @@ class TimeSeriesModel(ABC, nn.Module):
 
     Attributes:
         criterion: Loss function
-        optimizer (`torch.optim.Optimizer`): Optimizer
+        optimizer (torch.optim.Optimizer): Optimizer
         device (str): Device
     """
 
@@ -27,10 +27,10 @@ class TimeSeriesModel(ABC, nn.Module):
         """Fits model to the given data.
 
         Args:
-            x (`torch.Tensor`): Input data
-            y (`torch.Tensor`): Output data
+            x (torch.Tensor): Input data
+            y (torch.Tensor): Output data
             max_epochs (int): Number of training epochs
-            batch_size (int): Batch size for `torch.utils.data.DataLoader`
+            batch_size (int): Batch size for torch.utils.data.DataLoader
         """
 
         if not isinstance(self.optimizer, optim.Optimizer):
@@ -46,7 +46,7 @@ class TimeSeriesModel(ABC, nn.Module):
         """Trains model for one epoch.
 
         Args:
-            loader (`torch.utils.data.DataLoader`): Training data
+            loader (torch.utils.data.DataLoader): Training data
         """
 
         for x, y in loader:
@@ -62,20 +62,20 @@ class TimeSeriesModel(ABC, nn.Module):
         """Forward pass.
 
         Args:
-            x (`torch.Tensor`): Input data
+            x (torch.Tensor): Input data
 
         Returns:
-            `torch.Tensor`: Predicted data
+            torch.Tensor: Predicted data
         """
 
     def predict(self, x):
         """Runs model inference.
 
         Args:
-            x (`torch.Tensor`): Input data
+            x (torch.Tensor): Input data
 
         Returns:
-            `torch.Tensor`: Predicted data
+            torch.Tensor: Predicted data
         """
 
         return self(x).detach()
