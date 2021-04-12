@@ -58,6 +58,13 @@ exclude_patterns = []
 pygments_style = None
 
 
+# -- Extension configuration -------------------------------------------------
+
+# Autodoc config
+autodoc_inherit_docstrings = False
+autodoc_default_options = {"members": True}
+
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
