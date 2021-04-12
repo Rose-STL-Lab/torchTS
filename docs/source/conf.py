@@ -68,6 +68,12 @@ napoleon_use_rtype = False
 autodoc_inherit_docstrings = False
 autodoc_default_options = {"members": True, "show-inheritance": True}
 
+# Intersphinx config
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3/", None),
+    "torch": ("https://pytorch.org/docs/master/", None),
+}
+
 
 # -- Options for HTML output -------------------------------------------------
 
