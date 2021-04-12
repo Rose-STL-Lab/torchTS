@@ -5,3 +5,7 @@
 span.pre {
   background: inherit;
 }
+
+article.pytorch-article .class .method dt {
+  font-weight: 500;
+}
