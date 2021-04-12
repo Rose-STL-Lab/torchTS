@@ -60,6 +60,10 @@ pygments_style = None
 
 # -- Extension configuration -------------------------------------------------
 
+# Napoleon config
+napoleon_use_ivar = True
+napoleon_use_rtype = False
+
 # Autodoc config
 autodoc_inherit_docstrings = False
 autodoc_default_options = {"members": True, "show-inheritance": True}
