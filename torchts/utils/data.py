@@ -8,6 +8,9 @@ def lagmat(tensor, lags, horizon=1, dim=0, step=1):
     if not is_int and not is_iter:
         raise TypeError("lags must be of type int or Iterable[int]")
 
+    if (is_int and lags < 1) or (is_iter and any(lag < 1 for lag in lags)):
+        raise ValueError(f"lags must be positive but found {lags}")
+
     if is_int:
         data = tensor.unfold(dim, lags + horizon, step)
         x, y = data[:, :lags], data[:, -1]
