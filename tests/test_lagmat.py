@@ -44,3 +44,15 @@ def test_value(tensor, lag, horizon):
             assert all((x[i, :] - tensor[[x - 1 + i for x in lag]]) == 0)
 
     assert all((y - x[:, -1]) == horizon)
+
+
+@pytest.mark.parametrize("lag", ["1", 1.0, ["1"], [1, "2", 3], {1, 2.0, 3}])
+def test_non_int(tensor, lag):
+    with pytest.raises(TypeError):
+        lagmat(tensor, lag)
+
+
+@pytest.mark.parametrize("lag", [-1, 0, [0, 1, 2], {0, 1, 2}, [-1, 1, 2]])
+def test_non_positive(tensor, lag):
+    with pytest.raises(ValueError):
+        lagmat(tensor, lag)
