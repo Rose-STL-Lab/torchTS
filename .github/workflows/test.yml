@@ -80,6 +80,7 @@ jobs:
       - name: Restore cache
         id: poetry-cache
         uses: actions/cache@v2.1.4
+        if: runner.os != 'Windows'
         with:
           path: ${{ matrix.poetry_cache }}
           key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
