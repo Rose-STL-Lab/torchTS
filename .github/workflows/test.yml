@@ -78,6 +78,7 @@ jobs:
           python --version >> environment
 
       - name: Restore cache
+        id: poetry-cache
         uses: actions/cache@v2.1.4
         with:
           path: ${{ matrix.poetry_cache }}
@@ -85,6 +86,7 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
+        if: steps.poetry-cache.outputs.cache-hit != 'true'
 
       - name: Run tests
         run: poetry run pytest tests/ --cov=torchts
