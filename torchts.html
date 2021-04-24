@@ -290,11 +290,11 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-torchts.core.model">
-<span id="base-classes"></span><h2>Base classes<a class="headerlink" href="#module-torchts.core.model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-torchts.nn.model">
+<span id="base-classes"></span><h2>Base classes<a class="headerlink" href="#module-torchts.nn.model" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="torchts.core.model.TimeSeriesModel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">torchts.core.model.</span></code><code class="sig-name descname"><span class="pre">TimeSeriesModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">criterion=MSELoss()</span></em>, <em class="sig-param"><span class="pre">optimizer=functools.partial(&lt;class</span> <span class="pre">'torch.optim.sgd.SGD'&gt;</span></em>, <em class="sig-param"><span class="pre">lr=0.01)</span></em>, <em class="sig-param"><span class="pre">device='cpu'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/core/model.html#TimeSeriesModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.core.model.TimeSeriesModel" title="Permalink to this definition">¶</a></dt>
+<dt id="torchts.nn.model.TimeSeriesModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">torchts.nn.model.</span></code><code class="sig-name descname"><span class="pre">TimeSeriesModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">criterion=MSELoss()</span></em>, <em class="sig-param"><span class="pre">optimizer=functools.partial(&lt;class</span> <span class="pre">'torch.optim.sgd.SGD'&gt;</span></em>, <em class="sig-param"><span class="pre">lr=0.01)</span></em>, <em class="sig-param"><span class="pre">device='cpu'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Base class for all TorchTS models.</p>
 <dl class="field-list simple">
@@ -307,8 +307,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="torchts.core.model.TimeSeriesModel.fit">
-<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/core/model.html#TimeSeriesModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.fit" title="Permalink to this definition">¶</a></dt>
+<dt id="torchts.nn.model.TimeSeriesModel.fit">
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits model to the given data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -323,8 +323,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.core.model.TimeSeriesModel.fit_step">
-<code class="sig-name descname"><span class="pre">fit_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/core/model.html#TimeSeriesModel.fit_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.fit_step" title="Permalink to this definition">¶</a></dt>
+<dt id="torchts.nn.model.TimeSeriesModel.fit_step">
+<code class="sig-name descname"><span class="pre">fit_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.fit_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.fit_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains model for one epoch.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -334,8 +334,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.core.model.TimeSeriesModel.forward">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/core/model.html#TimeSeriesModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.forward" title="Permalink to this definition">¶</a></dt>
+<dt id="torchts.nn.model.TimeSeriesModel.forward">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Forward pass.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -348,8 +348,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.core.model.TimeSeriesModel.predict">
-<code class="sig-name descname"><span class="pre">predict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/core/model.html#TimeSeriesModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.core.model.TimeSeriesModel.predict" title="Permalink to this definition">¶</a></dt>
+<dt id="torchts.nn.model.TimeSeriesModel.predict">
+<code class="sig-name descname"><span class="pre">predict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs model inference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -420,7 +420,7 @@ Notice that those two spaces, not a tab.</p></li>
 <li><a class="reference internal" href="#">torchts package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-torchts.foo">torchts.foo module</a></li>
-<li><a class="reference internal" href="#module-torchts.core.model">Base classes</a></li>
+<li><a class="reference internal" href="#module-torchts.nn.model">Base classes</a></li>
 <li><a class="reference internal" href="#module-torchts">Module contents</a></li>
 </ul>
 </li>
