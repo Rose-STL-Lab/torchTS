@@ -3,7 +3,7 @@ from functools import partial
 import torch
 from torch import nn, optim
 
-from torchts.core.model import TimeSeriesModel
+from torchts.nn.model import TimeSeriesModel
 
 
 class LinearModel(TimeSeriesModel):

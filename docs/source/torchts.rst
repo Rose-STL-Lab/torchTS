@@ -15,7 +15,7 @@ torchts.foo module
 Base classes
 ------------
 
-.. automodule:: torchts.core.model
+.. automodule:: torchts.nn.model
 
 Module contents
 ---------------
