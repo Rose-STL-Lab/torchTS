@@ -9,12 +9,12 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Codecov](https://img.shields.io/codecov/c/github/pytorch/torchts.svg)](https://codecov.io/github/pytorch/torchts)
 
-TorchTS is a Pytorch-based library for Time Series Forecasting.
+TorchTS is a Pytorch-based library for Time Series Data.
 
 * Currently under active development!*
 
 #### Why Time Series ?
-Time series forecasting has broad significance in public health, finance and engineering. Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive.  Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.
+Time series data modeling has broad significance in public health, finance and engineering. Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive.  Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.
 
 #### Why TorchTS ?
 Existing time series analysis libraries include [statsmodels](https://www.statsmodels.org/stable/index.html),  [sktime](https://github.com/alan-turing-institute/sktime). However, these libraries only include traditional statistics tools such as ARMA or ARIMA, which do not have the state-of-the-art forecasting tools based on deep learning. [GluonTS](https://ts.gluon.ai/) is an open-source time series library developed by Amazon AWS, but is based on MXNet. [Pyro](https://pyro.ai/) is a probabilistic programming framework based on Pytorch, but is not focused on time series forecasting.
