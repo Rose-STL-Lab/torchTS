@@ -16,8 +16,9 @@ documentation = "https://rose-stl-lab.github.io/torchTS"
 keywords = ["time-series", "machine-learning", "pytorch"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.7,<3.10"
 torch = "^1.8.1"
+scipy = "^1.6.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
