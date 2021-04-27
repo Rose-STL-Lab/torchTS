@@ -1,4 +1,40 @@
+import os
+import pickle
 from collections.abc import Iterable
+
+import numpy as np
+import torch
+from torch.utils.data import DataLoader, TensorDataset
+
+
+class PaddedDataset(TensorDataset):
+    def __init__(self, batch_size, *data, pad_with_last_sample=True):
+        data_pad = [None] * len(data)
+
+        if pad_with_last_sample:
+            num_padding = (batch_size - (len(data[0]) % batch_size)) % batch_size
+
+            for i in range(len(data)):
+                padding = np.repeat(data[i][-1:], num_padding, axis=0)
+                data_pad[i] = np.concatenate([data[i], padding], axis=0)
+
+        super().__init__(*[torch.from_numpy(d).float() for d in data_pad])
+
+
+class StandardScaler:
+    def __init__(self, data):
+        self.mean = data.mean()
+        self.std = data.std()
+
+    def transform(self, data):
+        return (data - self.mean) / self.std
+
+    def inverse_transform(self, data):
+        return (data * self.std) + self.mean
+
+
+def concat(a, b):
+    return torch.cat([a, b.unsqueeze(0)], dim=0)
 
 
 def lagmat(tensor, lags, horizon=1, dim=0, step=1):
@@ -19,3 +55,50 @@ def lagmat(tensor, lags, horizon=1, dim=0, step=1):
         x, y = data[:, [lag - 1 for lag in lags]], data[:, -1]
 
     return x, y
+
+
+def load_dataset(dataset_dir, batch_size, test_batch_size=None, **kwargs):
+    data = {}
+
+    for category in ["train", "val", "test"]:
+        cat_data = np.load(os.path.join(dataset_dir, category + ".npz"))
+        data["x_" + category] = cat_data["x"]
+        data["y_" + category] = cat_data["y"]
+
+    scaler = StandardScaler(data["x_train"][..., 0])
+
+    for category in ["train", "val", "test"]:
+        data["x_" + category][..., 0] = scaler.transform(data["x_" + category][..., 0])
+        data["y_" + category][..., 0] = scaler.transform(data["y_" + category][..., 0])
+
+    data_train = PaddedDataset(batch_size, data["x_train"], data["y_train"])
+    data["train_loader"] = DataLoader(data_train, batch_size, shuffle=True)
+
+    data_val = PaddedDataset(batch_size, data["x_val"], data["y_val"])
+    data["val_loader"] = DataLoader(data_val, test_batch_size, shuffle=False)
+
+    data_test = PaddedDataset(batch_size, data["x_test"], data["y_test"])
+    data["test_loader"] = DataLoader(data_test, test_batch_size, shuffle=False)
+
+    data["scaler"] = scaler
+
+    return data
+
+
+def load_graph_data(pkl_filename):
+    sensor_ids, sensor_id_to_ind, adj_mx = load_pickle(pkl_filename)
+    return sensor_ids, sensor_id_to_ind, adj_mx
+
+
+def load_pickle(pickle_file):
+    try:
+        with open(pickle_file, "rb") as f:
+            pickle_data = pickle.load(f)
+    except UnicodeDecodeError:
+        with open(pickle_file, "rb") as f:
+            pickle_data = pickle.load(f, encoding="latin1")
+    except Exception as e:
+        print(f"Unable to load data {pickle_file} : {e}")
+        raise e
+
+    return pickle_data
