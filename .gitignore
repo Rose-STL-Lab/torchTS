@@ -4,6 +4,9 @@
 # Python byte code
 *.pyc
 
+# PyTorch Lightning
+lightning_logs/
+
 # pytest
 .coverage*
 
