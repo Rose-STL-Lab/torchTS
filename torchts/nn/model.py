@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from functools import partial
 
+from pytorch_lightning import LightningModule, Trainer
 from torch import nn, optim
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -8,20 +9,18 @@ DEFAULT_LOSS = nn.MSELoss()
 DEFAULT_OPT = partial(optim.SGD, lr=1e-2)
 
 
-class TimeSeriesModel(ABC, nn.Module):
+class TimeSeriesModel(LightningModule):
     """Base class for all TorchTS models.
 
     Args:
         criterion: Loss function
         optimizer (torch.optim.Optimizer): Optimizer
-        device (str): Device
     """
 
-    def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, device="cpu"):
+    def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT):
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
-        self.device = device
 
     def fit(self, x, y, max_epochs=10, batch_size=128):
         """Fits model to the given data.
@@ -32,30 +31,22 @@ class TimeSeriesModel(ABC, nn.Module):
             max_epochs (int): Number of training epochs
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
-
-        if not isinstance(self.optimizer, optim.Optimizer):
-            self.optimizer = self.optimizer(self.parameters())
-
         dataset = TensorDataset(x, y)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        trainer = Trainer(max_epochs=max_epochs)
+        trainer.fit(self, loader)
 
-        for _ in range(max_epochs):
-            self.fit_step(loader)
-
-    def fit_step(self, loader):
-        """Trains model for one epoch.
+    def training_step(self, batch, batch_idx):
+        """Trains model for one step.
 
         Args:
-            loader (torch.utils.data.DataLoader): Training data
+            batch (torch.Tensor): Output of the torch.utils.data.DataLoader
+            batch_idx (int): Integer displaying index of this batch
         """
-
-        for x, y in loader:
-            x, y = x.to(self.device), y.to(self.device)
-            self.optimizer.zero_grad()
-            prediction = self(x)
-            loss = self.criterion(y, prediction)
-            loss.backward()
-            self.optimizer.step()
+        x, y = batch
+        pred = self(x)
+        loss = self.criterion(pred, y)
+        return loss
 
     @abstractmethod
     def forward(self, x):
@@ -77,5 +68,12 @@ class TimeSeriesModel(ABC, nn.Module):
         Returns:
             torch.Tensor: Predicted data
         """
-
         return self(x).detach()
+
+    def configure_optimizers(self):
+        """Configure optimizer.
+
+        Returns:
+            torch.optim.Optimizer: Optimizer
+        """
+        return self.optimizer(self.parameters())
