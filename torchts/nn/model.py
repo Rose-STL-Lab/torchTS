@@ -17,10 +17,11 @@ class TimeSeriesModel(LightningModule):
         optimizer (torch.optim.Optimizer): Optimizer
     """
 
-    def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT):
+    def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None):
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
+        self.scheduler = scheduler
 
     def fit(self, x, y, max_epochs=10, batch_size=128):
         """Fits model to the given data.
@@ -76,4 +77,10 @@ class TimeSeriesModel(LightningModule):
         Returns:
             torch.optim.Optimizer: Optimizer
         """
-        return self.optimizer(self.parameters())
+        optimizer = self.optimizer(self.parameters())
+
+        if self.scheduler is not None:
+            scheduler = self.scheduler(optimizer)
+            return [optimizer], [scheduler]
+
+        return optimizer
