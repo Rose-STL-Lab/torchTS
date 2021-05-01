@@ -1,7 +1,7 @@
 import numpy as np
 import pytorch_lightning as pl
 import torch
-from torch import nn
+from torch import nn, optim
 
 from torchts.nn.graph import DCGRU
 from torchts.nn.loss import masked_mae_loss
@@ -177,13 +177,13 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
         pred = self.scaler.inverse_transform(pred)
         loss = masked_mae_loss(y, pred)
 
-        torch.nn.utils.clip_grad_norm_(self.parameters(), 5)
+        nn.utils.clip_grad_norm_(self.parameters(), 5)
 
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=0.01, eps=1e-3)
-        scheduler = torch.optim.lr_scheduler.MultiStepLR(
+        optimizer = optim.Adam(self.parameters(), lr=0.01, eps=1e-3)
+        scheduler = optim.lr_scheduler.MultiStepLR(
             optimizer, milestones=[20, 30, 40, 50], gamma=0.1
         )
         return [optimizer], [scheduler]
