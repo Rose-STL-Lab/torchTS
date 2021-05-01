@@ -130,7 +130,7 @@ class Seq2Seq(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         x, y = batch
-        pred = self(x).reshape(y.shape)
+        pred = self(x)
         loss = self.criterion(y, pred)
         return loss
 
