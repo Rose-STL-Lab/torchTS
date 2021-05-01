@@ -1,5 +1,6 @@
 from functools import partial
 
+import pytest
 import torch
 from torch import nn, optim
 
@@ -47,5 +48,5 @@ def test_train():
     model.fit(x, y, max_epochs=max_epochs)
 
     tol = 1e-4
-    assert torch.abs(model.line.weight - slope_true) < tol
-    assert torch.abs(model.line.bias - intercept_true) < tol
+    assert pytest.approx(model.line.weight.detach(), abs=tol) == slope_true
+    assert pytest.approx(model.line.bias.detach(), abs=tol) == intercept_true

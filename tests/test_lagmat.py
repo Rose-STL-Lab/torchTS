@@ -38,12 +38,12 @@ def test_value(tensor, lag, horizon):
     if isinstance(lag, int):
         for i in range(x.shape[0]):
             j = lag + i
-            assert all((x[i, :] - tensor[i:j]) == 0)
+            assert (x[i, :] == tensor[i:j]).all()
     else:
         for i in range(x.shape[0]):
-            assert all((x[i, :] - tensor[[x - 1 + i for x in lag]]) == 0)
+            assert (x[i, :] == tensor[[x - 1 + i for x in lag]]).all()
 
-    assert all((y - x[:, -1]) == horizon)
+    assert (y - x[:, -1] == horizon).all()
 
 
 @pytest.mark.parametrize("lag", ["1", 1.0, ["1"], [1, "2", 3], {1, 2.0, 3}])
