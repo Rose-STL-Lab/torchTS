@@ -110,8 +110,7 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
     def encoder(self, inputs):
         batch_size = inputs.size(1)
         shape = self.num_rnn_layers, batch_size, self.hidden_state_size
-        encoder_hidden_state = torch.zeros(shape)
-        encoder_hidden_state = encoder_hidden_state.type_as(inputs)
+        encoder_hidden_state = torch.zeros(shape, device=self.device)
 
         for t in range(self.encoder_model.seq_len):
             _, encoder_hidden_state = self.encoder_model(
@@ -123,8 +122,7 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
     def decoder(self, encoder_hidden_state, labels=None, batches_seen=None):
         batch_size = encoder_hidden_state.size(1)
         shape = batch_size, self.num_nodes * self.decoder_model.output_dim
-        go_symbol = torch.zeros(shape)
-        go_symbol = go_symbol.type_as(encoder_hidden_state)
+        go_symbol = torch.zeros(shape, device=self.device)
         decoder_hidden_state = encoder_hidden_state
         decoder_input = go_symbol
         outputs = []
