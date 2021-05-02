@@ -42,14 +42,8 @@ class Encoder(nn.Module, Seq2SeqAttrs):
         )
 
     def forward(self, inputs, hidden_state=None):
-        batch_size, _ = inputs.size()
         hidden_states = []
         output = inputs
-
-        if hidden_state is None:
-            shape = self.num_rnn_layers, batch_size, self.hidden_state_size
-            hidden_state = torch.zeros(shape)
-            hidden_state = hidden_state.type_as(inputs)
 
         for layer_num, dcgru_layer in enumerate(self.dcgru_layers):
             next_hidden_state = dcgru_layer(output, hidden_state[layer_num])
@@ -114,7 +108,10 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
         )
 
     def encoder(self, inputs):
-        encoder_hidden_state = None
+        batch_size = inputs.size(1)
+        shape = self.num_rnn_layers, batch_size, self.hidden_state_size
+        encoder_hidden_state = torch.zeros(shape)
+        encoder_hidden_state = encoder_hidden_state.type_as(inputs)
 
         for t in range(self.encoder_model.seq_len):
             _, encoder_hidden_state = self.encoder_model(
