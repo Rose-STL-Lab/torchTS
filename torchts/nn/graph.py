@@ -5,7 +5,7 @@ from torchts.utils import graph
 from torchts.utils.data import concat
 
 
-class DCGRU(nn.Module):
+class DCGRUCell(nn.Module):
     def __init__(
         self,
         num_units,
@@ -132,3 +132,43 @@ class DCGRU(nn.Module):
         x = torch.matmul(x, weights) + biases
 
         return torch.reshape(x, [batch_size, self._num_nodes * output_size])
+
+
+class DCGRU(nn.Module):
+    def __init__(
+        self,
+        num_layers,
+        num_units,
+        adj_mx,
+        max_diffusion_step,
+        num_nodes,
+        input_dim,
+        activation=torch.tanh,
+        filter_type="laplacian",
+        use_gc_for_ru=True,
+    ):
+        super().__init__()
+        self.layers = nn.ModuleList(
+            [
+                DCGRUCell(
+                    num_units,
+                    adj_mx,
+                    max_diffusion_step,
+                    num_nodes,
+                    input_dim if i == 0 else num_units,
+                    filter_type=filter_type,
+                    use_gc_for_ru=use_gc_for_ru,
+                )
+                for i in range(num_layers)
+            ]
+        )
+
+    def forward(self, inputs, hidden_state):
+        hidden_states = []
+        output = inputs
+
+        for i, layer in enumerate(self.layers):
+            output = layer(output, hidden_state[i])
+            hidden_states.append(output)
+
+        return output, torch.stack(hidden_states)

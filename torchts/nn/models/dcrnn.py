@@ -26,31 +26,20 @@ class Encoder(nn.Module, Seq2SeqAttrs):
         Seq2SeqAttrs.__init__(self, adj_mx, **model_kwargs)
         self.input_dim = int(model_kwargs.get("input_dim", 1))
         self.seq_len = int(model_kwargs.get("seq_len"))
-        self.dcgru_layers = nn.ModuleList(
-            [
-                DCGRU(
-                    self.rnn_units,
-                    adj_mx,
-                    self.max_diffusion_step,
-                    self.num_nodes,
-                    self.input_dim if i == 0 else self.rnn_units,
-                    filter_type=self.filter_type,
-                    use_gc_for_ru=self.use_gc_for_ru,
-                )
-                for i in range(self.num_rnn_layers)
-            ]
+        self.dcgru = DCGRU(
+            self.num_rnn_layers,
+            self.rnn_units,
+            adj_mx,
+            self.max_diffusion_step,
+            self.num_nodes,
+            self.input_dim,
+            filter_type=self.filter_type,
+            use_gc_for_ru=self.use_gc_for_ru,
         )
 
-    def forward(self, inputs, hidden_state=None):
-        hidden_states = []
-        output = inputs
-
-        for layer_num, dcgru_layer in enumerate(self.dcgru_layers):
-            next_hidden_state = dcgru_layer(output, hidden_state[layer_num])
-            hidden_states.append(next_hidden_state)
-            output = next_hidden_state
-
-        return output, torch.stack(hidden_states)
+    def forward(self, inputs, hidden_state):
+        output, hidden = self.dcgru(inputs, hidden_state)
+        return output, hidden
 
 
 class Decoder(nn.Module, Seq2SeqAttrs):
@@ -60,34 +49,22 @@ class Decoder(nn.Module, Seq2SeqAttrs):
         self.output_dim = int(model_kwargs.get("output_dim", 1))
         self.horizon = int(model_kwargs.get("horizon", 1))
         self.projection_layer = nn.Linear(self.rnn_units, self.output_dim)
-        self.dcgru_layers = nn.ModuleList(
-            [
-                DCGRU(
-                    self.rnn_units,
-                    adj_mx,
-                    self.max_diffusion_step,
-                    self.num_nodes,
-                    self.output_dim if i == 0 else self.rnn_units,
-                    filter_type=self.filter_type,
-                    use_gc_for_ru=self.use_gc_for_ru,
-                )
-                for i in range(self.num_rnn_layers)
-            ]
+        self.dcgru = DCGRU(
+            self.num_rnn_layers,
+            self.rnn_units,
+            adj_mx,
+            self.max_diffusion_step,
+            self.num_nodes,
+            self.output_dim,
+            filter_type=self.filter_type,
+            use_gc_for_ru=self.use_gc_for_ru,
         )
 
-    def forward(self, inputs, hidden_state=None):
-        hidden_states = []
-        output = inputs
-
-        for layer_num, dcgru_layer in enumerate(self.dcgru_layers):
-            next_hidden_state = dcgru_layer(output, hidden_state[layer_num])
-            hidden_states.append(next_hidden_state)
-            output = next_hidden_state
-
+    def forward(self, inputs, hidden_state):
+        output, hidden = self.dcgru(inputs, hidden_state)
         projected = self.projection_layer(output.view(-1, self.rnn_units))
         output = projected.view(-1, self.num_nodes * self.output_dim)
-
-        return output, torch.stack(hidden_states)
+        return output, hidden
 
 
 class DCRNN(pl.LightningModule, Seq2SeqAttrs):
