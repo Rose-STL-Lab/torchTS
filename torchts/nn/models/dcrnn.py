@@ -149,8 +149,6 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
         pred = self.scaler.inverse_transform(pred)
         loss = masked_mae_loss(y, pred)
 
-        nn.utils.clip_grad_norm_(self.parameters(), 5)
-
         return loss
 
     def configure_optimizers(self):
