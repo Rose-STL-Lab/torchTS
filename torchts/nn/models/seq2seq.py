@@ -1,6 +1,7 @@
-import pytorch_lightning as pl
 import torch
 from torch import nn, optim
+
+from torchts.nn.model import TimeSeriesModel
 
 
 class Encoder(nn.Module):
@@ -72,7 +73,7 @@ class Decoder(nn.Module):
         return prediction, hidden
 
 
-class Seq2Seq(pl.LightningModule):
+class Seq2Seq(TimeSeriesModel):
     def __init__(self, encoder, decoder, output_dim, horizon):
         """
         Args:
@@ -84,7 +85,6 @@ class Seq2Seq(pl.LightningModule):
         self.decoder = decoder
         self.output_dim = output_dim
         self.horizon = horizon
-        self.criterion = nn.MSELoss()
 
     def forward(self, source):
         """
@@ -127,12 +127,6 @@ class Seq2Seq(pl.LightningModule):
             outputs.append(decoder_output)
 
         return torch.cat(outputs, dim=1)
-
-    def training_step(self, batch, batch_idx):
-        x, y = batch
-        pred = self(x)
-        loss = self.criterion(y, pred)
-        return loss
 
     def configure_optimizers(self):
         optimizer = optim.RMSprop(self.parameters(), lr=0.01)
