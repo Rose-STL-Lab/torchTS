@@ -17,11 +17,14 @@ class TimeSeriesModel(LightningModule):
         optimizer (torch.optim.Optimizer): Optimizer
     """
 
-    def __init__(self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None):
+    def __init__(
+        self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None, scaler=None
+    ):
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
         self.scheduler = scheduler
+        self.scaler = scaler
 
     def fit(self, x, y, max_epochs=10, batch_size=128):
         """Fits model to the given data.
@@ -37,6 +40,9 @@ class TimeSeriesModel(LightningModule):
         trainer = Trainer(max_epochs=max_epochs)
         trainer.fit(self, loader)
 
+    def prepare_batch(self, batch):
+        return batch
+
     def training_step(self, batch, batch_idx):
         """Trains model for one step.
 
@@ -44,13 +50,19 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        x, y = batch
-        pred = self(x)
+        x, y = self.prepare_batch(batch)
+        batches_seen = batch_idx + self.current_epoch * len(self.train_dataloader())
+        pred = self(x, y, batches_seen)
+
+        if self.scaler is not None:
+            y = self.scaler.inverse_transform(y)
+            pred = self.scaler.inverse_transform(pred)
+
         loss = self.criterion(pred, y)
         return loss
 
     @abstractmethod
-    def forward(self, x):
+    def forward(self, x, y=None, batches_seen=None):
         """Forward pass.
 
         Args:

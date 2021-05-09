@@ -86,7 +86,7 @@ class Seq2Seq(TimeSeriesModel):
         self.output_dim = output_dim
         self.horizon = horizon
 
-    def forward(self, source):
+    def forward(self, source, target=None, batches_seen=None):
         """
         Args:
             source: input tensor.

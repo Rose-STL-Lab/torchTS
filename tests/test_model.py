@@ -14,7 +14,7 @@ class LinearModel(TimeSeriesModel):
         self.line.weight = nn.Parameter(slope * torch.ones_like(self.line.weight))
         self.line.bias = nn.Parameter(intercept * torch.ones_like(self.line.bias))
 
-    def forward(self, x):
+    def forward(self, x, y=None, batches_seen=None):
         return self.line(x)
 
 

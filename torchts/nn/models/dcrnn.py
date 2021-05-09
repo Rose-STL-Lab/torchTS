@@ -1,10 +1,10 @@
 import numpy as np
-import pytorch_lightning as pl
 import torch
 from torch import nn, optim
 
 from torchts.nn.graph import DCGRU
 from torchts.nn.loss import masked_mae_loss
+from torchts.nn.model import TimeSeriesModel
 
 
 class Seq2SeqAttrs:
@@ -67,11 +67,10 @@ class Decoder(nn.Module, Seq2SeqAttrs):
         return output, hidden
 
 
-class DCRNN(pl.LightningModule, Seq2SeqAttrs):
+class DCRNN(TimeSeriesModel, Seq2SeqAttrs):
     def __init__(self, adj_mx, scaler, **model_kwargs):
-        super().__init__()
+        super().__init__(criterion=masked_mae_loss, scaler=scaler)
         Seq2SeqAttrs.__init__(self, adj_mx, **model_kwargs)
-        self.scaler = scaler
         self.encoder_model = Encoder(adj_mx, **model_kwargs)
         self.decoder_model = Decoder(adj_mx, **model_kwargs)
         self.cl_decay_steps = int(model_kwargs.get("cl_decay_steps", 1000))
@@ -126,7 +125,7 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
 
         return outputs
 
-    def training_step(self, batch, batch_idx):
+    def prepare_batch(self, batch):
         x, y = batch
         x = x.permute(1, 0, 2, 3)
         y = y.permute(1, 0, 2, 3)
@@ -143,13 +142,7 @@ class DCRNN(pl.LightningModule, Seq2SeqAttrs):
             self.num_nodes * self.decoder_model.output_dim,
         )
 
-        pred = self(x, y, batch_idx)
-
-        y = self.scaler.inverse_transform(y)
-        pred = self.scaler.inverse_transform(pred)
-        loss = masked_mae_loss(y, pred)
-
-        return loss
+        return x, y
 
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=0.01, eps=1e-3)
