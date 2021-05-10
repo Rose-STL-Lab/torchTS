@@ -24,7 +24,7 @@ scipy = "^1.6.2"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
 pytest-cov = "^2.11.1"
-Sphinx = "^3.5.4"
+Sphinx = "^4.0.0"
 asteroid-sphinx-theme = "^0.0.3"
 
 [build-system]
