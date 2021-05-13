@@ -303,17 +303,17 @@
     <span class="k">def</span> <span class="nf">prepare_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">batch</span>
 
-    <span class="k">def</span> <span class="nf">_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            batch: Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx: Integer displaying index of this batch</span>
 <span class="sd">            dataset: Data set to use</span>
 
-<span class="sd">        Returns:</span>
+<span class="sd">        Returns: loss for the batch</span>
 
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 
@@ -334,8 +334,8 @@
 <span class="sd">            batch (torch.Tensor): Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx (int): Integer displaying index of this batch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;train_loss&#39;</span><span class="p">,</span><span class="n">train_loss</span><span class="p">)</span>
+        <span class="n">train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span><span class="n">train_loss</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">train_loss</span></div>
 
 <div class="viewcode-block" id="TimeSeriesModel.validation_step"><a class="viewcode-back" href="../../../torchts.html#torchts.nn.model.TimeSeriesModel.validation_step">[docs]</a>    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
@@ -345,8 +345,8 @@
 <span class="sd">            batch (torch.Tensor): Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx (int): Integer displaying index of this batch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span><span class="n">val_loss</span><span class="p">)</span>
+        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s2">&quot;val&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span><span class="n">val_loss</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">val_loss</span></div>
 
 <div class="viewcode-block" id="TimeSeriesModel.test_step"><a class="viewcode-back" href="../../../torchts.html#torchts.nn.model.TimeSeriesModel.test_step">[docs]</a>    <span class="k">def</span> <span class="nf">test_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
@@ -356,8 +356,8 @@
 <span class="sd">            batch (torch.Tensor): Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx (int): Integer displaying index of this batch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">test_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;test_loss&#39;</span><span class="p">,</span><span class="n">test_loss</span><span class="p">)</span>
+        <span class="n">test_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;test_loss&quot;</span><span class="p">,</span><span class="n">test_loss</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">test_loss</span></div>
 
 <div class="viewcode-block" id="TimeSeriesModel.forward"><a class="viewcode-back" href="../../../torchts.html#torchts.nn.model.TimeSeriesModel.forward">[docs]</a>    <span class="nd">@abstractmethod</span>
