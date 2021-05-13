@@ -18,7 +18,7 @@ class TimeSeriesModel(LightningModule):
     """
 
     def __init__(
-            self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None, scaler=None
+        self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None, scaler=None
     ):
 
         super().__init__()
@@ -76,7 +76,7 @@ class TimeSeriesModel(LightningModule):
             batch_idx (int): Integer displaying index of this batch
         """
         train_loss = self._step(batch, batch_idx, dataset="train")
-        self.log("train_loss",train_loss)
+        self.log("train_loss", train_loss)
         return train_loss
 
     def validation_step(self, batch, batch_idx):
@@ -87,7 +87,7 @@ class TimeSeriesModel(LightningModule):
             batch_idx (int): Integer displaying index of this batch
         """
         val_loss = self._step(batch, batch_idx, dataset="val")
-        self.log("val_loss",val_loss)
+        self.log("val_loss", val_loss)
         return val_loss
 
     def test_step(self, batch, batch_idx):
@@ -98,7 +98,7 @@ class TimeSeriesModel(LightningModule):
             batch_idx (int): Integer displaying index of this batch
         """
         test_loss = self._step(batch, batch_idx, dataset="test")
-        self.log("test_loss",test_loss)
+        self.log("test_loss", test_loss)
         return test_loss
 
     @abstractmethod
