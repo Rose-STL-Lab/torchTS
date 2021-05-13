@@ -18,8 +18,9 @@ class TimeSeriesModel(LightningModule):
     """
 
     def __init__(
-        self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None, scaler=None
+            self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None, scaler=None
     ):
+
         super().__init__()
         self.criterion = criterion
         self.optimizer = optimizer
@@ -43,16 +44,24 @@ class TimeSeriesModel(LightningModule):
     def prepare_batch(self, batch):
         return batch
 
-    def training_step(self, batch, batch_idx):
-        """Trains model for one step.
+    def _step(self, batch, batch_idx, dataset='train'):
+        '''
 
         Args:
-            batch (torch.Tensor): Output of the torch.utils.data.DataLoader
-            batch_idx (int): Integer displaying index of this batch
-        """
+            batch: Output of the torch.utils.data.DataLoader
+            batch_idx: Integer displaying index of this batch
+            dataset: Data set to use
+
+        Returns:
+
+        '''
+
         x, y = self.prepare_batch(batch)
+        #if dataset == 'train':
         batches_seen = batch_idx + self.current_epoch * len(self.train_dataloader())
         pred = self(x, y, batches_seen)
+        # elif dataset:
+        #     pred = self(x,y,batch_idx)
 
         if self.scaler is not None:
             y = self.scaler.inverse_transform(y)
@@ -60,6 +69,39 @@ class TimeSeriesModel(LightningModule):
 
         loss = self.criterion(pred, y)
         return loss
+
+    def training_step(self, batch, batch_idx):
+        """Trains model for one step.
+
+        Args:
+            batch (torch.Tensor): Output of the torch.utils.data.DataLoader
+            batch_idx (int): Integer displaying index of this batch
+        """
+        train_loss = self._step(batch, batch_idx, dataset='train')
+        self.log('train_loss',train_loss)
+        return train_loss
+
+    def validation_step(self, batch, batch_idx):
+        """Validates model for one step.
+
+        Args:
+            batch (torch.Tensor): Output of the torch.utils.data.DataLoader
+            batch_idx (int): Integer displaying index of this batch
+        """
+        val_loss = self._step(batch, batch_idx, dataset='val')
+        self.log('val_loss',val_loss)
+        return val_loss
+
+    def test_step(self, batch, batch_idx):
+        """Tests model for one step.
+
+        Args:
+            batch (torch.Tensor): Output of the torch.utils.data.DataLoader
+            batch_idx (int): Integer displaying index of this batch
+        """
+        test_loss = self._step(batch, batch_idx, dataset='val')
+        self.log('test_loss',test_loss)
+        return test_loss
 
     @abstractmethod
     def forward(self, x, y=None, batches_seen=None):
