@@ -57,11 +57,9 @@ class TimeSeriesModel(LightningModule):
         '''
 
         x, y = self.prepare_batch(batch)
-        #if dataset == 'train':
+
         batches_seen = batch_idx + self.current_epoch * len(self.train_dataloader())
         pred = self(x, y, batches_seen)
-        # elif dataset:
-        #     pred = self(x,y,batch_idx)
 
         if self.scaler is not None:
             y = self.scaler.inverse_transform(y)
