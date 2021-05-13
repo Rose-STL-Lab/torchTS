@@ -279,10 +279,10 @@
 </dl>
 <dl class="simple">
 <dt>Returns</dt><dd><ul class="simple">
-<li><p><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>:
+<li><p><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>:
 The loss corresponding to the best permutation of size $(batch,)$. and
 if I keep typing? It works?</p></li>
-<li><p><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>:
+<li><p><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>:
 Notice that those two spaces, not a tab.</p></li>
 </ul>
 </dd>
@@ -301,7 +301,7 @@ Notice that those two spaces, not a tab.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>criterion</strong> – Loss function</p></li>
-<li><p><strong>optimizer</strong> (<a class="reference external" href="https://pytorch.org/docs/master/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><em>torch.optim.Optimizer</em></a>) – Optimizer</p></li>
+<li><p><strong>optimizer</strong> (<a class="reference external" href="https://pytorch.org/docs/master/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.optim.Optimizer</em></a>) – Optimizer</p></li>
 </ul>
 </dd>
 </dl>
@@ -323,8 +323,8 @@ Notice that those two spaces, not a tab.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><em>torch.Tensor</em></a>) – Input data</p></li>
-<li><p><strong>y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><em>torch.Tensor</em></a>) – Output data</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Input data</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Output data</p></li>
 <li><p><strong>max_epochs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of training epochs</p></li>
 <li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Batch size for torch.utils.data.DataLoader</p></li>
 </ul>
@@ -338,7 +338,7 @@ Notice that those two spaces, not a tab.</p></li>
 <dd><p>Forward pass.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><em>torch.Tensor</em></a>) – Input data</p>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Input data</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>torch.Tensor</em> – Predicted data</p>
@@ -352,10 +352,24 @@ Notice that those two spaces, not a tab.</p></li>
 <dd><p>Runs model inference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><em>torch.Tensor</em></a>) – Input data</p>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Input data</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>torch.Tensor</em> – Predicted data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="torchts.nn.model.TimeSeriesModel.test_step">
+<code class="sig-name descname"><span class="pre">test_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.test_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.test_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests model for one step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Output of the torch.utils.data.DataLoader</p></li>
+<li><p><strong>batch_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Integer displaying index of this batch</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -367,7 +381,21 @@ Notice that those two spaces, not a tab.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+git515bd35 ))"><em>torch.Tensor</em></a>) – Output of the torch.utils.data.DataLoader</p></li>
+<li><p><strong>batch</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Output of the torch.utils.data.DataLoader</p></li>
+<li><p><strong>batch_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Integer displaying index of this batch</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="torchts.nn.model.TimeSeriesModel.validation_step">
+<code class="sig-name descname"><span class="pre">validation_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.validation_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates model for one step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.9.0a0+gitef9586b ))"><em>torch.Tensor</em></a>) – Output of the torch.utils.data.DataLoader</p></li>
 <li><p><strong>batch_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Integer displaying index of this batch</p></li>
 </ul>
 </dd>
