@@ -44,17 +44,17 @@ class TimeSeriesModel(LightningModule):
     def prepare_batch(self, batch):
         return batch
 
-    def _step(self, batch, batch_idx, dataset='train'):
-        '''
+    def _step(self, batch, batch_idx, dataset="train"):
+        """
 
         Args:
             batch: Output of the torch.utils.data.DataLoader
             batch_idx: Integer displaying index of this batch
             dataset: Data set to use
 
-        Returns:
+        Returns: loss for the batch
 
-        '''
+        """
 
         x, y = self.prepare_batch(batch)
 
@@ -75,8 +75,8 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        train_loss = self._step(batch, batch_idx, dataset='train')
-        self.log('train_loss',train_loss)
+        train_loss = self._step(batch, batch_idx, dataset="train")
+        self.log("train_loss",train_loss)
         return train_loss
 
     def validation_step(self, batch, batch_idx):
@@ -86,8 +86,8 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        val_loss = self._step(batch, batch_idx, dataset='val')
-        self.log('val_loss',val_loss)
+        val_loss = self._step(batch, batch_idx, dataset="val")
+        self.log("val_loss",val_loss)
         return val_loss
 
     def test_step(self, batch, batch_idx):
@@ -97,8 +97,8 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        test_loss = self._step(batch, batch_idx, dataset='val')
-        self.log('test_loss',test_loss)
+        test_loss = self._step(batch, batch_idx, dataset="test")
+        self.log("test_loss",test_loss)
         return test_loss
 
     @abstractmethod
