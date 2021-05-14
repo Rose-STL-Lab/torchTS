@@ -79,7 +79,7 @@ class TimeSeriesModel(LightningModule):
             batch_idx (int): Integer displaying index of this batch
         """
         train_loss = self._step(batch, batch_idx, loader=self.train_dataloader())
-        self.log("train_loss", train_loss)
+        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return train_loss
 
     def validation_step(self, batch, batch_idx):
@@ -89,7 +89,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        val_loss = self._step(batch, batch_idx, loader=self.val_loader())
+        val_loss = self._step(batch, batch_idx, loader=self.val_dataloader())
         self.log("val_loss", val_loss)
         return val_loss
 
@@ -100,7 +100,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        test_loss = self._step(batch, batch_idx, loader=self.test_loader())
+        test_loss = self._step(batch, batch_idx, loader=self.test_dataloader())
         self.log("test_loss", test_loss)
         return test_loss
 
