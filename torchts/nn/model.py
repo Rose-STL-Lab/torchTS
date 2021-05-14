@@ -57,8 +57,11 @@ class TimeSeriesModel(LightningModule):
         """
 
         x, y = self.prepare_batch(batch)
+        if self.training:
+            batches_seen = batch_idx + self.current_epoch * len(loader)
+        else:
+            batches_seen = batch_idx
 
-        batches_seen = batch_idx + self.current_epoch * len(loader)
         pred = self(x, y, batches_seen)
 
         if self.scaler is not None:
