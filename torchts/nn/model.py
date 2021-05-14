@@ -80,7 +80,11 @@ class TimeSeriesModel(LightningModule):
         """
         train_loss = self._step(batch, batch_idx, loader=self.train_dataloader())
         self.log(
-            "train_loss", train_loss, on_step=True, on_epoch=True, prog_bar=True, logger=True
+            "train_loss",
+            train_loss,
+            on_step=True,
+            on_epoch=True,
+            prog_bar=True, logger=True
         )
         return train_loss
 
