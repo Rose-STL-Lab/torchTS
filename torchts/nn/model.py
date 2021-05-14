@@ -79,7 +79,9 @@ class TimeSeriesModel(LightningModule):
             batch_idx (int): Integer displaying index of this batch
         """
         train_loss = self._step(batch, batch_idx, loader=self.train_dataloader())
-        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log(
+            "train_loss", train_loss, on_step=True, on_epoch=True, prog_bar=True, logger=True
+        )
         return train_loss
 
     def validation_step(self, batch, batch_idx):
