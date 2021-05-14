@@ -84,7 +84,8 @@ class TimeSeriesModel(LightningModule):
             train_loss,
             on_step=True,
             on_epoch=True,
-            prog_bar=True, logger=True
+            prog_bar=True,
+            logger=True
         )
         return train_loss
 
