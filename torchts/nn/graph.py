@@ -149,18 +149,16 @@ class DCGRU(nn.Module):
     ):
         super().__init__()
         self.layers = nn.ModuleList(
-            [
-                DCGRUCell(
-                    num_units,
-                    adj_mx,
-                    max_diffusion_step,
-                    num_nodes,
-                    input_dim if i == 0 else num_units,
-                    filter_type=filter_type,
-                    use_gc_for_ru=use_gc_for_ru,
-                )
-                for i in range(num_layers)
-            ]
+            DCGRUCell(
+                num_units,
+                adj_mx,
+                max_diffusion_step,
+                num_nodes,
+                input_dim if i == 0 else num_units,
+                filter_type=filter_type,
+                use_gc_for_ru=use_gc_for_ru,
+            )
+            for i in range(num_layers)
         )
 
     def forward(self, inputs, hidden_state):
