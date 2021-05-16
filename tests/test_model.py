@@ -21,7 +21,9 @@ class LinearModel(TimeSeriesModel):
 def test_forward():
     slope = 2
     intercept = -1
-    model = LinearModel(slope, intercept)
+    model = LinearModel(
+        slope, intercept, optimizer=optim.SGD, optimizer_args={"lr": 0.01}
+    )
 
     x = torch.Tensor([-1, 0, 1]).reshape(-1, 1)
     y = slope * x + intercept

@@ -1,12 +1,9 @@
 from abc import abstractmethod
 from functools import partial
 
+import torch.nn.functional as F
 from pytorch_lightning import LightningModule, Trainer
-from torch import nn, optim
 from torch.utils.data import DataLoader, TensorDataset
-
-DEFAULT_LOSS = nn.MSELoss()
-DEFAULT_OPT = partial(optim.SGD, lr=1e-2)
 
 
 class TimeSeriesModel(LightningModule):
@@ -18,14 +15,27 @@ class TimeSeriesModel(LightningModule):
     """
 
     def __init__(
-        self, criterion=DEFAULT_LOSS, optimizer=DEFAULT_OPT, scheduler=None, scaler=None
+        self,
+        optimizer,
+        optimizer_args=None,
+        criterion=F.mse_loss,
+        scheduler=None,
+        scheduler_args=None,
+        scaler=None,
     ):
-
         super().__init__()
         self.criterion = criterion
-        self.optimizer = optimizer
-        self.scheduler = scheduler
         self.scaler = scaler
+
+        if optimizer_args is not None:
+            self.optimizer = partial(optimizer, **optimizer_args)
+        else:
+            self.optimizer = optimizer
+
+        if scheduler is not None and scheduler_args is not None:
+            self.scheduler = partial(scheduler, **scheduler_args)
+        else:
+            self.scheduler = scheduler
 
     def fit(self, x, y, max_epochs=10, batch_size=128):
         """Fits model to the given data.
@@ -53,10 +63,9 @@ class TimeSeriesModel(LightningModule):
             dataset: Data set to use
 
         Returns: loss for the batch
-
         """
-
         x, y = self.prepare_batch(batch)
+
         if self.training:
             batches_seen = batch_idx + self.current_epoch * len(loader)
         else:
