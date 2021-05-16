@@ -1,9 +1,8 @@
 import numpy as np
 import torch
-from torch import nn, optim
+from torch import nn
 
 from torchts.nn.graph import DCGRU
-from torchts.nn.loss import masked_mae_loss
 from torchts.nn.model import TimeSeriesModel
 
 
@@ -68,8 +67,8 @@ class Decoder(nn.Module, Seq2SeqAttrs):
 
 
 class DCRNN(TimeSeriesModel, Seq2SeqAttrs):
-    def __init__(self, adj_mx, scaler, **model_kwargs):
-        super().__init__(criterion=masked_mae_loss, scaler=scaler)
+    def __init__(self, adj_mx, model_dict, **model_kwargs):
+        super().__init__(**model_dict)
         Seq2SeqAttrs.__init__(self, adj_mx, **model_kwargs)
         self.encoder_model = Encoder(adj_mx, **model_kwargs)
         self.decoder_model = Decoder(adj_mx, **model_kwargs)
@@ -143,10 +142,3 @@ class DCRNN(TimeSeriesModel, Seq2SeqAttrs):
         )
 
         return x, y
-
-    def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=0.01, eps=1e-3)
-        scheduler = optim.lr_scheduler.MultiStepLR(
-            optimizer, milestones=[20, 30, 40, 50], gamma=0.1
-        )
-        return [optimizer], [scheduler]

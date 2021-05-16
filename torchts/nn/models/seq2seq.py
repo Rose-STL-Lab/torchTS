@@ -1,5 +1,5 @@
 import torch
-from torch import nn, optim
+from torch import nn
 
 from torchts.nn.model import TimeSeriesModel
 
@@ -74,13 +74,13 @@ class Decoder(nn.Module):
 
 
 class Seq2Seq(TimeSeriesModel):
-    def __init__(self, encoder, decoder, output_dim, horizon):
+    def __init__(self, encoder, decoder, output_dim, horizon, **kwargs):
         """
         Args:
             encoder: Encoder object.
             decoder: Decoder object.
         """
-        super().__init__()
+        super().__init__(**kwargs)
         self.encoder = encoder
         self.decoder = decoder
         self.output_dim = output_dim
@@ -127,9 +127,3 @@ class Seq2Seq(TimeSeriesModel):
             outputs.append(decoder_output)
 
         return torch.cat(outputs, dim=1)
-
-    def configure_optimizers(self):
-        optimizer = optim.RMSprop(self.parameters(), lr=0.01)
-        scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.8)
-
-        return [optimizer], [scheduler]
