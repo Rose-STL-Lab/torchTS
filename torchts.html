@@ -29,6 +29,8 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -269,8 +271,8 @@
 <div class="section" id="module-torchts.foo">
 <span id="torchts-foo-module"></span><h2>torchts.foo module<a class="headerlink" href="#module-torchts.foo" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="torchts.foo.demo">
-<code class="sig-prename descclassname"><span class="pre">torchts.foo.</span></code><code class="sig-name descname"><span class="pre">demo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair_wise_losses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/foo.html#demo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.foo.demo" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.foo.demo">
+<span class="sig-prename descclassname"><span class="pre">torchts.foo.</span></span><span class="sig-name descname"><span class="pre">demo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair_wise_losses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/foo.html#demo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.foo.demo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Demo docstring</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -293,8 +295,8 @@ Notice that those two spaces, not a tab.</p></li>
 <div class="section" id="module-torchts.nn.model">
 <span id="base-classes"></span><h2>Base classes<a class="headerlink" href="#module-torchts.nn.model" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="torchts.nn.model.TimeSeriesModel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">torchts.nn.model.</span></code><code class="sig-name descname"><span class="pre">TimeSeriesModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">optimizer</span></em>, <em class="sig-param"><span class="pre">optimizer_args=None</span></em>, <em class="sig-param"><span class="pre">criterion=&lt;function</span> <span class="pre">mse_loss&gt;</span></em>, <em class="sig-param"><span class="pre">scheduler=None</span></em>, <em class="sig-param"><span class="pre">scheduler_args=None</span></em>, <em class="sig-param"><span class="pre">scaler=None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">torchts.nn.model.</span></span><span class="sig-name descname"><span class="pre">TimeSeriesModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">optimizer</span></em>, <em class="sig-param"><span class="pre">optimizer_args=None</span></em>, <em class="sig-param"><span class="pre">criterion=&lt;function</span> <span class="pre">mse_loss&gt;</span></em>, <em class="sig-param"><span class="pre">scheduler=None</span></em>, <em class="sig-param"><span class="pre">scheduler_args=None</span></em>, <em class="sig-param"><span class="pre">scaler=None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pytorch_lightning.core.lightning.LightningModule</span></code></p>
 <p>Base class for all TorchTS models.</p>
 <dl class="field-list simple">
@@ -306,8 +308,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.configure_optimizers">
-<code class="sig-name descname"><span class="pre">configure_optimizers</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.configure_optimizers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.configure_optimizers" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.configure_optimizers">
+<span class="sig-name descname"><span class="pre">configure_optimizers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.configure_optimizers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.configure_optimizers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configure optimizer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -317,8 +319,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.fit">
-<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.fit" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits model to the given data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -333,8 +335,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.forward">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batches_seen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.forward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.forward">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batches_seen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Forward pass.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -347,8 +349,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.predict">
-<code class="sig-name descname"><span class="pre">predict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.predict" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs model inference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -361,8 +363,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.test_step">
-<code class="sig-name descname"><span class="pre">test_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.test_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.test_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.test_step">
+<span class="sig-name descname"><span class="pre">test_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.test_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.test_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tests model for one step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -375,8 +377,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.training_step">
-<code class="sig-name descname"><span class="pre">training_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.training_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.training_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.training_step">
+<span class="sig-name descname"><span class="pre">training_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.training_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.training_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains model for one step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -389,8 +391,8 @@ Notice that those two spaces, not a tab.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="torchts.nn.model.TimeSeriesModel.validation_step">
-<code class="sig-name descname"><span class="pre">validation_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.validation_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="torchts.nn.model.TimeSeriesModel.validation_step">
+<span class="sig-name descname"><span class="pre">validation_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torchts/nn/model.html#TimeSeriesModel.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchts.nn.model.TimeSeriesModel.validation_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validates model for one step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -480,6 +482,7 @@ Notice that those two spaces, not a tab.</p></li>
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
          <script src="_static/jquery.js"></script>
          <script src="_static/underscore.js"></script>
          <script src="_static/doctools.js"></script>
