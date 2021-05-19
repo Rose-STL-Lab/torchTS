@@ -57,7 +57,13 @@ def lagmat(tensor, lags, horizon=1, dim=0, step=1):
     return x, y
 
 
-def load_dataset(dataset_dir, batch_size, test_batch_size=None, **kwargs):
+def load_dataset(dataset_dir, batch_size, val_batch_size=None, test_batch_size=None):
+    if val_batch_size is None:
+        val_batch_size = batch_size
+
+    if test_batch_size is None:
+        test_batch_size = batch_size
+
     data = {}
 
     for category in ["train", "val", "test"]:
@@ -74,10 +80,10 @@ def load_dataset(dataset_dir, batch_size, test_batch_size=None, **kwargs):
     data_train = PaddedDataset(batch_size, data["x_train"], data["y_train"])
     data["train_loader"] = DataLoader(data_train, batch_size, shuffle=True)
 
-    data_val = PaddedDataset(batch_size, data["x_val"], data["y_val"])
-    data["val_loader"] = DataLoader(data_val, test_batch_size, shuffle=False)
+    data_val = PaddedDataset(val_batch_size, data["x_val"], data["y_val"])
+    data["val_loader"] = DataLoader(data_val, val_batch_size, shuffle=False)
 
-    data_test = PaddedDataset(batch_size, data["x_test"], data["y_test"])
+    data_test = PaddedDataset(test_batch_size, data["x_test"], data["y_test"])
     data["test_loader"] = DataLoader(data_test, test_batch_size, shuffle=False)
 
     data["scaler"] = scaler
