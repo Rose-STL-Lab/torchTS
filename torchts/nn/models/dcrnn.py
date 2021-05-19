@@ -6,76 +6,84 @@ from torchts.nn.graph import DCGRU
 from torchts.nn.model import TimeSeriesModel
 
 
-class Seq2SeqAttrs:
-    def __init__(self, adj_mx, **model_kwargs):
-        self.adj_mx = adj_mx
-        self.max_diffusion_step = int(model_kwargs.get("max_diffusion_step", 2))
-        self.cl_decay_steps = int(model_kwargs.get("cl_decay_steps", 1000))
-        self.filter_type = model_kwargs.get("filter_type", "laplacian")
-        self.num_nodes = int(model_kwargs.get("num_nodes", 1))
-        self.num_rnn_layers = int(model_kwargs.get("num_rnn_layers", 1))
-        self.rnn_units = int(model_kwargs.get("rnn_units"))
-        self.use_gc_for_ru = bool(model_kwargs.get("use_gc_for_ru", True))
-        self.hidden_state_size = self.num_nodes * self.rnn_units
-
-
-class Encoder(nn.Module, Seq2SeqAttrs):
-    def __init__(self, adj_mx, **model_kwargs):
-        nn.Module.__init__(self)
-        Seq2SeqAttrs.__init__(self, adj_mx, **model_kwargs)
-        self.input_dim = int(model_kwargs.get("input_dim", 1))
-        self.seq_len = int(model_kwargs.get("seq_len"))
-        self.dcgru = DCGRU(
-            self.num_rnn_layers,
-            self.rnn_units,
-            adj_mx,
-            self.max_diffusion_step,
-            self.num_nodes,
-            self.input_dim,
-            filter_type=self.filter_type,
-            use_gc_for_ru=self.use_gc_for_ru,
-        )
+class Encoder(nn.Module):
+    def __init__(self, input_dim, seq_len, **kwargs):
+        super().__init__()
+        self.input_dim = input_dim
+        self.seq_len = seq_len
+        self.dcgru = DCGRU(input_dim=self.input_dim, **kwargs)
 
     def forward(self, inputs, hidden_state):
         output, hidden = self.dcgru(inputs, hidden_state)
         return output, hidden
 
 
-class Decoder(nn.Module, Seq2SeqAttrs):
-    def __init__(self, adj_mx, **model_kwargs):
-        nn.Module.__init__(self)
-        Seq2SeqAttrs.__init__(self, adj_mx, **model_kwargs)
-        self.output_dim = int(model_kwargs.get("output_dim", 1))
-        self.horizon = int(model_kwargs.get("horizon", 1))
-        self.projection_layer = nn.Linear(self.rnn_units, self.output_dim)
-        self.dcgru = DCGRU(
-            self.num_rnn_layers,
-            self.rnn_units,
-            adj_mx,
-            self.max_diffusion_step,
-            self.num_nodes,
-            self.output_dim,
-            filter_type=self.filter_type,
-            use_gc_for_ru=self.use_gc_for_ru,
-        )
+class Decoder(nn.Module):
+    def __init__(self, output_dim, horizon, **kwargs):
+        super().__init__()
+        self.output_dim = output_dim
+        self.horizon = horizon
+        self.num_nodes = kwargs["num_nodes"]
+        self.num_units = kwargs["num_units"]
+        self.dcgru = DCGRU(input_dim=self.output_dim, **kwargs)
+        self.projection_layer = nn.Linear(self.num_units, self.output_dim)
 
     def forward(self, inputs, hidden_state):
         output, hidden = self.dcgru(inputs, hidden_state)
-        projected = self.projection_layer(output.view(-1, self.rnn_units))
+        projected = self.projection_layer(output.view(-1, self.num_units))
         output = projected.view(-1, self.num_nodes * self.output_dim)
         return output, hidden
 
 
-class DCRNN(TimeSeriesModel, Seq2SeqAttrs):
-    def __init__(self, adj_mx, model_dict, **model_kwargs):
-        super().__init__(**model_dict)
-        Seq2SeqAttrs.__init__(self, adj_mx, **model_kwargs)
-        self.encoder_model = Encoder(adj_mx, **model_kwargs)
-        self.decoder_model = Decoder(adj_mx, **model_kwargs)
-        self.cl_decay_steps = int(model_kwargs.get("cl_decay_steps", 1000))
-        self.use_curriculum_learning = bool(
-            model_kwargs.get("use_curriculum_learning", False)
+class DCRNN(TimeSeriesModel):
+    def __init__(
+        self,
+        adj_mx,
+        num_units,
+        seq_len=1,
+        horizon=1,
+        input_dim=1,
+        output_dim=1,
+        max_diffusion_step=2,
+        filter_type="laplacian",
+        num_nodes=1,
+        num_layers=1,
+        use_gc_for_ru=True,
+        use_curriculum_learning=False,
+        cl_decay_steps=1000,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+
+        self.encoder_model = Encoder(
+            input_dim=input_dim,
+            seq_len=seq_len,
+            adj_mx=adj_mx,
+            num_nodes=num_nodes,
+            num_layers=num_layers,
+            num_units=num_units,
+            max_diffusion_step=max_diffusion_step,
+            filter_type=filter_type,
+            use_gc_for_ru=use_gc_for_ru,
         )
+
+        self.decoder_model = Decoder(
+            output_dim=output_dim,
+            horizon=horizon,
+            adj_mx=adj_mx,
+            num_nodes=num_nodes,
+            num_layers=num_layers,
+            num_units=num_units,
+            max_diffusion_step=max_diffusion_step,
+            filter_type=filter_type,
+            use_gc_for_ru=use_gc_for_ru,
+        )
+
+        self.num_nodes = num_nodes
+        self.num_layers = num_layers
+        self.hidden_state_size = num_nodes * num_units
+        self.use_curriculum_learning = use_curriculum_learning
+        self.cl_decay_steps = cl_decay_steps
 
     def _compute_sampling_threshold(self, batches_seen):
         return self.cl_decay_steps / (
@@ -84,7 +92,7 @@ class DCRNN(TimeSeriesModel, Seq2SeqAttrs):
 
     def encoder(self, inputs):
         batch_size = inputs.size(1)
-        shape = self.num_rnn_layers, batch_size, self.hidden_state_size
+        shape = self.num_layers, batch_size, self.hidden_state_size
         encoder_hidden_state = torch.zeros(shape, device=self.device)
 
         for t in range(self.encoder_model.seq_len):
