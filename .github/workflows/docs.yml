@@ -25,7 +25,7 @@ jobs:
           python --version >> environment
 
       - name: Restore cache
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.cache/pypoetry
           key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
