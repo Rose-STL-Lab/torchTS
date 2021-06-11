@@ -55,29 +55,18 @@ class DCRNN(TimeSeriesModel):
     ):
         super().__init__(**kwargs)
 
-        self.encoder_model = Encoder(
-            input_dim=input_dim,
-            seq_len=seq_len,
-            adj_mx=adj_mx,
-            num_nodes=num_nodes,
-            num_layers=num_layers,
-            num_units=num_units,
-            max_diffusion_step=max_diffusion_step,
-            filter_type=filter_type,
-            use_gc_for_ru=use_gc_for_ru,
-        )
+        dcgru_args = {
+            "adj_mx": adj_mx,
+            "num_nodes": num_nodes,
+            "num_layers": num_layers,
+            "num_units": num_units,
+            "max_diffusion_step": max_diffusion_step,
+            "filter_type": filter_type,
+            "use_gc_for_ru": use_gc_for_ru,
+        }
 
-        self.decoder_model = Decoder(
-            output_dim=output_dim,
-            horizon=horizon,
-            adj_mx=adj_mx,
-            num_nodes=num_nodes,
-            num_layers=num_layers,
-            num_units=num_units,
-            max_diffusion_step=max_diffusion_step,
-            filter_type=filter_type,
-            use_gc_for_ru=use_gc_for_ru,
-        )
+        self.encoder_model = Encoder(input_dim, seq_len, **dcgru_args)
+        self.decoder_model = Decoder(output_dim, horizon, **dcgru_args)
 
         self.num_nodes = num_nodes
         self.num_layers = num_layers
