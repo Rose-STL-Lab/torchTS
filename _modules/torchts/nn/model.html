@@ -315,7 +315,7 @@
     <span class="k">def</span> <span class="nf">prepare_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">batch</span>
 
-    <span class="k">def</span> <span class="nf">_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">loader</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">num_batches</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -328,7 +328,7 @@
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
-            <span class="n">batches_seen</span> <span class="o">=</span> <span class="n">batch_idx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">loader</span><span class="p">)</span>
+            <span class="n">batches_seen</span> <span class="o">=</span> <span class="n">batch_idx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">*</span> <span class="n">num_batches</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">batches_seen</span> <span class="o">=</span> <span class="n">batch_idx</span>
 
@@ -348,7 +348,7 @@
 <span class="sd">            batch (torch.Tensor): Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx (int): Integer displaying index of this batch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_dataloader</span><span class="p">())</span>
+        <span class="n">train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_dataloader</span><span class="p">()))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
             <span class="s2">&quot;train_loss&quot;</span><span class="p">,</span>
             <span class="n">train_loss</span><span class="p">,</span>
@@ -366,7 +366,7 @@
 <span class="sd">            batch (torch.Tensor): Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx (int): Integer displaying index of this batch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">val_dataloader</span><span class="p">())</span>
+        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val_dataloader</span><span class="p">()))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">val_loss</span></div>
 
@@ -377,7 +377,7 @@
 <span class="sd">            batch (torch.Tensor): Output of the torch.utils.data.DataLoader</span>
 <span class="sd">            batch_idx (int): Integer displaying index of this batch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">test_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_dataloader</span><span class="p">())</span>
+        <span class="n">test_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_dataloader</span><span class="p">()))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;test_loss&quot;</span><span class="p">,</span> <span class="n">test_loss</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">test_loss</span></div>
 
