@@ -4,14 +4,6 @@ torchts package
 Submodules
 ----------
 
-torchts.foo module
-------------------
-
-.. automodule:: torchts.foo
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Base classes
 ------------
 
