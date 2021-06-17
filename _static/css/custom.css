@@ -1,5 +1,15 @@
 .tutorials-header .header-logo {
   background-image: url("../images/torchTS_logo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  width: 110px;
+}
+
+@media only screen and (max-width: 600px) {
+  .tutorials-header .header-logo {
+    width: 50px;
+  }
 }
 
 span.pre {
