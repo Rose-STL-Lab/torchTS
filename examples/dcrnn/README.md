@@ -1,6 +1,6 @@
 # This tutorial serves as a basic example of training the DCRNN model.
 
-### Download sample data to the project directory  [here](https://drive.google.com/drive/folders/1VB5OGQudoEOHCf0Y-J0wuDByU8OCcsMY?usp=sharing). 
+### Download sample data to the project directory  [here](https://drive.google.com/drive/folders/1VB5OGQudoEOHCf0Y-J0wuDByU8OCcsMY?usp=sharing).
 
 
 <p>
