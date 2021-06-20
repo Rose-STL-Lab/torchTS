@@ -10,7 +10,8 @@ data_config = {
     "dataset_dir": ".",  # Absolute path to train , test, val expected
     "test_batch_size": 8,
     "val_batch_size": 8,
-    "graph_pkl_filename": "adjacency_matrix.pkl",  # Absolute path to graph file expected
+    "graph_pkl_filename": "adjacency_matrix.pkl",
+    # Absolute path to graph file expected
 }
 
 model_config = {
@@ -28,9 +29,11 @@ model_config = {
     "use_curriculum_learning": "true",
 }
 
-# Code to retrieve the graph in the form of an adjacency matrix. This corresponds to the distance between 2 traffic
-# sensors in a traffic network. For other applications it can mean anything that defines the adjacency between nodes,
-# eg. distance between airports of different cities when measuring covid infection rate.
+# Code to retrieve the graph in the form of an adjacency matrix.
+# This corresponds to the distance between 2 traffic sensors in a traffic network.
+# For other applications it can mean anything that defines the adjacency between nodes
+# eg. distance between airports of different cities when predicting
+# covid infection rate.
 
 graph_pkl_filename = data_config["graph_pkl_filename"]
 sensor_ids, sensor_id_to_ind, adj_mx = utils.load_graph_data(graph_pkl_filename)
