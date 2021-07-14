@@ -51,7 +51,8 @@ class DCRNN(TimeSeriesModel):
         use_gc_for_ru=True,
         use_curriculum_learning=False,
         cl_decay_steps=1000,
-        **kwargs,
+        distributed: bool = False,
+        **kwargs
     ):
         super().__init__(**kwargs)
 
@@ -63,7 +64,10 @@ class DCRNN(TimeSeriesModel):
             "max_diffusion_step": max_diffusion_step,
             "filter_type": filter_type,
             "use_gc_for_ru": use_gc_for_ru,
+            "distributed": distributed,
         }
+
+        self.distributed = distributed
 
         self.encoder_model = Encoder(input_dim, seq_len, **dcgru_args)
         self.decoder_model = Decoder(output_dim, horizon, **dcgru_args)

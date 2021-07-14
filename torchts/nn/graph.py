@@ -16,6 +16,7 @@ class DCGRUCell(nn.Module):
         activation=torch.tanh,
         filter_type="laplacian",
         use_gc_for_ru=True,
+        distributed=False,
     ):
         super().__init__()
         self._activation = activation
@@ -23,6 +24,7 @@ class DCGRUCell(nn.Module):
         self._num_units = num_units
         self._max_diffusion_step = max_diffusion_step
         self._use_gc_for_ru = use_gc_for_ru
+        self.distributed = distributed
 
         supports = []
 
@@ -37,7 +39,10 @@ class DCGRUCell(nn.Module):
             supports.append(graph.scaled_laplacian(adj_mx))
 
         for i in range(len(supports)):
-            supports[i] = graph.sparse_matrix(supports[i])
+            if not self.distributed:
+                supports[i] = graph.sparse_matrix(supports[i])
+            else:
+                supports[i] = torch.from_numpy(supports[i].todense())
 
         supports = torch.cat([s.unsqueeze(dim=0) for s in supports])
         self.register_buffer("_supports", supports)
@@ -107,11 +112,17 @@ class DCGRUCell(nn.Module):
 
         if self._max_diffusion_step > 0:
             for support in self._supports:
-                x1 = torch.sparse.mm(support, x0)
+                if self.distributed:  # Replace with wrapper around torch.mm
+                    x1 = torch.mm(support, x0)
+                else:
+                    x1 = torch.sparse.mm(support, x0)
                 x = concat(x, x1)
 
                 for _ in range(2, self._max_diffusion_step + 1):
-                    x2 = 2 * torch.sparse.mm(support, x1) - x0
+                    if self.distributed:
+                        x2 = 2 * torch.mm(support, x1) - x0
+                    else:
+                        x2 = 2 * torch.sparse.mm(support, x1) - x0
                     x = concat(x, x2)
                     x1, x0 = x2, x1
 
@@ -146,6 +157,7 @@ class DCGRU(nn.Module):
         activation=torch.tanh,
         filter_type="laplacian",
         use_gc_for_ru=True,
+        distributed=False,
     ):
         super().__init__()
         self.layers = nn.ModuleList(
@@ -157,6 +169,7 @@ class DCGRU(nn.Module):
                 input_dim if i == 0 else num_units,
                 filter_type=filter_type,
                 use_gc_for_ru=use_gc_for_ru,
+                distributed=distributed,
             )
             for i in range(num_layers)
         )
