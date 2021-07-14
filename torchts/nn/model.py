@@ -47,10 +47,11 @@ class TimeSeriesModel(LightningModule):
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
 
-        if gpus > 1:
-            assert (
-                self.distributed is True
-            ), "Model must be instantiated with distributed = True"
+        if gpus is not None:
+            if gpus > 1:
+                assert (
+                    self.distributed is True
+                ), "Model must be instantiated with distributed = True"
 
         dataset = TensorDataset(x, y)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
