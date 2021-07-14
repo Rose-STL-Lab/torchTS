@@ -39,6 +39,7 @@ def scaled_laplacian(adj_mx, lambda_max=2, undirected=True):
     L = normalized_laplacian(adj_mx)
 
     if lambda_max is None:
+        # Operates on sparse as well as dense
         lambda_max, _ = linalg.eigsh(L, 1, which="LM")
         lambda_max = lambda_max[0]
 

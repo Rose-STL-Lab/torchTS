@@ -37,7 +37,7 @@ class TimeSeriesModel(LightningModule):
         else:
             self.scheduler = scheduler
 
-    def fit(self, x, y, max_epochs=10, batch_size=128):
+    def fit(self, x, y, max_epochs=10, batch_size=128, gpus=None):
         """Fits model to the given data.
 
         Args:
@@ -46,9 +46,15 @@ class TimeSeriesModel(LightningModule):
             max_epochs (int): Number of training epochs
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
+
+        if gpus > 1:
+            assert (
+                self.distributed is True
+            ), "Model must be instantiated with distributed = True"
+
         dataset = TensorDataset(x, y)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-        trainer = Trainer(max_epochs=max_epochs)
+        trainer = Trainer(max_epochs=max_epochs, gpus=gpus)
         trainer.fit(self, loader)
 
     def prepare_batch(self, batch):
