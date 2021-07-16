@@ -31,7 +31,8 @@ def reverse_random_walk(adj_mx):
 
 def scaled_laplacian(adj_mx, lambda_max=2, undirected=True):
     if undirected:
-        adj_mx = np.maximum.reduce([adj_mx.todense(), adj_mx.todense().T])
+        adj_mx = np.maximum.reduce([adj_mx, adj_mx.T])
+
     L = normalized_laplacian(adj_mx)
 
     if lambda_max is None:
