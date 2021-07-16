@@ -85,9 +85,9 @@ class DCGRUCell(nn.Module):
         shape = (batch_size * self._num_nodes, -1)
         inputs = torch.reshape(inputs, shape)
         state = torch.reshape(state, shape)
-        inputs_and_state = torch.cat([inputs, state], dim=-1)
+        x = torch.cat([inputs, state], dim=-1)
 
-        value = torch.matmul(inputs_and_state, self._ru_weights)
+        value = torch.matmul(x, self._ru_weights)
         value += self._ru_biases
 
         return value
@@ -97,10 +97,9 @@ class DCGRUCell(nn.Module):
         shape = (batch_size, self._num_nodes, -1)
         inputs = torch.reshape(inputs, shape)
         state = torch.reshape(state, shape)
-        inputs_and_state = torch.cat([inputs, state], dim=2)
-        input_size = inputs_and_state.size(2)
+        x = torch.cat([inputs, state], dim=2)
+        input_size = x.size(2)
 
-        x = inputs_and_state
         x0 = x.permute(1, 2, 0)
         x0 = torch.reshape(x0, shape=[self._num_nodes, input_size * batch_size])
         x = torch.unsqueeze(x0, 0)
