@@ -43,12 +43,9 @@ class DCGRUCell(nn.Module):
         self.register_buffer("_supports", supports)
 
         num_matrices = len(supports) * self._max_diffusion_step + 1
-        input_size_gconv = (self._num_units + input_dim) * num_matrices
-
-        if self._use_gc_for_ru:
-            input_size_ru = input_size_gconv
-        else:
-            input_size_ru = self._num_units + input_dim
+        input_size_fc = self._num_units + input_dim
+        input_size_gconv = input_size_fc * num_matrices
+        input_size_ru = input_size_gconv if self._use_gc_for_ru else input_size_fc
 
         output_size = 2 * self._num_units
         self._ru_weights = nn.Parameter(torch.empty(input_size_ru, output_size))
