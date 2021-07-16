@@ -87,7 +87,7 @@ class DCGRUCell(nn.Module):
         state = torch.reshape(state, shape)
         inputs_and_state = torch.cat([inputs, state], dim=-1)
 
-        value = torch.sigmoid(torch.matmul(inputs_and_state, self._ru_weights))
+        value = torch.matmul(inputs_and_state, self._ru_weights)
         value += self._ru_biases
 
         return value
