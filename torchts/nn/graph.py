@@ -49,9 +49,6 @@ class DCGRUCell(nn.Module):
             input_size_ru = input_size_gconv
         else:
             input_size_ru = self._num_units + input_dim
-            raise NotImplementedError(
-                "Fully-connected reset and update gates not yet implemented"
-            )
 
         output_size = 2 * self._num_units
         self._ru_weights = nn.Parameter(torch.empty(input_size_ru, output_size))
