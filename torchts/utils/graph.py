@@ -46,7 +46,7 @@ def scaled_laplacian(adj_mx, lambda_max=2, undirected=True):
     M, _ = L.shape
     I = sp.identity(M, format="csr", dtype=L.dtype)
     L = (2 / lambda_max * L) - I
-    return L.astype(np.float32)
+    return L
 
 
 def sparse_matrix(L):
