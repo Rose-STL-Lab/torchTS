@@ -87,10 +87,7 @@ class DCGRUCell(nn.Module):
         state = torch.reshape(state, shape)
         x = torch.cat([inputs, state], dim=-1)
 
-        value = torch.matmul(x, self._ru_weights)
-        value += self._ru_biases
-
-        return value
+        return torch.matmul(x, self._ru_weights) + self._ru_biases
 
     def _gconv(self, inputs, state, output_size, bias_start=0.0, reset=False):
         batch_size = inputs.shape[0]
