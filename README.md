@@ -5,6 +5,7 @@
 ---
 
 [![Tests](https://github.com/Rose-STL-Lab/torchTS/workflows/Tests/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ATests)
+[![Quality](https://github.com/Rose-STL-Lab/torchTS/workflows/Quality/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3AQuality)
 [![Docs](https://github.com/Rose-STL-Lab/torchTS/workflows/Docs/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ADocs)
 [![Codecov](https://img.shields.io/codecov/c/github/Rose-STL-Lab/torchTS?label=Coverage&logo=codecov)](https://app.codecov.io/gh/Rose-STL-Lab/torchTS)
 [![Conda](https://img.shields.io/conda/v/pytorch/torchts?label=Conda&logo=anaconda)](https://anaconda.org/pytorch/torchts)
