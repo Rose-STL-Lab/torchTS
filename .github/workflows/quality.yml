@@ -48,8 +48,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: poetry install
 
-      - name: Set Python executable location
-        run: echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
+      - name: Set Python location
+        run: echo "CODEQL_PYTHON=$(poetry run which python)" >> $GITHUB_ENV
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
