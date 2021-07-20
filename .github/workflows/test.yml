@@ -16,6 +16,9 @@ jobs:
   test:
     name: '${{ matrix.os_name }}: Python ${{ matrix.python }}'
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       fail-fast: false
