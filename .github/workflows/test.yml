@@ -28,15 +28,12 @@ jobs:
         include:
           - os: ubuntu-latest
             os_name: Linux
-            poetry_cache: ~/.cache/pypoetry
 
           - os: macos-latest
             os_name: macOS
-            poetry_cache: ~/Library/Caches/pypoetry
 
           - os: windows-latest
             os_name: Windows
-            poetry_cache: ~\AppData\Local\pypoetry\Cache
 
     steps:
       - name: Checkout
@@ -48,7 +45,10 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v4
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
       - name: Write environment information to a file
         run: |
@@ -59,7 +59,7 @@ jobs:
         id: poetry-cache
         uses: actions/cache@v2.1.6
         with:
-          path: ${{ matrix.poetry_cache }}
+          path: .venv
           key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
