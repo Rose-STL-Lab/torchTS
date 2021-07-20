@@ -24,10 +24,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: Get Python version
+        id: python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Restore cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: poetry install
+
+      - name: Set Python executable location
+        run: echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
           languages: python
+          setup-python-dependencies: false
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
