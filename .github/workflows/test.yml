@@ -72,8 +72,8 @@ jobs:
         run: poetry run coverage xml
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v1
         if: success()
+        uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
