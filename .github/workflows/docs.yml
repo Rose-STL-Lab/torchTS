@@ -20,22 +20,21 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
 
+      - name: Get Python version
+        id: python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
-      - name: Write environment information to a file
-        run: |
-          pwd > environment
-          python --version >> environment
-
       - name: Restore cache
         uses: actions/cache@v2.1.6
         with:
           path: .venv
-          key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
+          key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
         run: poetry install
