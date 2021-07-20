@@ -31,12 +31,14 @@ jobs:
           virtualenvs-in-project: true
 
       - name: Restore cache
+        id: cache
         uses: actions/cache@v2.1.6
         with:
           path: .venv
           key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: poetry install
 
       - name: Build documentation
