@@ -16,6 +16,12 @@ repos:
       - id: isort
         additional_dependencies: [toml]
 
+  - repo: https://github.com/flakehell/flakehell
+    rev: v.0.8.0
+    hooks:
+      - id: flakehell
+        additional_dependencies: [flake8-bugbear]
+
   - repo: https://github.com/PyCQA/flake8
     rev: 3.9.0
     hooks:
