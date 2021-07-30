@@ -12,8 +12,8 @@ on:
     - cron: '0 0 * * 0'
 
 jobs:
-  analyze:
-    name: Analyze
+  codeql:
+    name: CodeQL
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -32,8 +32,8 @@ jobs:
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
 
-  scan:
-    name: Scan
+  ossar:
+    name: OSSAR
     runs-on: windows-latest
 
     steps:
