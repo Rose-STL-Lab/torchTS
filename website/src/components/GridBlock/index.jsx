@@ -8,12 +8,12 @@
  import React from 'react'
  import classNames from 'classnames'
  import {MarkdownBlock} from '../MarkdownBlock'
- 
+
  const renderBlockImage = (image, imageLink, imageAlt) => {
    if (!image) {
      return null
    }
- 
+
    return (
      <div className="blockImage">
        {imageLink ? (
@@ -26,30 +26,30 @@
      </div>
    )
  }
- 
+
  const renderBlockTitle = title => {
    if (!title) {
      return null
    }
- 
+
    return (
      <h2>
        <MarkdownBlock>{title}</MarkdownBlock>
      </h2>
    )
  }
- 
+
  export const GridBlock = props => {
    const renderBlock = origBlock => {
      const blockDefaults = {
        imageAlign: 'left',
      }
- 
+
      const block = {
        ...blockDefaults,
        ...origBlock,
      }
- 
+
      const blockClasses = classNames('blockElement', props.className, {
        alignCenter: props.align === 'center',
        alignRight: props.align === 'right',
@@ -64,15 +64,15 @@
        threeByGridBlock: props.layout === 'threeColumn',
        twoByGridBlock: props.layout === 'twoColumn',
      })
- 
+
      const topLeftImage =
        (block.imageAlign === 'top' || block.imageAlign === 'left') &&
        renderBlockImage(block.image, block.imageLink, block.imageAlt)
- 
+
      const bottomRightImage =
        (block.imageAlign === 'bottom' || block.imageAlign === 'right') &&
        renderBlockImage(block.image, block.imageLink, block.imageAlt)
- 
+
      return (
        <div className={blockClasses} key={block.title}>
          {topLeftImage}
@@ -84,12 +84,12 @@
        </div>
      )
    }
- 
+
    return (
      <div className="gridBlock">{props.contents.map(renderBlock, this)}</div>
    )
  }
- 
+
  GridBlock.defaultProps = {
    align: 'left',
    contents: [],

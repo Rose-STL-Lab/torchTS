@@ -56,14 +56,14 @@ module.exports = {
 							label: 'Getting Started',
 							to: 'docs',
 						},
-						{
-							label: 'Tutorials',
-							to: '/tutorials',
-						},
-						{
-							label: 'API',
-							to: '/api',
-						},
+						// {
+						// 	label: 'Tutorials',
+						// 	to: '/tutorials',
+						// },
+						// {
+						// 	label: 'API',
+						// 	to: '/api',
+						// },
 					],
 				},
 				{

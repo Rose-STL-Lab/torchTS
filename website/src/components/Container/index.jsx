@@ -7,7 +7,7 @@
 
  import React from 'react'
  import classNames from 'classnames'
- 
+
  export const Container = props => {
    const containerClasses = classNames('block-container', props.className, {
      darkBackground: props.background === 'dark',
@@ -20,7 +20,7 @@
      paddingTop: props.padding.indexOf('top') >= 0,
    })
    let wrappedChildren
- 
+
    if (props.wrapper) {
      wrappedChildren = <div className="wrapper">{props.children}</div>
    } else {
@@ -32,10 +32,9 @@
      </div>
    )
  }
- 
+
  Container.defaultProps = {
    background: null,
    padding: [],
    wrapper: true,
  }
- 
