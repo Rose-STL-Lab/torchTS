@@ -45,7 +45,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v4
+        uses: Gr1N/setup-poetry@v7
 
       - name: Write environment information to a file
         run: |
