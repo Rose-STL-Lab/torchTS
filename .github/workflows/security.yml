@@ -32,7 +32,7 @@ jobs:
         run: pip install bandit bandit-sarif-formatter
 
       - name: Run Bandit
-        run: bandit -r . --format sarif --output bandit.sarif
+        run: bandit -r . --exit-zero --format sarif --output bandit.sarif
 
       - name: Upload Bandit results
         if: always()
