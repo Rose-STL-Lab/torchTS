@@ -17,6 +17,28 @@ permissions:
   security-events: write
 
 jobs:
+  bandit:
+    name: Bandit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: Install Bandit
+        run: pip install bandit-sarif-formatter
+
+      - name: Run Bandit
+        run: bandit --format sarif --output bandit.sarif
+
+      - name: Upload Bandit results
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: bandit.sarif
+
   codeql:
     name: CodeQL
     runs-on: ubuntu-latest
@@ -51,23 +73,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: devskim.sarif
-
-  ossar:
-    name: OSSAR
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Run OSSAR
-        id: ossar
-        uses: github/ossar-action@v1
-
-      - name: Upload OSSAR results
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: ${{ steps.ossar.outputs.sarifFile }}
 
   semgrep:
     name: Semgrep
