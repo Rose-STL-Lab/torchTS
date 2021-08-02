@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-python@v2
 
       - name: Install Bandit
-        run: pip install bandit-sarif-formatter
+        run: pip install bandit bandit-sarif-formatter
 
       - name: Run Bandit
         run: bandit --format sarif --output bandit.sarif
