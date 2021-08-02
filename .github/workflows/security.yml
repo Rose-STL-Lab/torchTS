@@ -55,25 +55,6 @@ jobs:
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
 
-  devskim:
-    name: DevSkim
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Run DevSkim
-        uses: microsoft/devskim-action@v1
-        with:
-          output-filename: devskim.sarif
-          should-scan-archives: false
-
-      - name: Upload DevSkim results
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: devskim.sarif
-
   semgrep:
     name: Semgrep
     runs-on: ubuntu-latest
