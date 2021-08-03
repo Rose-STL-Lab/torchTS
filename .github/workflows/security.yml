@@ -33,6 +33,23 @@ jobs:
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
 
+  devskim:
+    name: DevSkim
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run DevSkim
+        uses: microsoft/DevSkim-Action@v1
+
+      - name: Upload DevSkim results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: devskim-results.sarif
+
   ossar:
     name: OSSAR
     runs-on: windows-latest
