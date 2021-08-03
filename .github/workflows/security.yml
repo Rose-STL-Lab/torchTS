@@ -30,7 +30,7 @@ jobs:
         with:
           languages: python
 
-      - name: Perform CodeQL analysis
+      - name: Run CodeQL
         uses: github/codeql-action/analyze@v1
 
   ossar:
