@@ -64,7 +64,7 @@ jobs:
         with:
           config: >-
             p/ci
-            p/gitlab-bandit
+            p/secrets
           generateSarif: true
 
       - name: Upload Semgrep results
