@@ -19,7 +19,7 @@ keywords = ["time-series", "machine-learning", "pytorch"]
 python = ">=3.7,<3.10"
 torch = "^1.9.0"
 pytorch-lightning = "^1.4.0"
-scipy = "^1.7.0"
+scipy = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
