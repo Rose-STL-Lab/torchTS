@@ -1,0 +1,59 @@
+name: Update pre-commit
+
+on:
+  # first of every month at midnight
+  schedule:
+    - cron: '0 0 1 * *'
+  # on demand
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update pre-commit hooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+
+      - name: Get Python version
+        id: python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
+      - name: Restore cache
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Update pre-commit hooks
+        run: pre-commit autoupdate
+
+      - name: Get pull request body
+        id: pull-request-body
+        run: >
+          echo ::set-output name=body::$(git diff --unified=1 |
+          grep -E 'repo:|rev:' |
+          sed 's|.*com/||; s/.*rev: //' |
+          sed 'N;s/\n/: /; N;s/\n/ -> /; s/^/- /')
+
+      - name: Create pull request
+        if: success()
+        uses: peter-evans/create-pull-request@v3.10.0
+        with:
+          branch: pre-commit/update-hooks
+          delete-branch: true
+          commit-message: Update pre-commit hooks
+          title: Update pre-commit hooks
+          body: ${{ steps.pull-request-body.outputs.body }}
+          labels: |
+            dependencies
+            pre-commit
