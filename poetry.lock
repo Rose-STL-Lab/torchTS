@@ -456,7 +456,7 @@ testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtuale
 
 [[package]]
 name = "pytorch-lightning"
-version = "1.4.0"
+version = "1.4.1"
 description = "PyTorch Lightning is the lightweight PyTorch wrapper for ML researchers. Scale your models. Write less boilerplate."
 category = "main"
 optional = false
@@ -812,7 +812,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<3.10"
-content-hash = "5052c3caed418c897d3c570c3fa4374cf4fa346cbcc76b6518573e390ed4f354"
+content-hash = "5aa2e435465bdc77b0b7ad48a304b45f1e30484ad75def65b117d23e36c81b4b"
 
 [metadata.files]
 absl-py = [
@@ -1255,8 +1255,8 @@ pytest-cov = [
     {file = "pytest_cov-2.12.1-py2.py3-none-any.whl", hash = "sha256:261bb9e47e65bd099c89c3edf92972865210c36813f80ede5277dceb77a4a62a"},
 ]
 pytorch-lightning = [
-    {file = "pytorch-lightning-1.4.0.tar.gz", hash = "sha256:6529cf064f9dc323c94f3ce84b56ee1a05db1b0ab17db77c4d15aa36e34da81f"},
-    {file = "pytorch_lightning-1.4.0-py3-none-any.whl", hash = "sha256:41fb26e649b830019ecdffb6dc6558266e1317963f7bf2cddb1f1ed862245928"},
+    {file = "pytorch-lightning-1.4.1.tar.gz", hash = "sha256:1d1128aeb5d0e523d2204c4d9399d65c4e5f41ff0370e96d694a823af5e8e6f3"},
+    {file = "pytorch_lightning-1.4.1-py3-none-any.whl", hash = "sha256:4a06723a66296a2ac94cdf353335d64e7ae76c37202b2a4c38a845063e3fe386"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
