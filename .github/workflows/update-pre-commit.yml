@@ -45,10 +45,18 @@ jobs:
           sed 's|.*com/||; s/.*rev: //' |
           sed 'N;s/\n/: /; N;s/\n/ -> /; s/^/- /')
 
+      - name: Generate token
+        id: generate-token
+        uses: tibdex/github-app-token@v1.3.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Create pull request
         if: success()
         uses: peter-evans/create-pull-request@v3.10.0
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           branch: pre-commit/update-hooks
           delete-branch: true
           commit-message: Update pre-commit hooks
