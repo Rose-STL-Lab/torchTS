@@ -62,7 +62,7 @@ jobs:
         with:
           token: ${{ steps.generate-token.outputs.token }}
           committer: GitHub <noreply@github.com>
-          author: torchts-bot[bot] <130486+torchts-bot[bot]@users.noreply.github.com>
+          author: torchTS-bot[bot] <88511308+torchts-bot[bot]@users.noreply.github.com>
           branch: pre-commit/update-hooks
           delete-branch: true
           commit-message: Update pre-commit hooks
