@@ -39,11 +39,15 @@ jobs:
 
       - name: Get pull request body
         id: pull-request-body
-        run: >
-          echo ::set-output name=body::$(git diff --unified=1 |
-          grep -E 'repo:|rev:' |
-          sed 's|.*com/||; s/.*rev: //' |
-          sed 'N;s/\n/: /; N;s/\n/ -> /; s/^/- /')
+        run: |
+          BODY=$(git diff --unified=1 |               # get one line around each change to include repos
+            grep -E 'repo:|rev:' |                    # find lines with repo URLs and current/updated revs
+            sed 's|.*com/||; s/.*rev: //' |           # isolate hook user/repo and rev numbers
+            sed 'N;s/\n/: /; N;s/\n/ → /; s/^/- /')   # format changes as '- user/repo: old rev → new rev'
+          BODY="${BODY//'%'/'%25'}"
+          BODY="${BODY//$'\n'/'%0A'}"
+          BODY="${BODY//$'\r'/'%0D'}"
+          echo "::set-output name=body::$BODY"
 
       - name: Generate token
         id: generate-token
