@@ -61,6 +61,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3.10.0
         with:
           token: ${{ steps.generate-token.outputs.token }}
+          committer: GitHub <noreply@github.com>
           author: torchts-bot[bot] <130486+torchts-bot[bot]@users.noreply.github.com>
           branch: pre-commit/update-hooks
           delete-branch: true
