@@ -57,6 +57,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3.10.0
         with:
           token: ${{ steps.generate-token.outputs.token }}
+          committer: GitHub <noreply@github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           branch: pre-commit/update-hooks
           delete-branch: true
           commit-message: Update pre-commit hooks
