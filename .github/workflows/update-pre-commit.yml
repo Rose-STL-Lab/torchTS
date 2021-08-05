@@ -61,7 +61,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3.10.0
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          author: torchTS-bot[bot] <130311+torchTS-bot[bot]@users.noreply.github.com>
+          author: torchTS-bot[bot] <130486+torchTS-bot[bot]@users.noreply.github.com>
           branch: pre-commit/update-hooks
           delete-branch: true
           commit-message: Update pre-commit hooks
