@@ -65,6 +65,7 @@ jobs:
           commit-message: ${{ steps.messages.outputs.commit_message }}
           committer: GitHub <noreply@github.com>
           author: torchts-bot[bot] <88511308+torchts-bot[bot]@users.noreply.github.com>
+          base: main
           branch: pre-commit/update-hooks
           delete-branch: true
           title: Update pre-commit hooks
