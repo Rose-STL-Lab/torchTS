@@ -37,17 +37,18 @@ jobs:
       - name: Update pre-commit hooks
         run: pre-commit autoupdate
 
-      - name: Get pull request body
-        id: pull-request-body
+      - name: Get commit message and pull request body
+        id: messages
         run: |
-          BODY=$(git diff --unified=1 |               # get one line around each change to include repos
+          DIFF=$(git diff --unified=1 |               # get one line around each change to include repos
             grep -E 'repo:|rev:' |                    # find lines with repo URLs and current/updated revs
             sed 's|.*com/||; s/.*rev: //' |           # isolate hook user/repo and rev numbers
             sed 'N;s/\n/: /; N;s/\n/ → /; s/^/- /')   # format changes as '- user/repo: old rev → new rev'
-          BODY="${BODY//'%'/'%25'}"
-          BODY="${BODY//$'\n'/'%0A'}"
-          BODY="${BODY//$'\r'/'%0D'}"
-          echo "::set-output name=body::$BODY"
+          DIFF="${DIFF//'%'/'%25'}"
+          DIFF="${DIFF//$'\n'/'%0A'}"
+          DIFF="${DIFF//$'\r'/'%0D'}"
+          echo "::set-output name=pr_body::$DIFF"
+          echo "::set-output name=commit_message::Update pre-commit hooks%0A%0A$DIFF"
 
       - name: Generate token
         id: generate-token
@@ -61,13 +62,13 @@ jobs:
         uses: peter-evans/create-pull-request@v3.10.0
         with:
           token: ${{ steps.generate-token.outputs.token }}
+          commit-message: ${{ steps.messages.outputs.commit_message }}
           committer: GitHub <noreply@github.com>
           author: torchts-bot[bot] <88511308+torchts-bot[bot]@users.noreply.github.com>
           branch: pre-commit/update-hooks
           delete-branch: true
-          commit-message: Update pre-commit hooks
           title: Update pre-commit hooks
-          body: ${{ steps.pull-request-body.outputs.body }}
+          body: ${{ steps.messages.outputs.pr_body }}
           labels: |
             dependencies
             pre-commit
