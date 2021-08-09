@@ -18,7 +18,7 @@ class PaddedDataset(TensorDataset):
                 padding = np.repeat(data[i][-1:], num_padding, axis=0)
                 data_pad[i] = np.concatenate([data[i], padding], axis=0)
 
-        super().__init__(*[torch.from_numpy(d).float() for d in data_pad])
+        super().__init__(*(torch.from_numpy(d).float() for d in data_pad))
 
 
 class StandardScaler:
