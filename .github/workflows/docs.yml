@@ -45,10 +45,20 @@ jobs:
       - name: Build documentation
         run: poetry run make -C docs html
 
+      - name: Generate token
+        id: generate-token
+        uses: tibdex/github-app-token@v1.3.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Deploy documentation
         if: success()
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
+          token: ${{ steps.generate-token.outputs.token }}
+          git-config-name: torchts-bot[bot]
+          git-config-email: 88511308+torchts-bot[bot]@users.noreply.github.com
           branch: gh-pages
           folder: docs/build/html
           clean: true
