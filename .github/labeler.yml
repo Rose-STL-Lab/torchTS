@@ -1,0 +1,14 @@
+documentation:
+  - docs/**
+
+examples:
+  - examples/**
+
+github actions:
+  - .github/workflows/*
+
+python:
+  - '**.py'
+
+test:
+  - tests/**
