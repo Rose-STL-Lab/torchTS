@@ -9,7 +9,7 @@ module.exports = {
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "img/torchTS_logo.png",
+  favicon: "img/logo2.png",
   scripts: [
     "https://buttons.github.io/buttons.js",
     "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js",
@@ -29,7 +29,7 @@ module.exports = {
       title: "TorchTS",
       logo: {
         alt: "My Site Logo",
-        src: "img/torchTS_logo.png",
+        src: "img/logo2.png",
       },
       items: [
         {
@@ -133,13 +133,13 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "https://github.com/Rose-STL-Lab/torchTS/website/",
+          editUrl: "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/blog/",
+            "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

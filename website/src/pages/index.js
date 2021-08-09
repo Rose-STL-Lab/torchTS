@@ -104,7 +104,7 @@ export default class Index extends React.Component {
           {[
             {
               title: '',
-              content: '## The Problem \n - problem statement',
+              content: '## Why Time Series? \n - Time series data modeling has broad significance in public health, finance and engineering. \n - Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive. \n - Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.',
               image: `${baseUrl}img/interrobang-128x128.png`,
               imageAlt: 'The problem (picture of a question mark)',
               imageAlign: 'left',
@@ -122,7 +122,7 @@ export default class Index extends React.Component {
             image: `${baseUrl}img/star-128x128.png`,
             imageAlign: 'right',
             imageAlt: 'The solution (picture of a star)',
-            content: '## The Solution \n The solution',
+            content: '## Why TorchTS? \n - Existing time series analysis libraries include [statsmodels](https://www.statsmodels.org/stable/index.html), [sktime](https://github.com/alan-turing-institute/sktime). However, these libraries only include traditional statistics tools such as ARMA or ARIMA, which do not have the state-of-the-art forecasting tools based on deep learning. \n - [GluonTS](https://ts.gluon.ai/) is an open-source time series library developed by Amazon AWS, but is based on MXNet. \n - [Pyro](https://pyro.ai/) is a probabilistic programming framework based on PyTorch, but is not focused on time series forecasting.',
           },
         ]}
       </Block>,
