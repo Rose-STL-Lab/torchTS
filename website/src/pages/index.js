@@ -91,7 +91,7 @@ export default class Index extends React.Component {
           <p>
             <i>
               Time series data modeling has broad significance in public health, finance
-              and engineering.
+              and engineering
             </i>
           </p>
         </div>

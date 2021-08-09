@@ -8,6 +8,7 @@ on:
       - 'docs/**'
       - 'torchts/**'
       - 'poetry.lock'
+      - 'website/**'
 
 jobs:
   build:
@@ -20,6 +21,11 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
       - name: Get Python version
         id: python-version
@@ -51,6 +57,12 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      
+      - name: Build Docusaurus website
+        run: |
+          cd website
+          npm install 
+          npm run build
 
       - name: Deploy documentation
         if: success()
@@ -60,7 +72,7 @@ jobs:
           git-config-name: torchts-bot[bot]
           git-config-email: 88511308+torchts-bot[bot]@users.noreply.github.com
           branch: gh-pages
-          folder: docs/build/html
+          folder: website/build
           clean: true
           clean-exclude: |
             README.md
