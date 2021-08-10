@@ -57,7 +57,7 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-      
+
       - name: Build Docusaurus website
         run: |
           cd website
