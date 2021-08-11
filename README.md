@@ -63,7 +63,7 @@ by following the [PyTorch installation instructions](https://pytorch.org/get-sta
 
 ## Getting Started
 
-Here's a quick run down of the main components of a Bayesian optimization loop.
+Here's a quick run down of the main components of a deep learning forecaster.
 For more details see our [Documentation](https://rose-stl-lab.github.io/torchTS/) and the
 [Tutorials](https://torchts.ai/tutorials).
 
@@ -73,8 +73,7 @@ For more details see our [Documentation](https://rose-stl-lab.github.io/torchTS/
 
   ```
 
-2. Multivariate forecasting with side information
-
+2. Spatiotemporal forecasting 
   ```python
 
   ```
