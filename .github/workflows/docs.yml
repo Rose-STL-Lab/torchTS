@@ -59,18 +59,19 @@ jobs:
       - name: Build documentation
         run: poetry run make -C docs html
 
-      - name: Generate token
-        id: generate-token
-        uses: tibdex/github-app-token@v1.3.0
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
       - name: Build Docusaurus website
         run: |
           cd website
           npm install
           npm run build
+
+      - name: Generate token
+        if: success() && github.event_name == 'push'
+        id: generate-token
+        uses: tibdex/github-app-token@v1.3.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Deploy documentation
         if: success() && github.event_name == 'push'
