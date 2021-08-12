@@ -65,7 +65,9 @@ jobs:
           config: >-
             p/ci
             p/secrets
-          auditOn: unknown
+          auditOn:  >-
+            push
+            pull_request
           generateSarif: true
 
       - name: Upload Semgrep results
