@@ -9,6 +9,14 @@ on:
       - 'torchts/**'
       - 'poetry.lock'
       - 'website/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'torchts/**'
+      - 'poetry.lock'
+      - 'website/**'
 
 jobs:
   build:
@@ -65,7 +73,7 @@ jobs:
           npm run build
 
       - name: Deploy documentation
-        if: success()
+        if: success() && github.event_name == push
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           token: ${{ steps.generate-token.outputs.token }}
