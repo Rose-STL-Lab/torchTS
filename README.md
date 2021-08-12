@@ -73,7 +73,8 @@ For more details see our [Documentation](https://rose-stl-lab.github.io/torchTS/
 
   ```
 
-2. Spatiotemporal forecasting 
+2. Spatiotemporal forecasting
+
   ```python
 
   ```
