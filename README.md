@@ -27,9 +27,11 @@ Existing time series analysis libraries include [statsmodels](https://www.statsm
 
 ### Installation Requirements
 
-- Python >= 3.7
-- PyTorch >= 1.7
-- scipy
+TorchTS supports Python 3.7+ and has the following dependencies:
+
+- [PyTorch](https://pytorch.org/)
+- [PyTorch Lightning](https://pytorchlightning.ai/)
+- [SciPy](https://www.scipy.org/)
 
 ### Installing the latest release
 
