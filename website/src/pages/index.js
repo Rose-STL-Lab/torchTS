@@ -105,7 +105,7 @@ export default class Index extends React.Component {
             {
               title: '',
               content: '## Why Time Series? \n - Time series data modeling has broad significance in public health, finance and engineering. \n - Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive. \n - Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.',
-              image: `${baseUrl}img/interrobang-128x128.png`,
+              image: `${baseUrl}img/time-series-graph.png`,
               imageAlt: 'The problem (picture of a question mark)',
               imageAlign: 'left',
             },
@@ -138,10 +138,10 @@ export default class Index extends React.Component {
             title: 'Built On Pytorch',
           },
           {
-            content: 'Another Tagline',
+            content: 'Easy to use with model.predict',
             image: `${baseUrl}img/check-128x128.png`,
             imageAlign: 'top',
-            title: 'Another Tagline',
+            title: 'User Friendly',
           },
           {
             content: 'Another Tagline',

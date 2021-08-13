@@ -38,8 +38,6 @@ module.exports = {
           position: "left",
           label: "Docs",
         },
-
-        { to: "/blog", label: "Blog", position: "right" },
         {
           href: "https://github.com/Rose-STL-Lab/torchts",
           label: "GitHub",
@@ -69,10 +67,6 @@ module.exports = {
         {
           title: "Community",
           items: [
-            {
-              label: "Blog",
-              to: "blog",
-            },
             {
               label: "Slack",
               href: "https://github.com/Rose-Stl-Lab/torchTS",
@@ -105,10 +99,6 @@ module.exports = {
               label: "Edit Docs on GitHub",
               href: "https://github.com/Rose-stl-lab/torchts/",
             },
-            {
-              label: "Hosted by Netlify",
-              href: "https://netlify.com",
-            },
           ],
         },
       ],
@@ -134,12 +124,6 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl: "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
