@@ -61,49 +61,31 @@ by following the [PyTorch installation instructions](https://pytorch.org/get-sta
 
 ## Getting Started
 
-Here's a quick run down of the main components of a deep learning forecaster.
-For more details see our [Documentation](https://rose-stl-lab.github.io/torchTS/) and the
-[Tutorials](https://torchts.ai/tutorials).
-
-1. Multi-step forecasting
-
-  ```python
-
-  ```
-
-2. Spatiotemporal forecasting
-
-  ```python
-
-  ```
-
-3. Hybrid forecasting with PDEs
-
-  ```python
-
-  ```
+Check out our [documentation](https://rose-stl-lab.github.io/torchTS/) and
+[tutorials](https://rose-stl-lab.github.io/torchTS/tutorials) (coming soon).
 
 ## Citing TorchTS
 
-If you use TorchTS, please cite the following paper:
-> [TBD. TorchTS: A Framework for Efficient Time Series Modeling.](TBD)
+If you use TorchTS, please cite the following paper (coming soon):
+
+> [TorchTS: A Framework for Efficient Time Series Modeling](TBD)
 
 ```bibtex
 @inproceedings{TBD,
   title={{TorchTS: A Framework for Efficient Time Series Modeling}},
-  author={},
+  author={TBD},
   booktitle = {TBD},
   year={TBD},
-  url = {}
+  url = {TBD}
 }
 ```
 
-See [here](https://torchts.ai/docs/papers) for an incomplete selection of peer-reviewed papers that build off of TorchTS.
+See [here](https://rose-stl-lab.github.io/torchTS/papers) (coming soon) for a selection of peer-reviewed papers that either build off of TorchTS or were integrated into TorchTS.
 
 ## Contributing
 
-See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
+Interested in contributing to TorchTS? Please see the [contributing guide](CONTRIBUTING.md) to learn how to help out.
 
 ## License
 
-TorchTS is MIT licensed, as found in the [LICENSE](LICENSE) file.
+TorchTS is [MIT licensed](LICENSE).
