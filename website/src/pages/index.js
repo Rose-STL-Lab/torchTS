@@ -139,7 +139,7 @@ export default class Index extends React.Component {
           },
           {
             content: 'Easy to use with model.predict',
-            image: `${baseUrl}img/check-128x128.png`,
+            image: `${baseUrl}img/puzzle.png`,
             imageAlign: 'top',
             title: 'User Friendly',
           },
