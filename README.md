@@ -8,7 +8,6 @@
 [![Quality](https://github.com/Rose-STL-Lab/torchTS/workflows/Quality/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3AQuality)
 [![Docs](https://github.com/Rose-STL-Lab/torchTS/workflows/Docs/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ADocs)
 [![Codecov](https://img.shields.io/codecov/c/github/Rose-STL-Lab/torchTS?label=Coverage&logo=codecov)](https://app.codecov.io/gh/Rose-STL-Lab/torchTS)
-[![Conda](https://img.shields.io/conda/v/pytorch/torchts?label=Conda&logo=anaconda)](https://anaconda.org/pytorch/torchts)
 [![PyPI](https://img.shields.io/pypi/v/torchts?label=PyPI&logo=python)](https://pypi.org/project/torchts)
 [![License](https://img.shields.io/github/license/Rose-STL-Lab/torchTS?label=License)](LICENSE)
 
@@ -18,35 +17,34 @@ TorchTS is a PyTorch-based library for time series data.
 
 #### Why Time Series?
 
-Time series data modeling has broad significance in public health, finance and engineering. Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive.  Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.
+Time series data modeling has broad significance in public health, finance and engineering. Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive. Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.
 
 #### Why TorchTS?
 
-Existing time series analysis libraries include [statsmodels](https://www.statsmodels.org/stable/index.html),  [sktime](https://github.com/alan-turing-institute/sktime). However, these libraries only include traditional statistics tools such as ARMA or ARIMA, which do not have the state-of-the-art forecasting tools based on deep learning. [GluonTS](https://ts.gluon.ai/) is an open-source time series library developed by Amazon AWS, but is based on MXNet. [Pyro](https://pyro.ai/) is a probabilistic programming framework based on PyTorch, but is not focused on time series forecasting.
-
-#### Benchmark
+Existing time series analysis libraries include [statsmodels](https://www.statsmodels.org/stable/index.html) and [sktime](https://github.com/alan-turing-institute/sktime). However, these libraries only include traditional statistics tools such as ARMA or ARIMA, which do not have the state-of-the-art forecasting tools based on deep learning. [GluonTS](https://ts.gluon.ai/) is an open-source time series library developed by Amazon AWS, but is based on MXNet. [Pyro](https://pyro.ai/) is a probabilistic programming framework based on PyTorch, but is not focused on time series forecasting.
 
 ## Installation
 
 ### Installation Requirements
 
-- Python >= 3.7
-- PyTorch >= 1.7
-- scipy
+TorchTS supports Python 3.7+ and has the following dependencies:
+
+- [PyTorch](https://pytorch.org/)
+- [PyTorch Lightning](https://pytorchlightning.ai/)
+- [SciPy](https://www.scipy.org/)
 
 ### Installing the latest release
 
-The latest release of TorchTS is easily installed either via
-[Anaconda](https://www.anaconda.com/distribution/#download-section) (recommended):
-
-```bash
-conda install torchts -c pytorch
-```
-
-or via `pip`:
+The latest release of TorchTS is easily installed either via `pip`:
 
 ```bash
 pip install torchts
+```
+
+or via [conda](https://docs.conda.io/projects/conda/) from the [conda-forge](https://conda-forge.org/) channel (coming soon):
+
+```bash
+conda install torchts -c conda-forge
 ```
 
 You can customize your PyTorch installation (i.e. CUDA version, CPU only option)
@@ -63,49 +61,31 @@ by following the [PyTorch installation instructions](https://pytorch.org/get-sta
 
 ## Getting Started
 
-Here's a quick run down of the main components of a deep learning forecaster.
-For more details see our [Documentation](https://rose-stl-lab.github.io/torchTS/) and the
-[Tutorials](https://torchts.ai/tutorials).
-
-1. Multi-step forecasting
-
-  ```python
-
-  ```
-
-2. Spatiotemporal forecasting
-
-  ```python
-
-  ```
-
-3. Hybrid forecasting with PDEs
-
-  ```python
-
-  ```
+Check out our [documentation](https://rose-stl-lab.github.io/torchTS/) and
+[tutorials](https://rose-stl-lab.github.io/torchTS/tutorials) (coming soon).
 
 ## Citing TorchTS
 
-If you use TorchTS, please cite the following paper:
-> [TBD. TorchTS: A Framework for Efficient Time Series Modeling.](TBD)
+If you use TorchTS, please cite the following paper (coming soon):
+
+> [TorchTS: A Framework for Efficient Time Series Modeling](TBD)
 
 ```bibtex
 @inproceedings{TBD,
   title={{TorchTS: A Framework for Efficient Time Series Modeling}},
-  author={},
+  author={TBD},
   booktitle = {TBD},
   year={TBD},
-  url = {}
+  url = {TBD}
 }
 ```
 
-See [here](https://torchts.ai/docs/papers) for an incomplete selection of peer-reviewed papers that build off of TorchTS.
+See [here](https://rose-stl-lab.github.io/torchTS/papers) (coming soon) for a selection of peer-reviewed papers that either build off of TorchTS or were integrated into TorchTS.
 
 ## Contributing
 
-See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
+Interested in contributing to TorchTS? Please see the [contributing guide](CONTRIBUTING.md) to learn how to help out.
 
 ## License
 
-TorchTS is MIT licensed, as found in the [LICENSE](LICENSE) file.
+TorchTS is [MIT licensed](LICENSE).
