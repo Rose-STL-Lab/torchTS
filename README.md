@@ -35,17 +35,16 @@ Existing time series analysis libraries include [statsmodels](https://www.statsm
 
 ### Installing the latest release
 
-The latest release of TorchTS is easily installed either via
-[Anaconda](https://www.anaconda.com/distribution/#download-section) (recommended):
-
-```bash
-conda install torchts -c pytorch
-```
-
-or via `pip`:
+The latest release of TorchTS is easily installed either via `pip`:
 
 ```bash
 pip install torchts
+```
+
+or via [conda](https://docs.conda.io/projects/conda/) from the [conda-forge](https://conda-forge.org/) channel (coming soon):
+
+```bash
+conda install torchts -c conda-forge
 ```
 
 You can customize your PyTorch installation (i.e. CUDA version, CPU only option)
