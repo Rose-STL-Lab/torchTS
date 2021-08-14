@@ -6,7 +6,7 @@ module.exports = {
   title: "TorchTS",
   tagline: "Time series forecasting with PyTorch",
   url: "https://rose-stl-lab.github.io",
-  baseUrl: "/",
+  baseUrl: "/torchTS/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/logo2.png",
