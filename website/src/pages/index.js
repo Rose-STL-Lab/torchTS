@@ -107,7 +107,7 @@ export default class Index extends React.Component {
               content: '## Why Time Series? \n - Time series data modeling has broad significance in public health, finance and engineering. \n - Traditional time series methods from statistics often rely on strong modeling assumptions, or are computationally expensive. \n - Given the rise of large-scale sensing data and significant advances in deep learning, the goal of the project is to develop an efficient and user-friendly deep learning library that would benefit the entire research community and beyond.',
               image: `${baseUrl}img/time-series-graph.png`,
               imageAlt: 'The problem (picture of a question mark)',
-              imageAlign: 'left',
+              imageAlign: 'right',
             },
           ]}
         </Block>
@@ -119,8 +119,8 @@ export default class Index extends React.Component {
         {[
           {
             title: '',
-            image: `${baseUrl}img/star-128x128.png`,
-            imageAlign: 'right',
+            image: `${baseUrl}img/why.png`,
+            imageAlign: 'left',
             imageAlt: 'The solution (picture of a star)',
             content: '## Why TorchTS? \n - Existing time series analysis libraries include [statsmodels](https://www.statsmodels.org/stable/index.html), [sktime](https://github.com/alan-turing-institute/sktime). However, these libraries only include traditional statistics tools such as ARMA or ARIMA, which do not have the state-of-the-art forecasting tools based on deep learning. \n - [GluonTS](https://ts.gluon.ai/) is an open-source time series library developed by Amazon AWS, but is based on MXNet. \n - [Pyro](https://pyro.ai/) is a probabilistic programming framework based on PyTorch, but is not focused on time series forecasting.',
           },
@@ -144,10 +144,10 @@ export default class Index extends React.Component {
             title: 'User Friendly',
           },
           {
-            content: 'Another Tagline',
-            image: `${baseUrl}img/tada-128x128.png`,
+            content: 'Easily Scalable Library',
+            image: `${baseUrl}img/scalable.png`,
             imageAlign: 'top',
-            title: 'Another Tagline',
+            title: 'Scalable',
           },
         ]}
       </Block>
