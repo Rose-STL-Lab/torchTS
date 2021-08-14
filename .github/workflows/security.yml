@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
   # every Sunday at midnight
   schedule:
     - cron: '0 0 * * 0'
@@ -65,7 +69,9 @@ jobs:
           config: >-
             p/ci
             p/secrets
-          auditOn: push
+          auditOn: >-
+            push
+            pull_request
           generateSarif: true
 
       - name: Upload Semgrep results
