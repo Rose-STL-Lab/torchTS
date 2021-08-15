@@ -5,7 +5,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 module.exports = {
   title: "TorchTS",
   tagline: "Time series forecasting with PyTorch",
-  url: "https://rose-stl-lab.github.io",
+  url: "https://rose-stl-lab.github.io/torchTS",
   baseUrl: "/torchTS/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -39,7 +39,7 @@ module.exports = {
           label: "Docs",
         },
         {
-          href: "https://github.com/Rose-STL-Lab/torchts",
+          href: "https://github.com/Rose-STL-Lab/torchTS",
           label: "GitHub",
           position: "right",
         },
@@ -69,11 +69,11 @@ module.exports = {
           items: [
             {
               label: "Slack",
-              href: "https://github.com/Rose-Stl-Lab/torchTS",
+              href: "https://github.com/Rose-STL-Lab/torchTS",
             },
             {
               label: "Discord",
-              href: "https://github.com/Rose-Stl-Lab/torchTS",
+              href: "https://github.com/Rose-STL-Lab/torchTS",
             },
           ],
         },
@@ -83,9 +83,9 @@ module.exports = {
             {
               html: `
  <a target="_blank" rel="noreferrer noopener" class="github-button"
- href="https://github.com/Rose-stl-lab/torchts"
+ href="https://github.com/Rose-STL-Lab/torchTS"
  data-icon="octicon-star"
- data-count-href="/Rose-stl-lab/torchts/stargazers"
+ data-count-href="/Rose-STL-Lab/torchTS/stargazers"
  data-show-count="true"
  data-count-aria-label="# stargazers on GitHub"
  aria-label="Star this project on GitHub">Star</a>
@@ -93,11 +93,11 @@ module.exports = {
             },
             {
               label: "GitHub",
-              href: "https://github.com/Rose-stl-lab/torchts",
+              href: "https://github.com/Rose-STL-Lab/torchTS",
             },
             {
               label: "Edit Docs on GitHub",
-              href: "https://github.com/Rose-stl-lab/torchts/",
+              href: "https://github.com/Rose-STL-Lab/torchTS",
             },
           ],
         },
