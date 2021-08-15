@@ -5,7 +5,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 module.exports = {
   title: "TorchTS",
   tagline: "Time series forecasting with PyTorch",
-  url: "https://rose-stl-lab.github.io/torchTS",
+  url: "https://rose-stl-lab.github.io",
   baseUrl: "/torchTS/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
