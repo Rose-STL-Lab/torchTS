@@ -1,5 +1,7 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const math = require("remark-math");
+const katex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -16,6 +18,12 @@ module.exports = {
   ],
   stylesheets: [
     "https://fonts.googleapis.com/css?family=IBM+Plex+Mono:500,700|Source+Code+Pro:500,700|Source+Sans+Pro:400,400i,700",
+    {
+      href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
+      integrity:
+        "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
+      crossorigin: "anonymous",
+    },
   ],
 
   organizationName: "Rose-STL-Lab", // Usually your GitHub org/user name.
@@ -122,6 +130,10 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
+          remarkPlugins: [math],
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+          rehypePlugins: [katex],
           // Please change this to your repo.
           editUrl: "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
         },

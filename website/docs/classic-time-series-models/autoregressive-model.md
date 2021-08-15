@@ -4,7 +4,7 @@ slug: /autoregressive
 ---
 Assume we are given a time series $$x_1,\cdots, x_t$$, P-th order autoregressive (AR (P)) models the output as a linear function of the input series
 
-$x_t = \sum_{i=1}^P a_i x_{t-i} + e_t$ 
+$x_t = \sum_{i=1}^P a_i x_{t-i} + e_t$
 
 where $\{a_i]}$ are the coefficients. The series $\{e_t\}$ can represent either a controlled external input or noise.
 
