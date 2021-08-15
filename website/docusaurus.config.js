@@ -131,6 +131,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           remarkPlugins: [math],
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           rehypePlugins: [katex],
           // Please change this to your repo.
           editUrl: "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
