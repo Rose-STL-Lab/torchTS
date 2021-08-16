@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "torchTS"
-version = "0.1.0-1"
+version = "0.1.0"
 description = "Time series forecasting with PyTorch"
 authors = [
     "TorchTS Team <torchts@googlegroups.com>"
