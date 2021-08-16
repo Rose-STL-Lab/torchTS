@@ -1,19 +1,31 @@
 [tool.poetry]
-name = "torchts"
+name = "torchTS"
 version = "0.1.0"
 description = "Time series forecasting with PyTorch"
 authors = [
-    "Kevin Lane <k2lane@eng.ucsd.edu>",
-    "Aparna Gupta <apgupta@eng.ucsd.edu>",
-    "Raul Martinez <rgm001@eng.ucsd.edu>",
-    "Daniel Roten <daroten@eng.ucsd.edu>",
-    "Akash Shah <apshah@eng.ucsd.edu>"
+    "TorchTS Team <torchts@googlegroups.com>"
+]
+maintainers = [
+    "Kevin Lane <lane.kevin.a@gmail.com>",
+    "Rose Yu <yuqi.rose@gmail.com>",
+    "Aparna Gupta <aparna.gupta123@gmail.com>",
+    "Raul Martinez <gio.mtz3@gmail.com>",
+    "Daniel Roten <droten76@gmail.com>",
+    "Akash Shah <akashshah59@gmail.com>"
 ]
 license = "MIT"
 readme = "README.md"
+homepage = "https://rose-stl-lab.github.io/torchTS"
 repository = "https://github.com/Rose-STL-Lab/torchTS"
-documentation = "https://rose-stl-lab.github.io/torchTS"
-keywords = ["time-series", "machine-learning", "pytorch"]
+documentation = "https://rose-stl-lab.github.io/torchTS/docs"
+keywords = ["deep-learning", "machine-learning", "time-series", "pytorch"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.10"
