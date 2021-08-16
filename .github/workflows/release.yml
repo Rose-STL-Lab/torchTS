@@ -91,6 +91,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: poetry-build
+          path: dist
+
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
 
@@ -99,12 +105,6 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2.0.10
-        with:
-          name: poetry-build
-          path: dist
 
       - name: Publish to PyPI
         if: success() && github.event_name == 'push'
