@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "torchts"
+name = "torchTS"
 version = "0.1.0"
 description = "Time series forecasting with PyTorch"
 authors = [
