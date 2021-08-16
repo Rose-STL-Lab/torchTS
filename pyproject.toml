@@ -15,6 +15,13 @@ homepage = "https://rose-stl-lab.github.io/torchTS"
 repository = "https://github.com/Rose-STL-Lab/torchTS"
 documentation = "https://rose-stl-lab.github.io/torchTS/docs"
 keywords = ["deep-learning", "machine-learning", "time-series", "pytorch"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.10"
