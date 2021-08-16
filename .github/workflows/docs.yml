@@ -8,9 +8,19 @@ on:
       - 'docs/**'
       - 'torchts/**'
       - 'poetry.lock'
+      - 'website/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'torchts/**'
+      - 'poetry.lock'
+      - 'website/**'
 
 jobs:
-  Build:
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -20,31 +30,58 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
 
-      - name: Install Poetry
-        uses: Gr1N/setup-poetry@v4
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
-      - name: Write environment information to a file
-        run: |
-          pwd > environment
-          python --version >> environment
+      - name: Get Python version
+        id: python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
       - name: Restore cache
+        id: cache
         uses: actions/cache@v2.1.6
         with:
-          path: ~/.cache/pypoetry
-          key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
+          path: .venv
+          key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: poetry install
 
       - name: Build documentation
         run: poetry run make -C docs html
 
+      - name: Build Docusaurus website
+        run: |
+          cd website
+          npm install
+          npm run build
+
+      - name: Generate token
+        if: success() && github.event_name == 'push'
+        id: generate-token
+        uses: tibdex/github-app-token@v1.3.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Deploy documentation
+        if: success() && github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
+          token: ${{ steps.generate-token.outputs.token }}
+          git-config-name: torchts-bot[bot]
+          git-config-email: 88511308+torchts-bot[bot]@users.noreply.github.com
           branch: gh-pages
-          folder: docs/build/html
+          folder: website/build
           clean: true
           clean-exclude: |
             README.md

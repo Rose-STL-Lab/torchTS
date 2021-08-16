@@ -7,30 +7,8 @@ on:
   pull_request:
     branches:
       - main
-  schedule:
-    - cron: '0 0 * * 0'
 
 jobs:
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: python
-
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v1
-
   linting:
     name: Linting
     runs-on: ubuntu-latest
@@ -42,15 +20,19 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
 
-      - name: Hash Python version
-        id: hash
-        run: echo ::set-output name=hash::$(python --version | sha256sum | cut -d' ' -f1)
+      - name: Get Python version
+        id: python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
       - name: Restore cache
         uses: actions/cache@v2.1.6
         with:
-          path: ~/.cache/pre-commit
-          key: pre-commit|${{ steps.hash.outputs.hash }}|${{ hashFiles('.pre-commit-config.yaml') }}
+          path: |
+            ~/.cache/pip
+            ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run pre-commit
         uses: pre-commit/action@v2.0.3
+        with:
+          extra_args: --all-files --show-diff-on-failure

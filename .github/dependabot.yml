@@ -4,8 +4,14 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    labels:
+      - dependencies
+      - python
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
+    labels:
+      - dependencies
+      - github actions
