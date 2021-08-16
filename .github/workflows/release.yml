@@ -48,6 +48,7 @@ jobs:
         uses: actions/download-artifact@v2.0.10
         with:
           name: poetry-build
+          path: dist
 
       - name: Get changes
         if: github.event_name == 'push'
@@ -103,6 +104,7 @@ jobs:
         uses: actions/download-artifact@v2.0.10
         with:
           name: poetry-build
+          path: dist
 
       - name: Check build artifacts
         run: ls dist
