@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-from torchts.utils.data import lagmat
+from torchts.utils.data import sliding_window
 
 
 @pytest.fixture
@@ -13,7 +13,7 @@ def tensor():
 @pytest.mark.parametrize("lag", [2, 5, [1, 2, 3], {1, 2, 3}, [1, 3, 5]])
 @pytest.mark.parametrize("horizon", [1, 2])
 def test_shape(tensor, lag, horizon):
-    x, y = lagmat(tensor, lag, horizon=horizon)
+    x, y = sliding_window(tensor, lag, horizon=horizon)
 
     if isinstance(lag, int):
         rows = len(tensor) - lag - horizon + 1
@@ -33,7 +33,7 @@ def test_shape(tensor, lag, horizon):
 @pytest.mark.parametrize("lag", [2, 5, [1, 2, 3], {1, 2, 3}, [1, 3, 5]])
 @pytest.mark.parametrize("horizon", [1, 2])
 def test_value(tensor, lag, horizon):
-    x, y = lagmat(tensor, lag, horizon=horizon)
+    x, y = sliding_window(tensor, lag, horizon=horizon)
 
     if isinstance(lag, int):
         for i in range(x.shape[0]):
@@ -49,10 +49,10 @@ def test_value(tensor, lag, horizon):
 @pytest.mark.parametrize("lag", ["1", 1.0, ["1"], [1, "2", 3], {1, 2.0, 3}])
 def test_non_int(tensor, lag):
     with pytest.raises(TypeError):
-        lagmat(tensor, lag)
+        sliding_window(tensor, lag)
 
 
 @pytest.mark.parametrize("lag", [-1, 0, [0, 1, 2], {0, 1, 2}, [-1, 1, 2]])
 def test_non_positive(tensor, lag):
     with pytest.raises(ValueError):
-        lagmat(tensor, lag)
+        sliding_window(tensor, lag)
