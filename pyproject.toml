@@ -13,7 +13,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://rose-stl-lab.github.io/torchTS"
 repository = "https://github.com/Rose-STL-Lab/torchTS"
-documentation = "https://rose-stl-lab.github.io/torchTS"
+documentation = "https://rose-stl-lab.github.io/torchTS/docs"
 keywords = ["time-series", "machine-learning", "pytorch"]
 
 [tool.poetry.dependencies]
