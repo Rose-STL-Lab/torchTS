@@ -1,17 +1,9 @@
 [tool.poetry]
-name = "torchTS"
+name = "torchts"
 version = "0.1.0"
 description = "Time series forecasting with PyTorch"
 authors = [
     "TorchTS Team <torchts@googlegroups.com>"
-]
-maintainers = [
-    "Kevin Lane <lane.kevin.a@gmail.com>",
-    "Rose Yu <yuqi.rose@gmail.com>",
-    "Aparna Gupta <aparna.gupta123@gmail.com>",
-    "Raul Martinez <gio.mtz3@gmail.com>",
-    "Daniel Roten <droten76@gmail.com>",
-    "Akash Shah <akashshah59@gmail.com>"
 ]
 license = "MIT"
 readme = "README.md"
