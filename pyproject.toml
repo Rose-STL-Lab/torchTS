@@ -11,6 +11,7 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
+homepage = "https://rose-stl-lab.github.io/torchTS"
 repository = "https://github.com/Rose-STL-Lab/torchTS"
 documentation = "https://rose-stl-lab.github.io/torchTS"
 keywords = ["time-series", "machine-learning", "pytorch"]
