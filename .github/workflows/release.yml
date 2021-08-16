@@ -104,6 +104,9 @@ jobs:
         with:
           name: poetry-build
 
+      - name: Check build artifacts
+        run: ls dist
+
       - name: Publish to PyPI
         if: success() && github.event_name == 'push'
         run: |
