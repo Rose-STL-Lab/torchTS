@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added pre-commit to dev dependencies. ([#127](https://github.com/Rose-STL-Lab/torchTS/pull/126))
+
 ### Fixed
 
 - Fixed change log links. ([#126](https://github.com/Rose-STL-Lab/torchTS/pull/126))
