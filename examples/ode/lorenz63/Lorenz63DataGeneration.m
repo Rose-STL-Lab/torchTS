@@ -21,6 +21,10 @@ for n=1:size_t-1
     x(:,n+1) = x(:,n) + h*(b(1)*f(k_1) + b(2)*f(k_2) + b(3)*f(k_3) + b(4)*f(k_4));
 end
 
+% for n=1:size_t-1
+%     x(:,n+1) = x(:,n) + h*f(x(:,n));
+% end
+
 plot3(x(1,:),x(2,:),x(3,:));
 xlabel("X");
 ylabel("Y");
