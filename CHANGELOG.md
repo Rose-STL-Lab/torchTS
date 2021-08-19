@@ -4,5 +4,5 @@
 
 Initial release
 
-[Unreleased]: https://github.com/Rose-STL-Lab/torchTS/compare/0.1.0...master
-[0.1.0]: https://github.com/Rose-STL-Lab/torchTS/releases/tag/0.1.0
+[unreleased]: https://github.com/Rose-STL-Lab/torchTS/compare/v0.1.0...main
+[0.1.0]: https://github.com/Rose-STL-Lab/torchTS/releases/tag/v0.1.0
