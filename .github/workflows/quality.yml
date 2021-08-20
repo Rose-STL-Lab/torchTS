@@ -24,15 +24,28 @@ jobs:
         id: python-version
         run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
-      - name: Restore cache
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.1.8
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Restore poetry cache
+        id: cache
         uses: actions/cache@v2.1.6
         with:
-          path: |
-            ~/.cache/pip
-            ~/.cache/pre-commit
+          path: .venv
+          key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Restore pre-commit cache
+        uses: actions/cache@v2.1.6
+        with:
+          path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
 
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: poetry install
+
       - name: Run pre-commit
-        uses: pre-commit/action@v2.0.3
-        with:
-          extra_args: --all-files --show-diff-on-failure
+        run: poetry run pre-commit run --all-files --show-diff-on-failure
