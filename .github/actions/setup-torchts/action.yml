@@ -22,6 +22,7 @@ runs:
     - name: Get Python version
       id: python-version
       run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      shell: bash
 
     - name: Install Poetry
       uses: snok/install-poetry@v1.1.8
@@ -39,3 +40,4 @@ runs:
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: poetry install
+      shell: bash
