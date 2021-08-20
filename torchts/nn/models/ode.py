@@ -96,7 +96,7 @@ class ODESolver(TimeSeriesModel):
         return {name: param.item() for name, param in self.named_parameters()}
     
 
-    def fit(self, x, optim, optim_params=None, max_epochs=10, batch_size=128):
+    def fit(self, x, optim, optim_params=None, max_epochs=10, scheduler=None, scheduler_params=None):
         """Fits model to the given data.
 
         Args:
@@ -105,19 +105,28 @@ class ODESolver(TimeSeriesModel):
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
         dataset = TensorDataset(x)
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        n = dataset.__len__()
+        loader = DataLoader(dataset, batch_size=n)
 
         if optim_params is not None:
             optimizer = optim(self.parameters(), **optim_params)
         else:
             optimizer = optim(self.parameters())
 
+        if scheduler is not None:
+            if scheduler_params is not None:
+                lr_scheduler = scheduler(optimizer, **scheduler_params)
+            else:
+                lr_scheduler = scheduler(optimizer)
+
         for epoch in range(max_epochs):
             for i, data in enumerate(loader, 0):
                 self.zero_grad()
-                loss = self._step(data, i, batch_size)
+                loss = self._step(data, i, n)
                 loss.backward(retain_graph=True)
                 optimizer.step()
+            if scheduler is not None:
+                lr_scheduler.step()
             
             print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
 
