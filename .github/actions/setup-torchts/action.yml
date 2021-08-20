@@ -14,9 +14,6 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Checkout TorchTS
-      uses: actions/checkout@v2.3.4
-
     - name: Set up Python ${{ inputs.python-version }}
       uses: actions/setup-python@v2.2.2
       with:
