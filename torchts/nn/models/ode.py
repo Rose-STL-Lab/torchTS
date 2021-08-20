@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
 
 from torchts.nn.model import TimeSeriesModel
 
@@ -93,9 +94,31 @@ class ODESolver(TimeSeriesModel):
 
     def get_coeffs(self):
         return {name: param.item() for name, param in self.named_parameters()}
+    
+
+    def fit(self, x, max_epochs=10, batch_size=128):
+        """Fits model to the given data.
+
+        Args:
+            x (torch.Tensor): Data from original ODE
+            max_epochs (int): Number of training epochs
+            batch_size (int): Batch size for torch.utils.data.DataLoader
+        """
+        dataset = TensorDataset(x, x)
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+        for epoch in range(max_epochs):
+            for i, data in enumerate(loader, 0):
+                self.zero_grad()
+                loss = self._step(data, i, batch_size)
+                loss.backward(retain_graph=True)
+                self.optimizer.step()
+            
+            print("Loss: ", loss)
+
 
     def _step(self, batch, batch_idx, num_batches):
-        (x,) = batch
+        (x,_) = batch
         nt = x.shape[0]
         pred = self(nt)
         return self.criterion(pred, x)
