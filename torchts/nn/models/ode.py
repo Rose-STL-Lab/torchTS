@@ -129,6 +129,64 @@ class ODESolver(TimeSeriesModel):
                 lr_scheduler.step()
             
             print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
+            print(self.coeffs)
+
+    def fit_random_sample(self, x, optim, optim_params=None, max_epochs=10, batch_size=64, scheduler=None, scheduler_params=None):
+        """Fits model to the given data.
+
+        Args:
+            x (torch.Tensor): Original time series data
+            max_epochs (int): Number of training epochs
+            batch_size (int): Batch size for torch.utils.data.DataLoader
+        """
+        dataset = TensorDataset(x)
+        loader = DataLoader(dataset, batch_size=batch_size)
+
+        if optim_params is not None:
+            optimizer = optim(self.parameters(), **optim_params)
+        else:
+            optimizer = optim(self.parameters())
+
+        if scheduler is not None:
+            if scheduler_params is not None:
+                lr_scheduler = scheduler(optimizer, **scheduler_params)
+            else:
+                lr_scheduler = scheduler(optimizer)
+
+        for epoch in range(max_epochs):
+            for i, data in enumerate(loader, 0):
+                self.zero_grad()
+
+                n = data[0].shape[0]
+
+                if n<3:
+                    continue
+
+                ri = torch.randint(low=0,high=n-2,size=()).item()
+                single_point = data[0][ri:ri+1,:]
+
+                pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
+
+                init_point = {var: single_point[0,i] for i,var in enumerate(self.var_names)}
+
+                coeffs = self.get_coeffs()
+
+                for var in self.var_names:
+
+                    new_val = init_point[var] + self.ode[var](init_point, self.coeffs) * self.dt
+                    pred[var] = new_val
+                
+                predictions = torch.stack([pred[var] for var in self.outvar], dim=0)
+                loss = self.criterion(predictions, data[0][ri+1,:])
+
+                loss.backward(retain_graph=True)
+                optimizer.step()
+            
+            if scheduler is not None:
+                lr_scheduler.step()
+            
+            print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
+            print(self.coeffs)
 
 
     def _step(self, batch, batch_idx, num_batches):
