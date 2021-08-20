@@ -97,12 +97,15 @@ class ODESolver(TimeSeriesModel):
     
 
     def fit(self, x, optim, optim_params=None, max_epochs=10, scheduler=None, scheduler_params=None):
-        """Fits model to the given data.
+        """Fits model to the given data by comparing the whole dataset
 
         Args:
             x (torch.Tensor): Original time series data
+            optim (torch.optim): Optimizer
+            optim_params: Optimizer parameters
             max_epochs (int): Number of training epochs
-            batch_size (int): Batch size for torch.utils.data.DataLoader
+            scheduler (torch.optim.lr_scheduler): Learning rate scheduler
+            scheduler_params: Learning rate scheduler parameters
         """
         dataset = TensorDataset(x)
         n = dataset.__len__()
@@ -132,12 +135,16 @@ class ODESolver(TimeSeriesModel):
             print(self.coeffs)
 
     def fit_random_sample(self, x, optim, optim_params=None, max_epochs=10, batch_size=64, scheduler=None, scheduler_params=None):
-        """Fits model to the given data.
+        """Fits model to the given data by using random samples for each batch
 
         Args:
             x (torch.Tensor): Original time series data
+            optim (torch.optim): Optimizer
+            optim_params: Optimizer parameters
             max_epochs (int): Number of training epochs
             batch_size (int): Batch size for torch.utils.data.DataLoader
+            scheduler (torch.optim.lr_scheduler): Learning rate scheduler
+            scheduler_params: Learning rate scheduler parameters
         """
         dataset = TensorDataset(x)
         loader = DataLoader(dataset, batch_size=batch_size)
@@ -162,21 +169,22 @@ class ODESolver(TimeSeriesModel):
                 if n<3:
                     continue
 
+                # Takes a random data point from "data"
                 ri = torch.randint(low=0,high=n-2,size=()).item()
                 single_point = data[0][ri:ri+1,:]
+                init_point = {var: single_point[0,i] for i,var in enumerate(self.var_names)}
 
                 pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
 
-                init_point = {var: single_point[0,i] for i,var in enumerate(self.var_names)}
-
-                coeffs = self.get_coeffs()
-
                 for var in self.var_names:
-
+                    # Increment using Euler's method
+                    # TODO: Write a separate function to do this
                     new_val = init_point[var] + self.ode[var](init_point, self.coeffs) * self.dt
                     pred[var] = new_val
                 
                 predictions = torch.stack([pred[var] for var in self.outvar], dim=0)
+
+                # Compare numerical integration data with next data point
                 loss = self.criterion(predictions, data[0][ri+1,:])
 
                 loss.backward(retain_graph=True)
