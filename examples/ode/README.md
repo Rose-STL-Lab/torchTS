@@ -4,7 +4,7 @@ Lorenz63:
 
 ![alt text](https://wikimedia.org/api/rest_v1/media/math/render/svg/7928004d58943529a7be774575a62ca436a82a7f)
 
-Parameters to estimate: $$\sigma, \rho, \beta$$
+Parameters to estimate: $\sigma, \rho, \beta$
 
 Duffing equation:
 
