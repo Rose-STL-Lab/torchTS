@@ -9,7 +9,7 @@ inputs:
 outputs:
   python-version:
     description: Selected Python version information
-    valud: ${{ steps.python-version.outputs.version }}
+    value: ${{ steps.python-version.outputs.version }}
 
 runs:
   using: composite
