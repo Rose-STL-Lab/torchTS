@@ -100,11 +100,11 @@ class ODESolver(TimeSeriesModel):
         """Fits model to the given data.
 
         Args:
-            x (torch.Tensor): Data from original ODE
+            x (torch.Tensor): Original time series data
             max_epochs (int): Number of training epochs
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
-        dataset = TensorDataset(x, x)
+        dataset = TensorDataset(x)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
         if optim_params is not None:
@@ -123,7 +123,7 @@ class ODESolver(TimeSeriesModel):
 
 
     def _step(self, batch, batch_idx, num_batches):
-        (x,_) = batch
+        (x,) = batch
         nt = x.shape[0]
         pred = self(nt)
         return self.criterion(pred, x)
