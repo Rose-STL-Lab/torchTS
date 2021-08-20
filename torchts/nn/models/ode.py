@@ -96,7 +96,7 @@ class ODESolver(TimeSeriesModel):
         return {name: param.item() for name, param in self.named_parameters()}
     
 
-    def fit(self, x, max_epochs=10, batch_size=128):
+    def fit(self, x, optim, optim_params=None, max_epochs=10, batch_size=128):
         """Fits model to the given data.
 
         Args:
@@ -107,14 +107,19 @@ class ODESolver(TimeSeriesModel):
         dataset = TensorDataset(x, x)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
+        if optim_params is not None:
+            optimizer = optim(self.parameters(), **optim_params)
+        else:
+            optimizer = optim(self.parameters())
+
         for epoch in range(max_epochs):
             for i, data in enumerate(loader, 0):
                 self.zero_grad()
                 loss = self._step(data, i, batch_size)
                 loss.backward(retain_graph=True)
-                self.optimizer.step()
+                optimizer.step()
             
-            print("Loss: ", loss)
+            print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
 
 
     def _step(self, batch, batch_idx, num_batches):
