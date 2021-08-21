@@ -38,6 +38,5 @@ runs:
         key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
 
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
       run: poetry install
       shell: bash
