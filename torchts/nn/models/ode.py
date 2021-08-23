@@ -15,9 +15,9 @@ class ODESolver(TimeSeriesModel):
             raise ValueError("Inconsistent keys in ode and init_vars")
 
         if solver == "euler":
-            self.solver = self.euler
+            self.step_solver = self.euler_step
         elif solver == "rk4":
-            self.solver = self.runge_kutta_4
+            self.step_solver = self.runge_kutta_4_step
         else:
             raise ValueError(f"Unrecognized solver {solver}")
 
@@ -34,57 +34,56 @@ class ODESolver(TimeSeriesModel):
         self.outvar = self.var_names if outvar is None else outvar
         self.dt = dt
 
-    def euler(self, nt):
+    def euler_step(self, prev_val):
+        pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
+        for var in self.var_names:
+            pred[var] = prev_val[var] + self.ode[var](prev_val, self.coeffs) * self.dt
+        return pred
+
+    def runge_kutta_4_step(self, prev_val):
+        pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
+
+        k_1 = prev_val
+        k_2 = {}
+        k_3 = {}
+        k_4 = {}
+
+        for var in self.var_names:
+            k_2[var] = (
+                prev_val[var] + self.ode[var](prev_val, self.coeffs) * 0.5 * self.dt
+            )
+
+        for var in self.var_names:
+            k_3[var] = (
+                prev_val[var] + self.ode[var](k_2, self.coeffs) * 0.5 * self.dt
+            )
+
+        for var in self.var_names:
+            k_4[var] = prev_val[var] + self.ode[var](k_3, self.coeffs) * self.dt
+
+        for var in self.var_names:
+            pred[var] = (
+                prev_val[var]
+                + (
+                    self.ode[var](k_1, self.coeffs) / 6
+                    + self.ode[var](k_2, self.coeffs) / 3
+                    + self.ode[var](k_3, self.coeffs) / 3
+                    + self.ode[var](k_4, self.coeffs) / 6
+                )
+                * self.dt
+            )
+        
+        return pred
+
+    def solver(self, nt):
         pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
 
         for n in range(nt - 1):
             # create dictionary containing values from previous time step
             prev_val = {var: pred[var][[n]] for var in self.var_names}
-
+            new_val = self.step_solver(prev_val)
             for var in self.var_names:
-                new_val = prev_val[var] + self.ode[var](prev_val, self.coeffs) * self.dt
-                pred[var] = torch.cat([pred[var], new_val])
-
-        # reformat output to contain desired (observed) variables
-        return torch.stack([pred[var] for var in self.outvar], dim=1)
-
-    def runge_kutta_4(self, nt):
-        pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
-
-        for n in range(nt - 1):
-            # create dictionary containing values from previous time step
-            prev_val = {var: pred[var][[n]] for var in self.var_names}
-
-            k_1 = prev_val
-            k_2 = {}
-            k_3 = {}
-            k_4 = {}
-
-            for var in self.var_names:
-                k_2[var] = (
-                    prev_val[var] + self.ode[var](prev_val, self.coeffs) * 0.5 * self.dt
-                )
-
-            for var in self.var_names:
-                k_3[var] = (
-                    prev_val[var] + self.ode[var](k_2, self.coeffs) * 0.5 * self.dt
-                )
-
-            for var in self.var_names:
-                k_4[var] = prev_val[var] + self.ode[var](k_3, self.coeffs) * self.dt
-
-            for var in self.var_names:
-                new_val = (
-                    prev_val[var]
-                    + (
-                        self.ode[var](k_1, self.coeffs) / 6
-                        + self.ode[var](k_2, self.coeffs) / 3
-                        + self.ode[var](k_3, self.coeffs) / 3
-                        + self.ode[var](k_4, self.coeffs) / 6
-                    )
-                    * self.dt
-                )
-                pred[var] = torch.cat([pred[var], new_val])
+                pred[var] = torch.cat([pred[var], new_val[var]])
 
         # reformat output to contain desired (observed) variables
         return torch.stack([pred[var] for var in self.outvar], dim=1)
@@ -176,11 +175,7 @@ class ODESolver(TimeSeriesModel):
 
                 pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
 
-                for var in self.var_names:
-                    # Increment using Euler's method
-                    # TODO: Write a separate function to do this
-                    new_val = init_point[var] + self.ode[var](init_point, self.coeffs) * self.dt
-                    pred[var] = new_val
+                pred = self.step_solver(init_point)
                 
                 predictions = torch.stack([pred[var] for var in self.outvar], dim=0)
 
