@@ -1,4 +1,4 @@
-name: Setup TorchTS
+name: Set up TorchTS
 description: Set up a development environment for TorchTS
 
 inputs:
