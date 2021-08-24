@@ -30,31 +30,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2.2.2
+      - name: Set up TorchTS
+        uses: ./.github/actions/setup-torchts
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Get Python version
-        id: python-version
-        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Restore cache
-        id: cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: .venv
-          key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: poetry install
 
       - name: Run tests
         run: poetry run pytest tests/ --cov=torchts

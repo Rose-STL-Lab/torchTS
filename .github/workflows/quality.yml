@@ -17,35 +17,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
-
-      - name: Get Python version
-        id: python-version
-        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.1.8
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Restore poetry cache
-        id: cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: .venv
-          key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
+      - name: Set up TorchTS
+        id: setup
+        uses: ./.github/actions/setup-torchts
 
       - name: Restore pre-commit cache
         uses: actions/cache@v2.1.6
         with:
           path: ~/.cache/pre-commit
-          key: pre-commit-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: poetry install
+          key: pre-commit-${{ runner.os }}-${{ steps.setup.outputs.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run pre-commit
         run: poetry run pre-commit run --all-files --show-diff-on-failure

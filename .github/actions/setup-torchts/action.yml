@@ -1,0 +1,41 @@
+name: Set up TorchTS
+description: Set up a development environment for TorchTS
+
+inputs:
+  python-version:
+    description: Python version to use with actions/setup-python
+    default: 3.x
+
+outputs:
+  python-version:
+    description: Selected Python version information
+    value: ${{ steps.python-version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python ${{ inputs.python-version }}
+      uses: actions/setup-python@v2.2.2
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Get Python version
+      id: python-version
+      run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      shell: bash
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1.1.8
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Restore Poetry cache
+      uses: actions/cache@v2.1.6
+      with:
+        path: .venv
+        key: poetry-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('poetry.lock') }}
+
+    - name: Install dependencies
+      run: poetry install
+      shell: bash
