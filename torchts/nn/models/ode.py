@@ -54,9 +54,7 @@ class ODESolver(TimeSeriesModel):
             )
 
         for var in self.var_names:
-            k_3[var] = (
-                prev_val[var] + self.ode[var](k_2, self.coeffs) * 0.5 * self.dt
-            )
+            k_3[var] = prev_val[var] + self.ode[var](k_2, self.coeffs) * 0.5 * self.dt
 
         for var in self.var_names:
             k_4[var] = prev_val[var] + self.ode[var](k_3, self.coeffs) * self.dt
@@ -72,7 +70,7 @@ class ODESolver(TimeSeriesModel):
                 )
                 * self.dt
             )
-        
+
         return pred
 
     def solver(self, nt):
@@ -93,9 +91,16 @@ class ODESolver(TimeSeriesModel):
 
     def get_coeffs(self):
         return {name: param.item() for name, param in self.named_parameters()}
-    
 
-    def fit(self, x, optim, optim_params=None, max_epochs=10, scheduler=None, scheduler_params=None):
+    def fit(
+        self,
+        x,
+        optim,
+        optim_params=None,
+        max_epochs=10,
+        scheduler=None,
+        scheduler_params=None,
+    ):
         """Fits model to the given data by comparing the whole dataset
 
         Args:
@@ -129,11 +134,20 @@ class ODESolver(TimeSeriesModel):
                 optimizer.step()
             if scheduler is not None:
                 lr_scheduler.step()
-            
+
             print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
             print(self.coeffs)
 
-    def fit_random_sample(self, x, optim, optim_params=None, max_epochs=10, batch_size=64, scheduler=None, scheduler_params=None):
+    def fit_random_sample(
+        self,
+        x,
+        optim,
+        optim_params=None,
+        max_epochs=10,
+        batch_size=64,
+        scheduler=None,
+        scheduler_params=None,
+    ):
         """Fits model to the given data by using random samples for each batch
 
         Args:
@@ -165,32 +179,35 @@ class ODESolver(TimeSeriesModel):
 
                 n = data[0].shape[0]
 
-                if n<3:
+                if n < 3:
                     continue
 
                 # Takes a random data point from "data"
-                ri = torch.randint(low=0,high=n-2,size=()).item()
-                single_point = data[0][ri:ri+1,:]
-                init_point = {var: single_point[0,i] for i,var in enumerate(self.var_names)}
+                ri = torch.randint(low=0, high=n - 2, size=()).item()
+                single_point = data[0][ri : ri + 1, :]
+                init_point = {
+                    var: single_point[0, i] for i, var in enumerate(self.var_names)
+                }
 
-                pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
+                pred = {
+                    name: value.unsqueeze(0) for name, value in self.init_vars.items()
+                }
 
                 pred = self.step_solver(init_point)
-                
+
                 predictions = torch.stack([pred[var] for var in self.outvar], dim=0)
 
                 # Compare numerical integration data with next data point
-                loss = self.criterion(predictions, data[0][ri+1,:])
+                loss = self.criterion(predictions, data[0][ri + 1, :])
 
                 loss.backward(retain_graph=True)
                 optimizer.step()
-            
+
             if scheduler is not None:
                 lr_scheduler.step()
-            
+
             print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
             print(self.coeffs)
-
 
     def _step(self, batch, batch_idx, num_batches):
         (x,) = batch
