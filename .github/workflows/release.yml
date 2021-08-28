@@ -1,0 +1,120 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*.*.*
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.1.8
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Install dependencies and build project
+        run: |
+          poetry install --no-dev
+          poetry build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: poetry-build
+          path: dist/
+
+  github:
+    name: GitHub
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: poetry-build
+          path: dist
+
+      - name: Get changes
+        if: github.event_name == 'push'
+        run: |
+          tag=${GITHUB_REF#refs/tags/v}
+          pattern="0,/$tag/d;/[0-9]\+\.[0-9]\+\.[0-9]\+/Q"
+          sed $pattern CHANGELOG.md | head -n -1 | tail -n +2 > RELEASE.md
+          cat RELEASE.md
+
+      - name: Get changes
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          pattern='0,/[0-9]\+\.[0-9]\+\.[0-9]\+/d;/[0-9]\+\.[0-9]\+\.[0-9]\+/Q'
+          sed $pattern CHANGELOG.md | head -n -1 | tail -n +2 > RELEASE.md
+          cat RELEASE.md
+
+      - name: Generate token
+        if: success() && github.event_name == 'push'
+        id: generate-token
+        uses: tibdex/github-app-token@v1.3.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Create release
+        if: success() && github.event_name == 'push'
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          body_path: RELEASE.md
+          prerelease: ${{ contains(github.ref, '-') }}
+          files: dist/*
+
+  pypi:
+    name: PyPI
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: poetry-build
+          path: dist
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.1.8
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Publish to PyPI
+        if: success() && github.event_name == 'push'
+        run: |
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          poetry publish
+
+      - name: Publish to TestPyPI
+        if: success() && github.event_name == 'workflow_dispatch'
+        run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
+          poetry publish -r testpypi

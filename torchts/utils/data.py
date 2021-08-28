@@ -18,7 +18,7 @@ class PaddedDataset(TensorDataset):
                 padding = np.repeat(data[i][-1:], num_padding, axis=0)
                 data_pad[i] = np.concatenate([data[i], padding], axis=0)
 
-        super().__init__(*[torch.from_numpy(d).float() for d in data_pad])
+        super().__init__(*(torch.from_numpy(d).float() for d in data_pad))
 
 
 class StandardScaler:
@@ -35,26 +35,6 @@ class StandardScaler:
 
 def concat(a, b):
     return torch.cat([a, b.unsqueeze(0)], dim=0)
-
-
-def lagmat(tensor, lags, horizon=1, dim=0, step=1):
-    is_int = isinstance(lags, int)
-    is_iter = isinstance(lags, Iterable) and all(isinstance(lag, int) for lag in lags)
-
-    if not is_int and not is_iter:
-        raise TypeError("lags must be of type int or Iterable[int]")
-
-    if (is_int and lags < 1) or (is_iter and any(lag < 1 for lag in lags)):
-        raise ValueError(f"lags must be positive but found {lags}")
-
-    if is_int:
-        data = tensor.unfold(dim, lags + horizon, step)
-        x, y = data[:, :lags], data[:, -1]
-    else:
-        data = tensor.unfold(dim, max(lags) + horizon, step)
-        x, y = data[:, [lag - 1 for lag in lags]], data[:, -1]
-
-    return x, y
 
 
 def load_dataset(dataset_dir, batch_size, val_batch_size=None, test_batch_size=None):
@@ -108,3 +88,23 @@ def load_pickle(pickle_file):
         raise e
 
     return pickle_data
+
+
+def sliding_window(tensor, lags, horizon=1, dim=0, step=1):
+    is_int = isinstance(lags, int)
+    is_iter = isinstance(lags, Iterable) and all(isinstance(lag, int) for lag in lags)
+
+    if not is_int and not is_iter:
+        raise TypeError("lags must be of type int or Iterable[int]")
+
+    if (is_int and lags < 1) or (is_iter and any(lag < 1 for lag in lags)):
+        raise ValueError(f"lags must be positive but found {lags}")
+
+    if is_int:
+        data = tensor.unfold(dim, lags + horizon, step)
+        x, y = data[:, :lags], data[:, -1]
+    else:
+        data = tensor.unfold(dim, max(lags) + horizon, step)
+        x, y = data[:, [lag - 1 for lag in lags]], data[:, -1]
+
+    return x, y

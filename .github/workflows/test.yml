@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - '*'
+      - main
     paths-ignore:
       - 'docs/**'
       - '**.md'
@@ -13,81 +13,27 @@ on:
       - '**.md'
 
 jobs:
-  pre-commit:
-    name: Linting
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
-
-      - name: Hash Python version
-        id: hash
-        run: echo ::set-output name=hash::$(python --version | sha256sum | cut -d' ' -f1)
-
-      - name: Restore cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.cache/pre-commit
-          key: pre-commit|${{ steps.hash.outputs.hash }}|${{ hashFiles('.pre-commit-config.yaml') }}
-
-      - name: Run pre-commit
-        uses: pre-commit/action@v2.0.3
-
   test:
-    name: '${{ matrix.os_name }}: Python ${{ matrix.python }}'
-    runs-on: ${{ matrix.os }}
-    needs: pre-commit
+    name: ${{ matrix.os }} / ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}-latest
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python: [3.7, 3.8, 3.9]
-        include:
-          - os: ubuntu-latest
-            os_name: Linux
-            poetry_cache: ~/.cache/pypoetry
-
-          - os: macos-latest
-            os_name: macOS
-            poetry_cache: ~/Library/Caches/pypoetry
-
-          - os: windows-latest
-            os_name: Windows
-            poetry_cache: ~\AppData\Local\pypoetry\Cache
+        os: [Ubuntu, macOS, Windows]
+        python-version: [3.7, 3.8, 3.9]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
+      - name: Set up TorchTS
+        uses: ./.github/actions/setup-torchts
         with:
-          python-version: ${{ matrix.python }}
-
-      - name: Install Poetry
-        uses: Gr1N/setup-poetry@v4
-
-      - name: Write environment information to a file
-        run: |
-          pwd > environment
-          python --version >> environment
-
-      - name: Restore cache
-        id: poetry-cache
-        uses: actions/cache@v2.1.6
-        if: runner.os != 'Windows'
-        with:
-          path: ${{ matrix.poetry_cache }}
-          key: poetry|${{ hashFiles('environment') }}|${{ hashFiles('poetry.lock') }}
-
-      - name: Install dependencies
-        run: poetry install
-        if: steps.poetry-cache.outputs.cache-hit != 'true'
+          python-version: ${{ matrix.python-version }}
 
       - name: Run tests
         run: poetry run pytest tests/ --cov=torchts
@@ -96,8 +42,8 @@ jobs:
         run: poetry run coverage xml
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v1
         if: success()
+        uses: codecov/codecov-action@v2.0.2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
+          fail_ci_if_error: true

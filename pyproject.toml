@@ -3,28 +3,33 @@ name = "torchts"
 version = "0.1.0"
 description = "Time series forecasting with PyTorch"
 authors = [
-    "Kevin Lane <k2lane@eng.ucsd.edu>",
-    "Aparna Gupta <apgupta@eng.ucsd.edu>",
-    "Raul Martinez <rgm001@eng.ucsd.edu>",
-    "Daniel Roten <daroten@eng.ucsd.edu>",
-    "Akash Shah <apshah@eng.ucsd.edu>"
+    "TorchTS Team <torchts@googlegroups.com>"
 ]
 license = "MIT"
 readme = "README.md"
+homepage = "https://rose-stl-lab.github.io/torchTS"
 repository = "https://github.com/Rose-STL-Lab/torchTS"
-documentation = "https://rose-stl-lab.github.io/torchTS"
-keywords = ["time-series", "machine-learning", "pytorch"]
+documentation = "https://rose-stl-lab.github.io/torchTS/docs"
+keywords = ["deep-learning", "machine-learning", "time-series", "pytorch"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.10"
 torch = "^1.9.0"
-pytorch-lightning = "^1.3.8"
-scipy = "^1.7.0"
+pytorch-lightning = "^1.4.1"
+scipy = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
-Sphinx = "^4.0.2"
+pre-commit = "^2.14.0"
+Sphinx = "^4.1.2"
 asteroid-sphinx-theme = "^0.0.3"
 
 [build-system]
@@ -36,3 +41,18 @@ line-length = 88
 
 [tool.isort]
 profile = "black"
+
+[tool.flakehell]
+exclude = ["*.ipynb"]
+extended_default_ignore = [] # hack from https://github.com/flakehell/flakehell/issues/10#issuecomment-822720074
+format = "grouped"
+max_complexity = 10
+max_line_length = 88
+show_source = true
+
+[tool.flakehell.plugins]
+pycodestyle = ["+*", "-E203", "-E741"]
+pyflakes = ["+*"]
+mccabe = ["+*"]
+flake8-bugbear = ["+*"]
+flake8-comprehensions = ["+*"]
