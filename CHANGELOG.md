@@ -11,6 +11,7 @@
 - Changed CI workflows to run pre-commit with poetry. ([#131](https://github.com/Rose-STL-Lab/torchTS/pull/131))
 - Moved common workflow steps to a composite action. ([#132](https://github.com/Rose-STL-Lab/torchTS/pull/132))
 - Updated pre-commit hooks. ([#133](https://github.com/Rose-STL-Lab/torchTS/pull/133), [#135](https://github.com/Rose-STL-Lab/torchTS/pull/135))
+- Relaxed dependency requirements. ([#139](https://github.com/Rose-STL-Lab/torchTS/pull/139))
 
 ### Fixed
 
