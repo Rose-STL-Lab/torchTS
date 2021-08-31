@@ -16,6 +16,7 @@
 
 - Fixed change log links. ([#126](https://github.com/Rose-STL-Lab/torchTS/pull/126), [#128](https://github.com/Rose-STL-Lab/torchTS/pull/128))
 - Fixed contributing file link. ([#137](https://github.com/Rose-STL-Lab/torchTS/pull/137))
+- Fixed Sphinx config metadata. ([#138](https://github.com/Rose-STL-Lab/torchTS/pull/138))
 
 ## [0.1.0] - 2021-08-16
 
