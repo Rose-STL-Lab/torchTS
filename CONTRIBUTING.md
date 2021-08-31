@@ -143,4 +143,4 @@ All pull requests, unless otherwise instructed, need to be first accepted into t
 
 ## License
 
-By contributing to TorchTS, you agree that your contributions will be licensed under the [LICENSE]((LICENSE)) file in the root directory of this source tree.
+By contributing to TorchTS, you agree that your contributions will be licensed under the [LICENSE](LICENSE) file in the root directory of this source tree.
