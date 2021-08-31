@@ -2,7 +2,7 @@
 
 ## [0.1.1] - 2021-08-31
 
-This patch release sets dependency requirements that enable a `conda` installation. The original requirements were too strict for [conda-forge](https://conda-forge.org/).
+This patch release sets dependency requirements for a `conda` installation. The original requirements were too strict for [conda-forge](https://conda-forge.org/).
 
 ### Added
 
