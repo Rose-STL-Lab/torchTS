@@ -26,7 +26,7 @@ pytorch-lightning = "^1.2"
 scipy = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.4"
+pytest = "^6.2.5"
 pytest-cov = "^2.12.1"
 pre-commit = "^2.14.0"
 Sphinx = "^4.1.2"
