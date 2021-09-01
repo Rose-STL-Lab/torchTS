@@ -68,7 +68,7 @@ jobs:
       - name: Generate token
         if: success() && github.event_name == 'push'
         id: generate-token
-        uses: tibdex/github-app-token@v1.3.0
+        uses: tibdex/github-app-token@v1.4
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
