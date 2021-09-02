@@ -2,7 +2,7 @@
 title: AutoODE
 slug: /autoode
 ---
-Assume the time series $x_t\in \mathbb{R}^d$ is governed by unknown differential equations.  
+Assume the time series $x_t\in \mathbb{R}^d$ is governed by unknown differential equations.
 \begin{equation}
 \label{def}
 \begin{dcases}
@@ -13,4 +13,4 @@ Assume the time series $x_t\in \mathbb{R}^d$ is governed by unknown differential
 \end{dcases}
 \end{equation}
 Where  $u \in \mathbb{R}^p$ are the unobserved variables.
-[AutoODE](https://arxiv.org/pdf/2011.10616.pdf) uses auto-differentiation to estimate the parameters $\theta$ of the equations. 
+[AutoODE](https://arxiv.org/pdf/2011.10616.pdf) uses auto-differentiation to estimate the parameters $\theta$ of the equations.
