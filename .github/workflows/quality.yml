@@ -17,22 +17,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
+      - name: Set up TorchTS
+        id: setup
+        uses: ./.github/actions/setup-torchts
 
-      - name: Get Python version
-        id: python-version
-        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
-
-      - name: Restore cache
+      - name: Restore pre-commit cache
         uses: actions/cache@v2.1.6
         with:
-          path: |
-            ~/.cache/pip
-            ~/.cache/pre-commit
-          key: pre-commit-${{ runner.os }}-${{ steps.python-version.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ steps.setup.outputs.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run pre-commit
-        uses: pre-commit/action@v2.0.3
-        with:
-          extra_args: --all-files --show-diff-on-failure
+        run: poetry run pre-commit run --all-files --show-diff-on-failure

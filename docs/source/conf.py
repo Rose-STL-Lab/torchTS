@@ -23,11 +23,11 @@ sys.path.insert(0, os.path.abspath(PATH_ROOT))
 # -- Project information -----------------------------------------------------
 
 project = "TorchTS"
-copyright = "2020, Rose Yu"
-author = "Rose Yu"
+copyright = "2020-present UCSD STL Lab"
+author = "TorchTS Team"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.0"
+release = "0.1.1"
 
 
 # -- General configuration ---------------------------------------------------
