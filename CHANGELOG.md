@@ -1,5 +1,11 @@
 # Change Log
 
+## [Unreleased]
+
+### Changed
+
+- Updated documentation website. ([#125](https://github.com/Rose-STL-Lab/torchTS/pull/125))
+
 ## [0.1.1] - 2021-08-31
 
 This patch release sets dependency requirements for a `conda` installation. The original requirements were too strict for [conda-forge](https://conda-forge.org/).
