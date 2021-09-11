@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added conda-forge README badge. ([#149](https://github.com/Rose-STL-Lab/torchTS/pull/149))
+
 ### Changed
 
 - Updated documentation website. ([#125](https://github.com/Rose-STL-Lab/torchTS/pull/125))
