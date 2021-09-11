@@ -5,6 +5,7 @@
 ### Changed
 
 - Updated documentation website. ([#125](https://github.com/Rose-STL-Lab/torchTS/pull/125))
+- Replaced loop with list comprehension. ([#148](https://github.com/Rose-STL-Lab/torchTS/pull/148))
 
 ## [0.1.1] - 2021-08-31
 
