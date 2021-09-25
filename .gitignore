@@ -15,3 +15,6 @@ lightning_logs/
 
 # Sphinx
 docs/build/
+
+# Poetry build artifacts
+dist/
