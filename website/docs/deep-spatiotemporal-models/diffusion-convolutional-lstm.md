@@ -8,7 +8,7 @@ In spatiotemporal forecasting, assume we have multiple time series generated fro
 Diffusion Convolutional LSTM replaces the matrix multiplication in a regular LSTM with diffusion convolution. It determines the future state of a certain cell in the graph by the inputs and past states of its local neighbors:
 
 $$
-\begin{bmatrix} i_t \\ f_t \\ o_t \end{bmatrix} = \sigma(W^{x} \star_g x_t + W^h \star_g h_{t-1} + W^c \circ c_{t-1} + b
+\begin{bmatrix} i_t \\ f_t \\ o_t \end{bmatrix} = \sigma\big(W^{x} \star_g x_t + W^h \star_g h_{t-1} + W^c \circ c_{t-1} + b\big)
 $$
 
-where $W \star_g x = \sum_{i=1}^k (D^{-1}A)^i \cdot W \cdot x$ is the diffusion convolution.
+where $W \star_g x = \sum_{i=1}^k \big(D^{-1}A\big)^i \cdot W \cdot x$ is the diffusion convolution.
