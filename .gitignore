@@ -7,13 +7,13 @@
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
 
-# PyTorch Lightning
+# PyTorch Lightning logs
 lightning_logs/
 
-# pytest
+# pytest coverage files
 .coverage*
 
-# Sphinx
+# Sphinx build directory
 docs/build/
 
 # Poetry build artifacts
