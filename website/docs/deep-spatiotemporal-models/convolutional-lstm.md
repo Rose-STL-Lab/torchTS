@@ -8,5 +8,5 @@ In spatiotemporal forecasting, assume we have multiple time series generated fro
 Convolutional LSTM replaces the matrix multiplication in a regular LSTM with convolution. It determines the future state of a certain cell in the grid by the inputs and past states of its local neighbors:
 
 $$
-\begin{bmatrix} i_t \\ f_t \\ o_t \end{bmatrix} = \sigma(W^{x} \star x_t + W^h \star h_{t-1} + W^c \circ c_{t-1} + b
+\begin{bmatrix} i_t \\ f_t \\ o_t \end{bmatrix} = \sigma\big(W^{x} \star x_t + W^h \star h_{t-1} + W^c \circ c_{t-1} + b\big)
 $$
