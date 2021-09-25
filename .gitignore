@@ -4,6 +4,9 @@
 # Python byte code
 *.pyc
 
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
 # PyTorch Lightning
 lightning_logs/
 
