@@ -1,4 +1,5 @@
 dependencies:
+  - .github/dependabot.yml
   - .pre-commit-config.yaml
 
 documentation:
@@ -11,6 +12,7 @@ examples:
 github actions:
   - .github/actions/**
   - .github/workflows/*
+  - .github/labeler.yml
 
 pre-commit:
   - .pre-commit-config.yaml
