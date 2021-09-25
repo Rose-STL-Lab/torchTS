@@ -1,14 +1,25 @@
+dependencies:
+  - .pre-commit-config.yaml
+
 documentation:
   - docs/**
+  - website/**
 
 examples:
   - examples/**
 
 github actions:
+  - .github/actions/**
   - .github/workflows/*
 
+pre-commit:
+  - .pre-commit-config.yaml
+
 python:
-  - '**.py'
+  - '*.py'
+
+source:
+  - torchts/**
 
 test:
   - tests/**
