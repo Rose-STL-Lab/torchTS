@@ -17,4 +17,4 @@ lightning_logs/
 docs/build/
 
 # Poetry build artifacts
-dist/torchts*
+dist/
