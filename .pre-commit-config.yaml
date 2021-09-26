@@ -1,3 +1,9 @@
+ci:
+  autofix_commit_msg: Add fixes from pre-commit hooks
+  autofix_prs: true
+  autoupdate_commit_msg: Update pre-commit hooks
+  autoupdate_schedule: monthly
+
 repos:
   - repo: https://github.com/psf/black
     rev: 21.9b0
