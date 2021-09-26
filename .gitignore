@@ -13,10 +13,8 @@ lightning_logs/
 # pytest coverage files
 .coverage*
 
-# Sphinx build directory
-docs/build/
-
-# Poetry build artifacts
+# build artifacts
+build/
 dist/
 
 # data files
