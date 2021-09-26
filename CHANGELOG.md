@@ -5,6 +5,7 @@
 ### Added
 
 - Added conda-forge README badge. ([#149](https://github.com/Rose-STL-Lab/torchTS/pull/149))
+- Added pre-commit.ci config and README badge. ([#156](https://github.com/Rose-STL-Lab/torchTS/pull/156))
 
 ### Changed
 
