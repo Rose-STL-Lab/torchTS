@@ -18,3 +18,8 @@ docs/build/
 
 # Poetry build artifacts
 dist/
+
+# data files
+*.h5
+*.npz
+*.pkl
