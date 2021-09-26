@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased]
+
+### Added
+
+- Added conda-forge README badge. ([#149](https://github.com/Rose-STL-Lab/torchTS/pull/149))
+- Added pre-commit.ci config and README badge. ([#156](https://github.com/Rose-STL-Lab/torchTS/pull/156))
+
+### Changed
+
+- Updated documentation website. ([#125](https://github.com/Rose-STL-Lab/torchTS/pull/125))
+- Replaced loop with list comprehension. ([#148](https://github.com/Rose-STL-Lab/torchTS/pull/148))
+
 ## [0.1.1] - 2021-08-31
 
 This patch release sets dependency requirements for a `conda` installation. The original requirements were too strict for [conda-forge](https://conda-forge.org/).

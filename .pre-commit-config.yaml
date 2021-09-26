@@ -1,11 +1,17 @@
+ci:
+  autofix_commit_msg: Add pre-commit fixes
+  autofix_prs: true
+  autoupdate_commit_msg: Update pre-commit hooks
+  autoupdate_schedule: monthly
+
 repos:
   - repo: https://github.com/psf/black
-    rev: 21.8b0
+    rev: 21.9b0
     hooks:
       - id: black
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.25.0
+    rev: v2.26.0
     hooks:
       - id: pyupgrade
         args: [--py36-plus]

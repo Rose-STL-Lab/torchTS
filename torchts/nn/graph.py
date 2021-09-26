@@ -36,9 +36,7 @@ class DCGRUCell(nn.Module):
         else:
             supports.append(graph.scaled_laplacian(adj_mx))
 
-        for i in range(len(supports)):
-            supports[i] = graph.sparse_matrix(supports[i])
-
+        supports = [graph.sparse_matrix(s) for s in supports]
         supports = torch.cat([s.unsqueeze(dim=0) for s in supports])
         self.register_buffer("_supports", supports)
 
