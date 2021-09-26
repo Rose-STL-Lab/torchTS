@@ -1,5 +1,5 @@
 ci:
-  autofix_commit_msg: Add fixes from pre-commit hooks
+  autofix_commit_msg: Add pre-commit fixes
   autofix_prs: true
   autoupdate_commit_msg: Update pre-commit hooks
   autoupdate_schedule: monthly
