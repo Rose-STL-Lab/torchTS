@@ -4,13 +4,25 @@
 # Python byte code
 *.pyc
 
-# PyTorch Lightning
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# PyTorch Lightning logs
 lightning_logs/
 
-# pytest
+# pytest coverage files
 .coverage*
 
 # Sphinx
 docs/build/
 .vscode/
 examples/ode/lorenz63/.ipynb_checkpoints/
+
+# build artifacts
+build/
+dist/
+
+# data files
+*.h5
+*.npz
+*.pkl
