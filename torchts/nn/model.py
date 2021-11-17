@@ -19,12 +19,14 @@ class TimeSeriesModel(LightningModule):
         optimizer,
         optimizer_args=None,
         criterion=F.mse_loss,
+        criterion_args=None,
         scheduler=None,
         scheduler_args=None,
         scaler=None,
     ):
         super().__init__()
         self.criterion = criterion
+        self.criterion_args = criterion_args
         self.scaler = scaler
 
         if optimizer_args is not None:
@@ -77,7 +79,10 @@ class TimeSeriesModel(LightningModule):
             y = self.scaler.inverse_transform(y)
             pred = self.scaler.inverse_transform(pred)
 
-        loss = self.criterion(pred, y)
+        if self.criterion_args is not None:
+            loss = self.criterion(pred, y, **self.criterion_args)
+        else:
+            loss = self.criterion(pred, y)
         return loss
 
     def training_step(self, batch, batch_idx):
