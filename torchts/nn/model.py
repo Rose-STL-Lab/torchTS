@@ -10,8 +10,13 @@ class TimeSeriesModel(LightningModule):
     """Base class for all TorchTS models.
 
     Args:
-        criterion: Loss function
         optimizer (torch.optim.Optimizer): Optimizer
+        opimizer_args (dict): Arguments for the optimizer
+        criterion: Loss function
+        criterion_args (dict): Arguments for the loss function
+        scheduler (torch.optim.lr_scheduler): Learning rate scheduler
+        scheduler_args (dict): Arguments for the scheduler
+        scaler (torchts.utils.scaler.Scaler): Scaler
     """
 
     def __init__(
