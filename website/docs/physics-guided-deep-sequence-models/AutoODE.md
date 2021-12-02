@@ -1,4 +1,0 @@
----
-title: AutoODE
-slug: /autoode
----

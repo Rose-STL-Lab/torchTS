@@ -7,8 +7,10 @@
 [![Tests](https://github.com/Rose-STL-Lab/torchTS/workflows/Tests/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ATests)
 [![Quality](https://github.com/Rose-STL-Lab/torchTS/workflows/Quality/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3AQuality)
 [![Docs](https://github.com/Rose-STL-Lab/torchTS/workflows/Docs/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ADocs)
+[![pre-commit.ci](https://results.pre-commit.ci/badge/github/Rose-STL-Lab/torchTS/main.svg)](https://results.pre-commit.ci/latest/github/Rose-STL-Lab/torchTS/main)
 [![Codecov](https://img.shields.io/codecov/c/github/Rose-STL-Lab/torchTS?label=Coverage&logo=codecov)](https://app.codecov.io/gh/Rose-STL-Lab/torchTS)
 [![PyPI](https://img.shields.io/pypi/v/torchts?label=PyPI&logo=python)](https://pypi.org/project/torchts)
+[![Conda](https://img.shields.io/conda/v/conda-forge/torchts?label=Conda&logo=anaconda)](https://anaconda.org/conda-forge/torchts)
 [![License](https://img.shields.io/github/license/Rose-STL-Lab/torchTS?label=License)](LICENSE)
 
 TorchTS is a PyTorch-based library for time series data.
@@ -41,10 +43,10 @@ The latest release of TorchTS is easily installed either via `pip`:
 pip install torchts
 ```
 
-or via [conda](https://docs.conda.io/projects/conda/) from the [conda-forge](https://conda-forge.org/) channel (coming soon):
+or via [conda](https://docs.conda.io/projects/conda/) from the [conda-forge](https://conda-forge.org/) channel:
 
 ```bash
-conda install torchts -c conda-forge
+conda install -c conda-forge torchts
 ```
 
 You can customize your PyTorch installation (i.e. CUDA version, CPU only option)
