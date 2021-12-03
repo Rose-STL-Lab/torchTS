@@ -22,8 +22,8 @@ repos:
       - id: isort
         additional_dependencies: [toml]
 
-  - repo: https://github.com/flakehell/flakehell
-    rev: v.0.8.0
+  - repo: https://github.com/mcarans/flakehell
+    rev: 1b84f4dd6c16232b5c0c6206511427676ab55f5b
     hooks:
       - id: flakehell
         additional_dependencies:
