@@ -87,7 +87,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        train_loss = self._step(batch, batch_idx, len(self.train_dataloader()))
+        train_loss = self._step(batch, batch_idx, len(self.trainer.train_dataloader))
         self.log(
             "train_loss",
             train_loss,
@@ -105,7 +105,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        val_loss = self._step(batch, batch_idx, len(self.val_dataloader()))
+        val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloader))
         self.log("val_loss", val_loss)
         return val_loss
 
@@ -116,7 +116,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        test_loss = self._step(batch, batch_idx, len(self.test_dataloader()))
+        test_loss = self._step(batch, batch_idx, len(self.trainer.test_dataloader))
         self.log("test_loss", test_loss)
         return test_loss
 
