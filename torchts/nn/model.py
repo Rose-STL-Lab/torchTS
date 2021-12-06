@@ -88,6 +88,7 @@ class TimeSeriesModel(LightningModule):
             loss = self.criterion(pred, y, **self.criterion_args)
         else:
             loss = self.criterion(pred, y)
+
         return loss
 
     def training_step(self, batch, batch_idx):

@@ -23,7 +23,7 @@ def test_masked_mae_loss(y_true, y_pred):
 
 
 @pytest.mark.parametrize(
-    "quantile,expected_loss", [(0.05, 0.065), (0.5, 0.05), (0.95, 0.035)]
+    "quantile, expected_loss", [(0.05, 0.065), (0.5, 0.05), (0.95, 0.035)]
 )
 def test_quantile_loss(y_true, y_pred, quantile, expected_loss):
     """Test quantile_loss()"""
