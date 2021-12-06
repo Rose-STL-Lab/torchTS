@@ -1,5 +1,6 @@
 import torch
 
+
 def masked_mae_loss(y_pred, y_true):
     """Calculate masked mean absolute error loss
 
