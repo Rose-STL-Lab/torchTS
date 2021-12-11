@@ -3,6 +3,7 @@ from functools import partial
 import pytest
 import torch
 from torch import nn, optim
+from torch.utils.data import DataLoader, TensorDataset
 
 from torchts.nn.model import TimeSeriesModel
 
@@ -30,6 +31,30 @@ def test_forward():
 
     assert (model(x) == y).all()
     assert (model.predict(x) == y).all()
+
+
+def test_step(mocker):
+    slope = 2
+    intercept = -1
+    quantile = 0.5
+    quantile_loss = mocker.MagicMock()
+    model = LinearModel(
+        slope,
+        intercept,
+        optimizer=optim.SGD,
+        criterion=quantile_loss,
+        criterion_args={"quantile": quantile},
+    )
+
+    x = torch.Tensor([0]).reshape(-1, 1)
+    y = slope * x + intercept
+    dataset = TensorDataset(x, y)
+    loader = DataLoader(dataset, batch_size=1, shuffle=False)
+
+    for i, batch in enumerate(loader):
+        model._step(batch, i, len(loader))
+        x, y = batch
+        quantile_loss.assert_called_once_with(y, y, quantile=quantile)
 
 
 def test_train():
