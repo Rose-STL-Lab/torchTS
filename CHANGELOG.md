@@ -7,6 +7,8 @@
 - Added conda-forge README badge. ([#149](https://github.com/Rose-STL-Lab/torchTS/pull/149))
 - Added pre-commit.ci config and README badge. ([#156](https://github.com/Rose-STL-Lab/torchTS/pull/156))
 - Added quantile loss function for uncertainty quantification. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
+- Added input to base model constructor for loss function arguments. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
+- Added pytest-mock to dev dependencies. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
 
 ### Changed
 
