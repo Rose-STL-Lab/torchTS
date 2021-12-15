@@ -604,7 +604,7 @@ dev = ["pre-commit", "tox", "pytest-asyncio"]
 
 [[package]]
 name = "pytorch-lightning"
-version = "1.5.4"
+version = "1.5.5"
 description = "PyTorch Lightning is the lightweight PyTorch wrapper for ML researchers. Scale your models. Write less boilerplate."
 category = "main"
 optional = false
@@ -1644,8 +1644,8 @@ pytest-mock = [
     {file = "pytest_mock-3.6.1-py3-none-any.whl", hash = "sha256:30c2f2cc9759e76eee674b81ea28c9f0b94f8f0445a1b87762cadf774f0df7e3"},
 ]
 pytorch-lightning = [
-    {file = "pytorch-lightning-1.5.4.tar.gz", hash = "sha256:c7a2382d9c4fe258a56c69a011257ce2fd97fa3113a7979969d7a6242aa697d7"},
-    {file = "pytorch_lightning-1.5.4-py3-none-any.whl", hash = "sha256:7be90327342c62942983bf25658fa7befe21b00c408c40bf3147d8130ba735b2"},
+    {file = "pytorch-lightning-1.5.5.tar.gz", hash = "sha256:e72464a789d9c26b711cf16883a9a0feb2d447fce2f59abdf2d7d0713cf05c50"},
+    {file = "pytorch_lightning-1.5.5-py3-none-any.whl", hash = "sha256:d48da1ff4a5210c7feadea704dcaff4298e82cfd1b0db3eb6a51deb9c7bbe740"},
 ]
 pytz = [
     {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},
