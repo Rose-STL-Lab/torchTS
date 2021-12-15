@@ -9,6 +9,7 @@
 - Added quantile loss function for uncertainty quantification. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
 - Added input to base model constructor for loss function arguments. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
 - Added pytest-mock to dev dependencies. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
+- Removed pull requests from security workflow runs. ([#185](https://github.com/Rose-STL-Lab/torchTS/pull/185))
 
 ### Changed
 
