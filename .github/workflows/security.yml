@@ -6,11 +6,6 @@ on:
       - main
     paths-ignore:
       - '**.md'
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '**.md'
   # every Sunday at midnight
   schedule:
     - cron: '0 0 * * 0'
