@@ -10,8 +10,13 @@ class TimeSeriesModel(LightningModule):
     """Base class for all TorchTS models.
 
     Args:
-        criterion: Loss function
         optimizer (torch.optim.Optimizer): Optimizer
+        opimizer_args (dict): Arguments for the optimizer
+        criterion: Loss function
+        criterion_args (dict): Arguments for the loss function
+        scheduler (torch.optim.lr_scheduler): Learning rate scheduler
+        scheduler_args (dict): Arguments for the scheduler
+        scaler (torchts.utils.scaler.Scaler): Scaler
     """
 
     def __init__(
@@ -19,12 +24,14 @@ class TimeSeriesModel(LightningModule):
         optimizer,
         optimizer_args=None,
         criterion=F.mse_loss,
+        criterion_args=None,
         scheduler=None,
         scheduler_args=None,
         scaler=None,
     ):
         super().__init__()
         self.criterion = criterion
+        self.criterion_args = criterion_args
         self.scaler = scaler
 
         if optimizer_args is not None:
@@ -77,7 +84,11 @@ class TimeSeriesModel(LightningModule):
             y = self.scaler.inverse_transform(y)
             pred = self.scaler.inverse_transform(pred)
 
-        loss = self.criterion(pred, y)
+        if self.criterion_args is not None:
+            loss = self.criterion(pred, y, **self.criterion_args)
+        else:
+            loss = self.criterion(pred, y)
+
         return loss
 
     def training_step(self, batch, batch_idx):
@@ -87,7 +98,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        train_loss = self._step(batch, batch_idx, len(self.train_dataloader()))
+        train_loss = self._step(batch, batch_idx, len(self.trainer.train_dataloader))
         self.log(
             "train_loss",
             train_loss,
@@ -105,7 +116,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        val_loss = self._step(batch, batch_idx, len(self.val_dataloader()))
+        val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloader))
         self.log("val_loss", val_loss)
         return val_loss
 
@@ -116,7 +127,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        test_loss = self._step(batch, batch_idx, len(self.test_dataloader()))
+        test_loss = self._step(batch, batch_idx, len(self.trainer.test_dataloader))
         self.log("test_loss", test_loss)
         return test_loss
 
