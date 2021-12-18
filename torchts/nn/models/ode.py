@@ -93,10 +93,8 @@ class ODESolver(TimeSeriesModel):
         x, y = self.prepare_batch(batch)
         nt = y.shape[1]
 
-        init_point = {
-                    var: x[0, i] for i, var in enumerate(self.var_names)
-                }
-        pred = self.solver(nt,init_point).detach()
+        init_point = {var: x[0, i] for i, var in enumerate(self.var_names)}
+        pred = self.solver(nt, init_point).detach()
 
         if self.criterion_args is not None:
             loss = self.criterion(pred, y, **self.criterion_args)
