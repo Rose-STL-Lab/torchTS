@@ -1,3 +1,5 @@
+from typing import List, Union
+
 import torch
 
 
@@ -21,18 +23,25 @@ def masked_mae_loss(y_pred, y_true):
     return loss.mean()
 
 
-def quantile_loss(y_pred: torch.tensor, y_true: torch.tensor, quantile: float) -> float:
+def quantile_loss(
+    y_pred: torch.tensor, y_true: torch.tensor, quantile: Union[float, List[float]]
+) -> torch.tensor:
     """Calculate quantile loss
 
     Args:
         y_pred (torch.tensor): Predicted values
         y_true (torch.tensor): True values
-        quantile (float): quantile (e.g. 0.5 for median)
+        quantile (float or list): quantile(s) (e.g. 0.5 for median)
 
     Returns:
-        float: output losses
+        torch.tensor: output losses
     """
+    if isinstance(quantile, list):
+        quantile = torch.FloatTensor(quantile)
+
     errors = y_true - y_pred
     loss = torch.max((quantile - 1) * errors, quantile * errors)
-    loss = torch.mean(loss)
+    loss = torch.mean(loss, dim=0)
+    loss = torch.sum(loss)
+
     return loss

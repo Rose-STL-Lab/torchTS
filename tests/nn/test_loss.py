@@ -7,13 +7,13 @@ from torchts.nn.loss import masked_mae_loss, quantile_loss
 @pytest.fixture
 def y_true():
     data = [1, 2, 3]
-    return torch.tensor(data)
+    return torch.tensor(data).reshape(-1, 1)
 
 
 @pytest.fixture
 def y_pred():
     data = [1.1, 1.9, 3.1]
-    return torch.tensor(data)
+    return torch.tensor(data).reshape(-1, 1)
 
 
 def test_masked_mae_loss(y_true, y_pred):
@@ -23,7 +23,13 @@ def test_masked_mae_loss(y_true, y_pred):
 
 
 @pytest.mark.parametrize(
-    "quantile, expected_loss", [(0.05, 0.065), (0.5, 0.05), (0.95, 0.035)]
+    "quantile, expected_loss",
+    [
+        (0.05, 0.065),
+        (0.5, 0.05),
+        (0.95, 0.035),
+        ([0.05, 0.5, 0.95], 0.065 + 0.05 + 0.035),
+    ],
 )
 def test_quantile_loss(y_true, y_pred, quantile, expected_loss):
     """Test quantile_loss()"""
