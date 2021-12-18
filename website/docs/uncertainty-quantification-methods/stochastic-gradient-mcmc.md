@@ -1,5 +1,5 @@
 ---
-title: Stochastic Gradient MCMC
+title: Stochastic Gradient MCMC (coming soon)
 slug: /stochastic-gradient-mcmc
 ---
 
