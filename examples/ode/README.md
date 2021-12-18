@@ -6,11 +6,11 @@ Lorenz63:
 
 Parameters to estimate: $\sigma, \rho, \beta$
 
-Duffing equation:
+<!-- Duffing equation:
 
 ![alt text](https://wikimedia.org/api/rest_v1/media/math/render/svg/4881d84893e137772068573bb1218fc1e2b295cd)
 
-Parameters to estimate: $\alpha, \beta, \gamma, \delta, \omega$
+Parameters to estimate: $\alpha, \beta, \gamma, \delta, \omega$ -->
 
 SEIR:
 
