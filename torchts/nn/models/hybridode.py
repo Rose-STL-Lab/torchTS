@@ -46,7 +46,8 @@ class HybridODENet(ODESolver):
         pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
         for var in self.var_names:
             pred[var] = (
-                prev_val[var] + self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
+                prev_val[var]
+                + self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
             )
         return pred
 
@@ -60,12 +61,14 @@ class HybridODENet(ODESolver):
 
         for var in self.var_names:
             k_2[var] = (
-                prev_val[var] + self.ode[var](prev_val, self.coeffs, self.dnns) * 0.5 * self.dt
+                prev_val[var]
+                + self.ode[var](prev_val, self.coeffs, self.dnns) * 0.5 * self.dt
             )
 
         for var in self.var_names:
             k_3[var] = (
-                prev_val[var] + self.ode[var](k_2, self.coeffs, self.dnns) * 0.5 * self.dt
+                prev_val[var]
+                + self.ode[var](k_2, self.coeffs, self.dnns) * 0.5 * self.dt
             )
 
         for var in self.var_names:
