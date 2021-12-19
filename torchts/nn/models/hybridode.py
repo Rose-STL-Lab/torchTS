@@ -6,7 +6,15 @@ from torchts.nn.models.ode import ODESolver
 
 class HybridODENet(ODESolver):
     def __init__(
-        self, ode, dnns, init_vars, init_coeffs, dt, solver="euler", outvar=None, **kwargs
+        self,
+        ode,
+        dnns,
+        init_vars,
+        init_coeffs,
+        dt,
+        solver="euler",
+        outvar=None,
+        **kwargs,
     ):
         super().__init__(ode, init_vars, init_coeffs, dt, solver, outvar, **kwargs)
 
@@ -37,7 +45,10 @@ class HybridODENet(ODESolver):
     def euler_step(self, prev_val):
         pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
         for var in self.var_names:
-            pred[var] = prev_val[var] + self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
+            pred[var] = (
+                prev_val[var]
+                + self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
+            )
         return pred
 
     def runge_kutta_4_step(self, prev_val):
@@ -50,14 +61,20 @@ class HybridODENet(ODESolver):
 
         for var in self.var_names:
             k_2[var] = (
-                prev_val[var] + self.ode[var](prev_val, self.coeffs, self.dnns) * 0.5 * self.dt
+                prev_val[var]
+                + self.ode[var](prev_val, self.coeffs, self.dnns) * 0.5 * self.dt
             )
 
         for var in self.var_names:
-            k_3[var] = prev_val[var] + self.ode[var](k_2, self.coeffs, self.dnns) * 0.5 * self.dt
+            k_3[var] = (
+                prev_val[var]
+                + self.ode[var](k_2, self.coeffs, self.dnns) * 0.5 * self.dt
+            )
 
         for var in self.var_names:
-            k_4[var] = prev_val[var] + self.ode[var](k_3, self.coeffs, self.dnns) * self.dt
+            k_4[var] = (
+                prev_val[var] + self.ode[var](k_3, self.coeffs, self.dnns) * self.dt
+            )
 
         for var in self.var_names:
             result = self.ode[var](k_1, self.coeffs, self.dnns) / 6
@@ -67,5 +84,3 @@ class HybridODENet(ODESolver):
             pred[var] = prev_val[var] + result * self.dt
 
         return pred
-
-
