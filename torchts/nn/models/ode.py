@@ -48,9 +48,7 @@ class ODESolver(TimeSeriesModel):
         k_4 = {}
 
         for var in self.var_names:
-            k_2[var] = (
-                prev_val[var] + self.ode[var](prev_val, self.coeffs) * 0.5 * self.dt
-            )
+            k_2[var] = prev_val[var] + self.ode[var](prev_val, self.coeffs) * 0.5 * self.dt
 
         for var in self.var_names:
             k_3[var] = prev_val[var] + self.ode[var](k_2, self.coeffs) * 0.5 * self.dt
