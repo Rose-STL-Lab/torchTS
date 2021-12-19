@@ -60,21 +60,16 @@ class HybridODENet(ODESolver):
         k_4 = {}
 
         for var in self.var_names:
-            k_2[var] = (
-                prev_val[var]
-                + self.ode[var](prev_val, self.coeffs, self.dnns) * 0.5 * self.dt
-            )
+            k_2[var] = prev_val[var]
+            k_2[var] += self.ode[var](prev_val, self.coeffs, self.dnns) * 0.5 * self.dt
 
         for var in self.var_names:
-            k_3[var] = (
-                prev_val[var]
-                + self.ode[var](k_2, self.coeffs, self.dnns) * 0.5 * self.dt
-            )
+            k_3[var] = prev_val[var]
+            k_3[var] += self.ode[var](k_2, self.coeffs, self.dnns) * 0.5 * self.dt
 
         for var in self.var_names:
-            k_4[var] = (
-                prev_val[var] + self.ode[var](k_3, self.coeffs, self.dnns) * self.dt
-            )
+            k_4[var] = prev_val[var]
+            k_4[var] += self.ode[var](k_3, self.coeffs, self.dnns) * self.dt
 
         for var in self.var_names:
             result = self.ode[var](k_1, self.coeffs, self.dnns) / 6
