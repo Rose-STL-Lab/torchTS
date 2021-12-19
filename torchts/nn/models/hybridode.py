@@ -45,10 +45,8 @@ class HybridODENet(ODESolver):
     def euler_step(self, prev_val):
         pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
         for var in self.var_names:
-            pred[var] = (
-                prev_val[var]
-                + self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
-            )
+            pred[var] = prev_val[var]
+            pred[var] += self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
         return pred
 
     def runge_kutta_4_step(self, prev_val):
