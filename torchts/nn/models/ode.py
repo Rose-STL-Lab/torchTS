@@ -2,6 +2,7 @@ import torch
 from torch import nn
 
 from torchts.nn.model import TimeSeriesModel
+from torch.utils.data import DataLoader, TensorDataset
 
 
 class ODESolver(TimeSeriesModel):
@@ -66,6 +67,67 @@ class ODESolver(TimeSeriesModel):
             pred[var] = prev_val[var] + result * self.dt
 
         return pred
+
+    # Placeholder fit function. Still trying to figure out why fit() isn't working.
+    def fit2(
+        self,
+        x,
+        max_epochs=10,
+        batch_size=64,
+    ):
+        """Fits model to the given data by using random samples for each batch
+        Args:
+            x (torch.Tensor): Original time series data
+            optim (torch.optim): Optimizer
+            optim_params: Optimizer parameters
+            max_epochs (int): Number of training epochs
+            batch_size (int): Batch size for torch.utils.data.DataLoader
+            scheduler (torch.optim.lr_scheduler): Learning rate scheduler
+            scheduler_params: Learning rate scheduler parameters
+        """
+        dataset = TensorDataset(x)
+        loader = DataLoader(dataset, batch_size=batch_size)
+
+        optimizer = self.optimizer(self.parameters())
+
+        if self.scheduler is not None:
+            scheduler = self.scheduler(optimizer)
+
+        for epoch in range(max_epochs):
+            for i, data in enumerate(loader, 0):
+                self.zero_grad()
+
+                n = data[0].shape[0]
+
+                if n < 3:
+                    continue
+
+                # Takes a random data point from "data"
+                ri = torch.randint(low=0, high=n - 2, size=()).item()
+                single_point = data[0][ri : ri + 1, :]
+                init_point = {
+                    var: single_point[0, i] for i, var in enumerate(self.var_names)
+                }
+
+                pred = {
+                    name: value.unsqueeze(0) for name, value in self.init_vars.items()
+                }
+
+                pred = self.step_solver(init_point)
+
+                predictions = torch.stack([pred[var] for var in self.outvar], dim=0)
+
+                # Compare numerical integration data with next data point
+                loss = self.criterion(predictions, data[0][ri + 1, :])
+
+                loss.backward(retain_graph=True)
+                optimizer.step()
+
+            if scheduler is not None:
+                scheduler.step()
+
+            print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
+            print(self.coeffs)
 
     def solver(self, nt, initial=None):
         if initial is None:
