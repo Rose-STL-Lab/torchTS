@@ -68,7 +68,7 @@ class ODESolver(TimeSeriesModel):
 
         return pred
 
-    # Placeholder fit function. Still trying to figure out why 
+    # Placeholder fit function. Still trying to figure out why
     # fit() from pytorch_lightning.Trainer() isn't working.
     def fit(
         self,
