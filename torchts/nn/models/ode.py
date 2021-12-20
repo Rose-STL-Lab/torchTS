@@ -1,8 +1,8 @@
 import torch
 from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
 
 from torchts.nn.model import TimeSeriesModel
-from torch.utils.data import DataLoader, TensorDataset
 
 
 class ODESolver(TimeSeriesModel):
