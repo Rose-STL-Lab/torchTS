@@ -79,12 +79,8 @@ class ODESolver(TimeSeriesModel):
         """Fits model to the given data by using random samples for each batch
         Args:
             x (torch.Tensor): Original time series data
-            optim (torch.optim): Optimizer
-            optim_params: Optimizer parameters
             max_epochs (int): Number of training epochs
             batch_size (int): Batch size for torch.utils.data.DataLoader
-            scheduler (torch.optim.lr_scheduler): Learning rate scheduler
-            scheduler_params: Learning rate scheduler parameters
         """
         dataset = TensorDataset(x)
         loader = DataLoader(dataset, batch_size=batch_size)

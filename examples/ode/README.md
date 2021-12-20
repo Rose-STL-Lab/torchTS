@@ -1,4 +1,4 @@
-In this folder, we train the ODESolver model on three different ODEs. Our goal is to estimate all the parameters here.
+In this folder, we train the ODESolver model on two different ODEs. Our goal is to estimate all the parameters here.
 
 Lorenz63:
 
