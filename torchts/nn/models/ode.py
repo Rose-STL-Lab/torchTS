@@ -68,8 +68,8 @@ class ODESolver(TimeSeriesModel):
 
         return pred
 
-    # Placeholder fit function. Still trying to figure out why fit() isn't working.
-    def fit2(
+    # Placeholder fit function. Still trying to figure out why fit() from pytorch_lightning.Trainer() isn't working.
+    def fit(
         self,
         x,
         max_epochs=10,
@@ -92,6 +92,8 @@ class ODESolver(TimeSeriesModel):
 
         if self.scheduler is not None:
             scheduler = self.scheduler(optimizer)
+        else:
+            scheduler = None
 
         for epoch in range(max_epochs):
             for i, data in enumerate(loader, 0):

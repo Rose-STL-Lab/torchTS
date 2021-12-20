@@ -108,13 +108,3 @@ def sliding_window(tensor, lags, horizon=1, dim=0, step=1):
         x, y = data[:, [lag - 1 for lag in lags]], data[:, -1]
 
     return x, y
-
-
-def generate_ode_dataset(data, num_steps):
-    n = data.shape[0]
-    y_2d = data[:num_steps, :]
-    y = y_2d.view(1, y_2d.shape[0], y_2d.shape[1])
-    for i in range(1, n - num_steps):
-        y_2d = data[i : i + num_steps, :]
-        y = torch.cat((y, y_2d.view(1, y_2d.shape[0], y_2d.shape[1])), dim=0)
-    return data[: n - num_steps, :], y
