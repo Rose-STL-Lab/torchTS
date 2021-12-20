@@ -48,7 +48,7 @@ class HybridODENet(ODESolver):
             prev_val = {var: pred[var][[n]] for var in self.var_names}
 
             for var in self.var_names:
-                new_val = prev_val[var] + self.ode[var](prev_val, self.coeffs) * self.dt
+                new_val = prev_val[var] + self.ode[var](prev_val, self.coeffs, self.dnns) * self.dt
                 pred[var] = torch.cat([pred[var], new_val])
 
         # reformat output to contain desired (observed) variables

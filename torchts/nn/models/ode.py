@@ -52,7 +52,7 @@ class ODESolver(TimeSeriesModel):
         return {name: param.item() for name, param in self.named_parameters()}
 
     def _step(self, batch, batch_idx, num_batches):
-        (x,) = batch
+        (x,_) = batch
         nt = x.shape[0]
         pred = self(nt)
         return self.criterion(pred, x)
