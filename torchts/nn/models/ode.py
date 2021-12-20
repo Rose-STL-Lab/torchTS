@@ -108,7 +108,7 @@ class ODESolver(TimeSeriesModel):
                 ri = torch.randint(low=0, high=n - 2, size=()).item()
                 single_point = data[0][ri : ri + 1, :]
                 init_point = {
-                    var: single_point[0, i] for i, var in enumerate(self.var_names)
+                    var: single_point[0, i] for i, var in enumerate(self.outvar)
                 }
 
                 pred = {
