@@ -32,6 +32,9 @@ class ODESolver(TimeSeriesModel):
         }
         self.coeffs = {name: param for name, param in self.named_parameters()}
         self.outvar = self.var_names if outvar is None else outvar
+
+        self.observed = (self.outvar == self.var_names) # Figures out method of training
+
         self.dt = dt
 
     def euler_step(self, prev_val):
@@ -71,6 +74,7 @@ class ODESolver(TimeSeriesModel):
     def fit(
         self,
         x,
+        y,
         max_epochs=10,
         batch_size=64,
     ):
@@ -80,7 +84,10 @@ class ODESolver(TimeSeriesModel):
             max_epochs (int): Number of training epochs
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
-        dataset = TensorDataset(x)
+        # try:
+        #     super().fit(x,y,max_epochs,batch_size)
+        # except:
+        dataset = TensorDataset(x,y)
         loader = DataLoader(dataset, batch_size=batch_size)
 
         optimizer = self.optimizer(self.parameters())
@@ -93,30 +100,7 @@ class ODESolver(TimeSeriesModel):
         for epoch in range(max_epochs):
             for i, data in enumerate(loader, 0):
                 self.zero_grad()
-
-                n = data[0].shape[0]
-
-                if n < 3:
-                    continue
-
-                # Takes a random data point from "data"
-                ri = torch.randint(low=0, high=n - 2, size=()).item()
-                single_point = data[0][ri : ri + 1, :]
-                init_point = {
-                    var: single_point[0, i] for i, var in enumerate(self.outvar)
-                }
-
-                pred = {
-                    name: value.unsqueeze(0) for name, value in self.init_vars.items()
-                }
-
-                pred = self.step_solver(init_point)
-
-                predictions = torch.stack([pred[var] for var in self.outvar], dim=0)
-
-                # Compare numerical integration data with next data point
-                loss = self.criterion(predictions, data[0][ri + 1, :])
-
+                loss = self._step(data,i,0)
                 loss.backward(retain_graph=True)
                 optimizer.step()
 
@@ -149,16 +133,15 @@ class ODESolver(TimeSeriesModel):
 
     def _step(self, batch, batch_idx, num_batches):
         x, y = self.prepare_batch(batch)
-        nt = y.shape[1]
+        self.zero_grad()
 
-        init_point = {var: x[0, i] for i, var in enumerate(self.var_names)}
-        pred = self.solver(nt, init_point)
+        n = x.shape[0]
+        init_point = {
+            var: x[:, i] for i, var in enumerate(self.outvar)
+        }
+        pred = self.step_solver(init_point)
+        predictions = torch.stack([pred[var] for var in self.outvar], dim=1)#.view(1,x.shape[1])
 
-        # TODO: Account for batch size > 1
-        pred = pred.view(1, pred.shape[0], pred.shape[1])
-
-        if self.criterion_args is not None:
-            loss = self.criterion(pred, y, **self.criterion_args)
-        else:
-            loss = self.criterion(pred, y)
+        loss = self.criterion(predictions, y)
         return loss
+        
