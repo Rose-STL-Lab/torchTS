@@ -49,7 +49,7 @@ class ODESolver(TimeSeriesModel):
         self.dt = dt
 
     def euler_step(self, prev_val):
-        """ Computes a single Euler's method step for the ODE
+        """Computes a single Euler's method step for the ODE
         Args:
             prev_val (dict): Previous values for each variable.
         Returns:
@@ -61,7 +61,7 @@ class ODESolver(TimeSeriesModel):
         return pred
 
     def runge_kutta_4_step(self, prev_val):
-        """ Computes a single 4th order Runge-Kutta method step for the ODE
+        """Computes a single 4th order Runge-Kutta method step for the ODE
         Args:
             prev_val (dict): Previous values for each variable.
         Returns:
@@ -95,7 +95,7 @@ class ODESolver(TimeSeriesModel):
         return pred
 
     def solver(self, nt, initial=None):
-        """ Numerical simulation of the ODE using method self.step_solver
+        """Numerical simulation of the ODE using method self.step_solver
         Args:
             nt (int): Number of time-steps.
             initial (dict): Initial values for each variable.
