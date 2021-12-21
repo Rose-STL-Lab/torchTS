@@ -32,7 +32,7 @@ class ODESolver(TimeSeriesModel):
         self.coeffs = {name: param for name, param in self.named_parameters()}
         self.outvar = self.var_names if outvar is None else outvar
 
-        self.observed = self.outvar == self.var_names  # Figures out method of training
+        self.observed = set(self.outvar) == set(self.var_names)  # Figures out method of training
 
         self.dt = dt
 
