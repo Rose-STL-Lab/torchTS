@@ -111,5 +111,11 @@ def sliding_window(tensor, lags, horizon=1, dim=0, step=1):
 
 
 def generate_ode_dataset(x):
+    """ Generates dataset for ODESolver() when training with zero unobserved variables.
+    Args:
+        x (torch.Tensor): Original time series data
+        returns: (Time series data at time steps 0 to n-1 (torch.Tensor),
+                  Time series data at time steps 1 to n (torch.Tensor))
+    """
     n = x.shape[0]
-    return x[: n - 1, :], x[1:, :]
+    return x[: n - 1], x[1:]

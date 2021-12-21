@@ -8,6 +8,16 @@ class ODESolver(TimeSeriesModel):
     def __init__(
         self, ode, init_vars, init_coeffs, dt, solver="euler", outvar=None, **kwargs
     ):
+        """
+        Args:
+            ode (dict): ODE in dictionary form.
+            init_vars (dict): Initial values for each variable.
+            init_coeffs (dict): Initial values for each parameter.
+            dt (float): Time step.
+            solver ("euler"/"rk4"): Numerical method for solving the ODE.
+            outvar (list): Observed variables.
+            kwargs.optimizer (torch.optim): Optimizer.
+        """
         super().__init__(**kwargs)
 
         if ode.keys() != init_vars.keys():
@@ -39,12 +49,24 @@ class ODESolver(TimeSeriesModel):
         self.dt = dt
 
     def euler_step(self, prev_val):
+        """ Computes a single Euler's method step for the ODE
+        Args:
+            prev_val (dict): Previous values for each variable.
+        Returns:
+            pred (dict): Euler's method step prediction.
+        """
         pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
         for var in self.var_names:
             pred[var] = prev_val[var] + self.ode[var](prev_val, self.coeffs) * self.dt
         return pred
 
     def runge_kutta_4_step(self, prev_val):
+        """ Computes a single 4th order Runge-Kutta method step for the ODE
+        Args:
+            prev_val (dict): Previous values for each variable.
+        Returns:
+            pred (dict): 4th order Runge-Kutta method step prediction.
+        """
         pred = {name: value.unsqueeze(0) for name, value in self.init_vars.items()}
 
         k_1 = prev_val
@@ -73,6 +95,13 @@ class ODESolver(TimeSeriesModel):
         return pred
 
     def solver(self, nt, initial=None):
+        """ Numerical simulation of the ODE using method self.step_solver
+        Args:
+            nt (int): Number of time-steps.
+            initial (dict): Initial values for each variable.
+        Returns:
+            pred (dict): Prediction of each variable after nt time steps.
+        """
         if initial is None:
             initial = self.init_vars
         pred = {name: value.unsqueeze(0) for name, value in initial.items()}
@@ -97,11 +126,13 @@ class ODESolver(TimeSeriesModel):
         x, y = self.prepare_batch(batch)
 
         if self.observed:
+            # retrieve numerical simulation of single time-steps for each datapoint
             self.zero_grad()
             init_point = {var: x[:, i] for i, var in enumerate(self.outvar)}
             pred = self.step_solver(init_point)
             predictions = torch.stack([pred[var] for var in self.outvar], dim=1)
         else:
+            # retrieve numerical simulation of the whole dataset
             nt = x.shape[0]
             predictions = self(nt)
 
@@ -109,5 +140,5 @@ class ODESolver(TimeSeriesModel):
         return loss
 
     def backward(self, loss, optimizer, optimizer_idx):
-        # do a custom way of backward
+        # use retain_graph=True to mitigate RuntimeError
         loss.backward(retain_graph=True)
