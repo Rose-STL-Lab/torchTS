@@ -33,7 +33,7 @@ class ODESolver(TimeSeriesModel):
         self.coeffs = {name: param for name, param in self.named_parameters()}
         self.outvar = self.var_names if outvar is None else outvar
 
-        self.observed = (self.outvar == self.var_names) # Figures out method of training
+        self.observed = self.outvar == self.var_names  # Figures out method of training
 
         self.dt = dt
 
@@ -87,7 +87,7 @@ class ODESolver(TimeSeriesModel):
         # try:
         #     super().fit(x,y,max_epochs,batch_size)
         # except:
-        dataset = TensorDataset(x,y)
+        dataset = TensorDataset(x, y)
         loader = DataLoader(dataset, batch_size=batch_size)
 
         optimizer = self.optimizer(self.parameters())
@@ -100,7 +100,7 @@ class ODESolver(TimeSeriesModel):
         for epoch in range(max_epochs):
             for i, data in enumerate(loader, 0):
                 self.zero_grad()
-                loss = self._step(data,i,0)
+                loss = self._step(data, i, 0)
                 loss.backward(retain_graph=True)
                 optimizer.step()
 
@@ -136,12 +136,11 @@ class ODESolver(TimeSeriesModel):
         self.zero_grad()
 
         n = x.shape[0]
-        init_point = {
-            var: x[:, i] for i, var in enumerate(self.outvar)
-        }
+        init_point = {var: x[:, i] for i, var in enumerate(self.outvar)}
         pred = self.step_solver(init_point)
-        predictions = torch.stack([pred[var] for var in self.outvar], dim=1)#.view(1,x.shape[1])
+        predictions = torch.stack(
+            [pred[var] for var in self.outvar], dim=1
+        )  # .view(1,x.shape[1])
 
         loss = self.criterion(predictions, y)
         return loss
-        

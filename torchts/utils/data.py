@@ -109,6 +109,7 @@ def sliding_window(tensor, lags, horizon=1, dim=0, step=1):
 
     return x, y
 
+
 def generate_ode_dataset(x):
     n = x.shape[0]
-    return x[:n-1,:], x[1:,:]
+    return x[: n - 1, :], x[1:, :]
