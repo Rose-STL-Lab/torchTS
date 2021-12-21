@@ -106,7 +106,7 @@ class ODESolver(TimeSeriesModel):
 
         loss = self.criterion(predictions, y)
         return loss
-        
+
     def backward(self, loss, optimizer, optimizer_idx):
         # do a custom way of backward
         loss.backward(retain_graph=True)
