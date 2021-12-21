@@ -71,45 +71,6 @@ class ODESolver(TimeSeriesModel):
 
         return pred
 
-    def fit(
-        self,
-        x,
-        y,
-        max_epochs=10,
-        batch_size=64,
-    ):
-        """Fits model to the given data by using random samples for each batch
-        Args:
-            x (torch.Tensor): Original time series data
-            max_epochs (int): Number of training epochs
-            batch_size (int): Batch size for torch.utils.data.DataLoader
-        """
-        # try:
-        #     super().fit(x,y,max_epochs,batch_size)
-        # except:
-        dataset = TensorDataset(x, y)
-        loader = DataLoader(dataset, batch_size=batch_size)
-
-        optimizer = self.optimizer(self.parameters())
-
-        if self.scheduler is not None:
-            scheduler = self.scheduler(optimizer)
-        else:
-            scheduler = None
-
-        for epoch in range(max_epochs):
-            for i, data in enumerate(loader, 0):
-                self.zero_grad()
-                loss = self._step(data, i, 0)
-                loss.backward(retain_graph=True)
-                optimizer.step()
-
-            if scheduler is not None:
-                scheduler.step()
-
-            print("Epoch: " + str(epoch) + "\t Loss: " + str(loss))
-            print(self.coeffs)
-
     def solver(self, nt, initial=None):
         if initial is None:
             initial = self.init_vars
@@ -133,11 +94,19 @@ class ODESolver(TimeSeriesModel):
 
     def _step(self, batch, batch_idx, num_batches):
         x, y = self.prepare_batch(batch)
-        self.zero_grad()
 
-        init_point = {var: x[:, i] for i, var in enumerate(self.outvar)}
-        pred = self.step_solver(init_point)
-        predictions = torch.stack([pred[var] for var in self.outvar], dim=1)
+        if self.observed:
+            self.zero_grad()
+            init_point = {var: x[:, i] for i, var in enumerate(self.outvar)}
+            pred = self.step_solver(init_point)
+            predictions = torch.stack([pred[var] for var in self.outvar], dim=1)
+        else:
+            nt = x.shape[0]
+            predictions = self(nt)
 
         loss = self.criterion(predictions, y)
         return loss
+        
+    def backward(self, loss, optimizer, optimizer_idx):
+        # do a custom way of backward
+        loss.backward(retain_graph=True)
