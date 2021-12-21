@@ -135,12 +135,11 @@ class ODESolver(TimeSeriesModel):
         x, y = self.prepare_batch(batch)
         self.zero_grad()
 
-        n = x.shape[0]
         init_point = {var: x[:, i] for i, var in enumerate(self.outvar)}
         pred = self.step_solver(init_point)
         predictions = torch.stack(
             [pred[var] for var in self.outvar], dim=1
-        )  # .view(1,x.shape[1])
+        )
 
         loss = self.criterion(predictions, y)
         return loss
