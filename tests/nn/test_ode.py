@@ -39,7 +39,7 @@ def test_euler(euler_model):
     model, preds = euler_model
     assert model.step_solver == model.euler_step
     assert model.get_coeffs() == {"alpha": 2}
-    # Approximation for exp(0.1)
+    # Approximation for exp(0.2)
     assert abs(preds[1, 0].item() - 1.2) < 1e-6
 
 
