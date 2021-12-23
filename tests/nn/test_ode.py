@@ -1,4 +1,5 @@
 import pytest
+import torch
 
 from torchts.nn.models.ode import ODESolver
 
@@ -25,11 +26,11 @@ def test_euler(euler_model):
     """Test Euler's Method"""
     model, preds = euler_model
     assert model.step_solver == model.euler_step
-    assert preds[1, 0].item() == 1.1
+    assert abs(preds[1, 0].item() - 1.1) < 1e-6
 
 
 def test_rk4(rk4_model):
     """Test 4th order Runge-Kutta Method"""
     model, preds = rk4_model
     assert model.step_solver == model.runge_kutta_4_step
-    assert preds[1, 0].item() == 1.1
+    assert abs((preds[1, 0] - torch.exp(1.1)).item()) < 1e-6
