@@ -9,8 +9,8 @@ def euler_model():
     # ODE: x'(t) = 2x
     model = ODESolver(
         {"x": lambda prev_val, coeffs: coeffs["alpha"] * prev_val["x"]},
-        {"x": 1},
-        {"alpha": 2},
+        {"x": 1.0},
+        {"alpha": 2.0},
         0.1,
         solver="euler",
         optimizer=None,
@@ -24,7 +24,7 @@ def rk4_model():
     # ODE: x'(t) = x
     model = ODESolver(
         {"x": lambda prev_val, coeffs: prev_val["x"]},
-        {"x": 1},
+        {"x": 1.0},
         {},
         0.1,
         solver="rk4",
