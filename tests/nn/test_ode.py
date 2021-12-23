@@ -1,15 +1,16 @@
 import pytest
-import torch
+import numpy as np
 
 from torchts.nn.models.ode import ODESolver
 
 
 @pytest.fixture
 def euler_model():
+    # ODE: x'(t) = 2x
     model = ODESolver(
-        {"x": lambda prev_val, coeffs: prev_val["x"]},
+        {"x": lambda prev_val, coeffs: coeffs["alpha"]*prev_val["x"]},
         {"x": 1},
-        {},
+        {"alpha": 2},
         0.1,
         solver="euler",
         optimizer=None,
@@ -20,6 +21,7 @@ def euler_model():
 
 @pytest.fixture
 def rk4_model():
+    # ODE: x'(t) = x
     model = ODESolver(
         {"x": lambda prev_val, coeffs: prev_val["x"]},
         {"x": 1},
@@ -36,11 +38,14 @@ def test_euler(euler_model):
     """Test Euler's Method"""
     model, preds = euler_model
     assert model.step_solver == model.euler_step
-    assert abs(preds[1, 0].item() - 1.1) < 1e-6
+    assert model.get_coeffs() == {"alpha": 2}
+    # Approximation for exp(0.1)
+    assert abs(preds[1, 0].item() - 1.2) < 1e-6
 
 
 def test_rk4(rk4_model):
     """Test 4th order Runge-Kutta Method"""
     model, preds = rk4_model
     assert model.step_solver == model.runge_kutta_4_step
-    assert abs((preds[1, 0] - torch.exp(1.1)).item()) < 1e-6
+    # Approximation for exp(0.1)
+    assert abs(preds[1, 0].item() - np.exp(1.1)) < 1e-6
