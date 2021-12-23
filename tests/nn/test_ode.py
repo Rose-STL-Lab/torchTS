@@ -6,7 +6,7 @@ from torchts.nn.models.ode import ODESolver
 @pytest.fixture
 def euler_model():
     model = ODESolver(
-        {"x": lambda x: x}, {"x": 1}, {}, 0.1, solver="euler", optimizer=None
+        {"x": lambda prev_val,coeffs: prev_val["x"]}, {"x": 1}, {}, 0.1, solver="euler", optimizer=None
     )
     preds = model(2)
     return model, preds
@@ -15,7 +15,7 @@ def euler_model():
 @pytest.fixture
 def rk4_model():
     model = ODESolver(
-        {"x": lambda x: x}, {"x": 1}, {}, 0.1, solver="rk4", optimizer=None
+        {"x": lambda prev_val,coeffs: prev_val["x"]}, {"x": 1}, {}, 0.1, solver="rk4", optimizer=None
     )
     preds = model(2)
     return model, preds
