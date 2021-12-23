@@ -1,5 +1,5 @@
-import pytest
 import numpy as np
+import pytest
 
 from torchts.nn.models.ode import ODESolver
 
@@ -8,7 +8,7 @@ from torchts.nn.models.ode import ODESolver
 def euler_model():
     # ODE: x'(t) = 2x
     model = ODESolver(
-        {"x": lambda prev_val, coeffs: coeffs["alpha"]*prev_val["x"]},
+        {"x": lambda prev_val, coeffs: coeffs["alpha"] * prev_val["x"]},
         {"x": 1},
         {"alpha": 2},
         0.1,
