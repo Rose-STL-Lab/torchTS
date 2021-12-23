@@ -23,13 +23,13 @@ def rk4_model():
 
 def test_euler(euler_model):
     """Test Euler's Method"""
-    model, preds = euler_model()
+    model, preds = euler_model
     assert model.step_solver == model.euler_step
     assert preds[1, 0].item() == 1.1
 
 
 def test_rk4(rk4_model):
     """Test 4th order Runge-Kutta Method"""
-    model, preds = rk4_model()
+    model, preds = rk4_model
     assert model.step_solver == model.runge_kutta_4_step
     assert preds[1, 0].item() == 1.1
