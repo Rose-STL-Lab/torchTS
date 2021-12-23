@@ -8,7 +8,7 @@ def euler_model():
     model = ODESolver(
         {"x": lambda x: x}, {"x": 1}, {}, 0.1, solver="euler", optimizer=None
     )
-    preds = model(1)
+    preds = model(2)
     return model, preds
 
 
@@ -17,7 +17,7 @@ def rk4_model():
     model = ODESolver(
         {"x": lambda x: x}, {"x": 1}, {}, 0.1, solver="rk4", optimizer=None
     )
-    preds = model(1)
+    preds = model(2)
     return model, preds
 
 
