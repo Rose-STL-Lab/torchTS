@@ -2,13 +2,14 @@ import pytest
 
 from torchts.nn.models.ode import ODESolver
 
+
 @pytest.fixture
 def euler_model():
     model = ODESolver(
         {"x": lambda x: x}, {"x": 1}, {}, 0.1, solver="euler", optimizer=None
     )
     preds = model(1)
-    return model,preds
+    return model, preds
 
 
 @pytest.fixture
@@ -17,16 +18,18 @@ def rk4_model():
         {"x": lambda x: x}, {"x": 1}, {}, 0.1, solver="rk4", optimizer=None
     )
     preds = model(1)
-    return model,preds
+    return model, preds
+
 
 def test_euler(euler_model):
     """Test Euler's Method"""
-    model,preds = euler_model()
+    model, preds = euler_model()
     assert model.step_solver == model.euler_step
     assert preds[1, 0].item() == 1.1
 
+
 def test_rk4(rk4_model):
     """Test 4th order Runge-Kutta Method"""
-    model,preds = rk4_model()
+    model, preds = rk4_model()
     assert model.step_solver == model.runge_kutta_4_step
     assert preds[1, 0].item() == 1.1
