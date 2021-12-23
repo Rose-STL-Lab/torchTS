@@ -48,4 +48,4 @@ def test_rk4(rk4_model):
     model, preds = rk4_model
     assert model.step_solver == model.runge_kutta_4_step
     # Approximation for exp(0.1)
-    assert abs(preds[1, 0].item() - np.exp(1.1)) < 1e-6
+    assert abs(preds[1, 0].item() - np.exp(0.1)) < 1e-6
