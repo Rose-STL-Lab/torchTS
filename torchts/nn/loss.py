@@ -35,8 +35,8 @@ def mis_loss(
         torch.tensor: output losses
     """
     alpha = 1 - interval
-    lower = y_pred[:, [0]]
-    upper = y_pred[:, [1]]
+    lower = y_pred[:, 0::2]
+    upper = y_pred[:, 1::2]
 
     loss = upper - lower
     loss = torch.max(loss, loss + (2 / alpha) * (lower - y_true))
