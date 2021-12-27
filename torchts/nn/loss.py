@@ -37,9 +37,12 @@ def quantile_loss(
         torch.tensor: output losses
     """
     if isinstance(quantile, list):
+        errors = torch.repeat_interleave(y_true, len(quantile), dim=1) - y_pred
         quantile = torch.FloatTensor(quantile)
+        quantile = quantile.repeat(1, y_true.shape[-1])
+    else:
+        errors = y_true - y_pred
 
-    errors = y_true - y_pred
     loss = torch.max((quantile - 1) * errors, quantile * errors)
     loss = torch.mean(loss, dim=0)
     loss = torch.sum(loss)
