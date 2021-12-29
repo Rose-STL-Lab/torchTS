@@ -1,5 +1,5 @@
 ---
-title: MIS Regression (coming soon)
+title: MIS Regression
 slug: /mis-regression
 ---
 
