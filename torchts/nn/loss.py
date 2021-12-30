@@ -21,6 +21,31 @@ def masked_mae_loss(y_pred, y_true):
     return loss.mean()
 
 
+def mis_loss(
+    y_pred: torch.tensor, y_true: torch.tensor, interval: float
+) -> torch.tensor:
+    """Calculate MIS loss
+
+    Args:
+        y_pred (torch.tensor): Predicted values
+        y_true (torch.tensor): True values
+        interval (float): confidence interval (e.g. 0.95 for 95% confidence interval)
+
+    Returns:
+        torch.tensor: output losses
+    """
+    alpha = 1 - interval
+    lower = y_pred[:, 0::2]
+    upper = y_pred[:, 1::2]
+
+    loss = upper - lower
+    loss = torch.max(loss, loss + (2 / alpha) * (lower - y_true))
+    loss = torch.max(loss, loss + (2 / alpha) * (y_true - upper))
+    loss = torch.mean(loss)
+
+    return loss
+
+
 def quantile_loss(y_pred: torch.tensor, y_true: torch.tensor, quantile: float) -> float:
     """Calculate quantile loss
 
