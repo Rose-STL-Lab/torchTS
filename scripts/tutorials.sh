@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in $(find ../examples -name '*.ipynb'); do
+for i in $(find ./examples -name '*.ipynb'); do
 
     # Converting notebook to markdown
     jupyter nbconvert --to markdown $i
@@ -21,8 +21,8 @@ for i in $(find ../examples -name '*.ipynb'); do
     sed -i "s/$out/\/img/g" "$modified.md"
 
     #Moves images into static folder of website
-    mv $files/* ../website/static/img
+    mv $files/* website/static/img
 
     # Moves Markdown file into tutorial folder
-    mv "$modified.md" ../website/tutorials
+    mv "$modified.md" website/tutorials
 done
