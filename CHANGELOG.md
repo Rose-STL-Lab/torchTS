@@ -9,13 +9,21 @@
 - Added quantile loss function for uncertainty quantification. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
 - Added input to base model constructor for loss function arguments. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
 - Added pytest-mock to dev dependencies. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
-- Removed pull requests from security workflow runs. ([#185](https://github.com/Rose-STL-Lab/torchTS/pull/185))
+- Added website descriptions for new features. ([#165](https://github.com/Rose-STL-Lab/torchTS/pull/165), [#169](https://github.com/Rose-STL-Lab/torchTS/pull/169))
+- Added mean interval score loss function. ([#188](https://github.com/Rose-STL-Lab/torchTS/pull/188))
 
 ### Changed
 
 - Updated documentation website. ([#125](https://github.com/Rose-STL-Lab/torchTS/pull/125))
 - Replaced loop with list comprehension. ([#148](https://github.com/Rose-STL-Lab/torchTS/pull/148))
+- Expanded automatic pull request labeling. ([#154](https://github.com/Rose-STL-Lab/torchTS/pull/154))
 - Expanded gitignore patterns. ([#155](https://github.com/Rose-STL-Lab/torchTS/pull/155))
+- Updated flakehell pre-commit hook. ([#177](https://github.com/Rose-STL-Lab/torchTS/pull/177))
+- Removed pull requests from security workflow runs. ([#185](https://github.com/Rose-STL-Lab/torchTS/pull/185))
+
+### Fixed
+
+- Fixed equation parentheses in spatiotemporal documentation. ([#153](https://github.com/Rose-STL-Lab/torchTS/pull/153))
 
 ## [0.1.1] - 2021-08-31
 
