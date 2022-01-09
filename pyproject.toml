@@ -43,7 +43,7 @@ line-length = 88
 [tool.isort]
 profile = "black"
 
-[tool.flakehell]
+[tool.flakeheaven]
 exclude = ["*.ipynb"]
 extended_default_ignore = [] # hack from https://github.com/flakehell/flakehell/issues/10#issuecomment-822720074
 format = "grouped"
@@ -51,7 +51,7 @@ max_complexity = 10
 max_line_length = 88
 show_source = true
 
-[tool.flakehell.plugins]
+[tool.flakeheaven.plugins]
 pycodestyle = ["+*", "-E203", "-E741"]
 pyflakes = ["+*"]
 mccabe = ["+*"]
