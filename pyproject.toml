@@ -45,7 +45,6 @@ profile = "black"
 
 [tool.flakeheaven]
 exclude = ["*.ipynb"]
-extended_default_ignore = [] # hack from https://github.com/flakehell/flakehell/issues/10#issuecomment-822720074
 format = "grouped"
 max_complexity = 10
 max_line_length = 88
