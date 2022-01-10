@@ -16,7 +16,7 @@
 
 - Updated documentation website. ([#125](https://github.com/Rose-STL-Lab/torchTS/pull/125))
 - Replaced loop with list comprehension. ([#148](https://github.com/Rose-STL-Lab/torchTS/pull/148))
-- Expanded automatic pull request labeling. ([#154](https://github.com/Rose-STL-Lab/torchTS/pull/154))
+- Expanded automatic pull request labeling. ([#154](https://github.com/Rose-STL-Lab/torchTS/pull/154), [#204](https://github.com/Rose-STL-Lab/torchTS/pull/204))
 - Expanded gitignore patterns. ([#155](https://github.com/Rose-STL-Lab/torchTS/pull/155))
 - Updated flakehell pre-commit hook. ([#177](https://github.com/Rose-STL-Lab/torchTS/pull/177))
 - Removed pull requests from security workflow runs. ([#185](https://github.com/Rose-STL-Lab/torchTS/pull/185))
