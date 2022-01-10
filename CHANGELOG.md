@@ -20,6 +20,7 @@
 - Expanded gitignore patterns. ([#155](https://github.com/Rose-STL-Lab/torchTS/pull/155))
 - Updated flakehell pre-commit hook. ([#177](https://github.com/Rose-STL-Lab/torchTS/pull/177))
 - Removed pull requests from security workflow runs. ([#185](https://github.com/Rose-STL-Lab/torchTS/pull/185))
+- Switched from flakehell to flakeheaven. ([#203](https://github.com/Rose-STL-Lab/torchTS/pull/203))
 
 ### Fixed
 
