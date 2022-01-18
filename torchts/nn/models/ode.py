@@ -123,7 +123,8 @@ class ODESolver(TimeSeriesModel):
             x (torch.Tensor): Input data
             y (torch.Tensor): Output data
             max_epochs (int): Number of training epochs
-            batch_size (int): Batch size for torch.utils.data.DataLoader (Set to x.shape[0] if unobserved variables are present)
+            batch_size (int): Batch size for torch.utils.data.DataLoader 
+                (Set to x.shape[0] if unobserved variables are present)
         """
         if self.observed:
             super().fit(x, y, max_epochs, batch_size)
