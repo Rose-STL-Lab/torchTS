@@ -88,13 +88,6 @@ def test_step_backward(euler_model):
     model, preds = euler_model
     loss = model._step(batch, 0, 0)
     assert (loss.item() - (1.2 - 1.1) ** 2) < 1e-6
-    model.backward(loss)
-    coeffs = model.get_coeffs()
-    assert coeffs["alpha"] < 2
-
-
-def test_fit(euler_model):
-    model, preds = euler_model
-    model.fit(torch.Tensor([[1.0]]), torch.Tensor([[1.1]]), max_epochs=1, batch_size=1)
+    model.backward(loss, None, None)
     coeffs = model.get_coeffs()
     assert coeffs["alpha"] < 2
