@@ -82,6 +82,7 @@ def test_value_errors():
         )
         assert model.step_solver == model.euler_step
 
+
 def test_step_backward(euler_model):
     batch = torch.Tensor([[1.0]]), torch.Tensor([[1.1]])
     model, preds = euler_model
