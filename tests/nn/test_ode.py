@@ -133,6 +133,7 @@ def test_unobserved_step_backward(euler_unobserved_model):
     batch = torch.Tensor([[1.0, 1.1]]), torch.Tensor([[1.1, 1.2]])
     model, preds = euler_unobserved_model
     loss = model._step(batch, 0, 0)
+    assert preds == torch.Tensor([[1.1, 1.2]])
     assert (loss.item() - ((1.1 - 1.0) ** 2 + (1.2 - 1.1) ** 2) / 2) < 1e-6
     model.backward(loss, None, 0)
     model.optimizer(model.parameters()).step()
