@@ -93,6 +93,7 @@ def test_step_backward(euler_model):
     coeffs = model.get_coeffs()
     assert coeffs["alpha"] < 2
 
+
 def test_fit(euler_model):
     model, preds = euler_model
     model.fit(torch.Tensor([[1.0]]), torch.Tensor([[1.1]]), max_epochs=1, batch_size=1)
