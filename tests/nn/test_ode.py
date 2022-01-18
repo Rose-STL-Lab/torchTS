@@ -62,15 +62,6 @@ def test_generate_ode_dataset(euler_model):
 
 
 def test_value_errors():
-    with pytest.raises(ValueError, match="Inconsistent keys in ode and init_vars"):
-        model = ODESolver(
-            {"x": lambda prev_val, coeffs: coeffs["alpha"] * prev_val["x"]},
-            {"x": 1.0, "y": 2.0},
-            {"alpha": 2.0},
-            0.1,
-            solver="euler",
-            optimizer=None,
-        )
     with pytest.raises(ValueError, match="Unrecognized solver .*"):
         model = ODESolver(
             {"x": lambda prev_val, coeffs: coeffs["alpha"] * prev_val["x"]},
@@ -80,7 +71,16 @@ def test_value_errors():
             solver="a",
             optimizer=None,
         )
-
+    with pytest.raises(ValueError, match="Inconsistent keys in ode and init_vars"):
+        model = ODESolver(
+            {"x": lambda prev_val, coeffs: coeffs["alpha"] * prev_val["x"]},
+            {"x": 1.0, "y": 2.0},
+            {"alpha": 2.0},
+            0.1,
+            solver="euler",
+            optimizer=None,
+        )
+        assert model.step_solver == model.euler_step
 
 def test_step_backward(euler_model):
     batch = torch.Tensor([[1.0]]), torch.Tensor([[1.1]])
@@ -93,7 +93,6 @@ def test_step_backward(euler_model):
 
 
 def test_fit(euler_model):
-    batch = torch.Tensor([[1.0]]), torch.Tensor([[1.1]])
     model, preds = euler_model
     model.fit(torch.Tensor([[1.0]]), torch.Tensor([[1.1]]), max_epochs=1, batch_size=1)
     coeffs = model.get_coeffs()
