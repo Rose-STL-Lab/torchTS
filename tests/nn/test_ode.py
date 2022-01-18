@@ -91,6 +91,7 @@ def test_step_backward(euler_model):
     loss = model._step(batch, 0, 0)
     assert (loss.item() - (1.2 - 1.1) ** 2) < 1e-6
     model.backward(loss, torch.optim.Adam(model.parameters()), 0)
+    model.optimizer.step()
     coeffs = model.get_coeffs()
     assert coeffs["alpha"] < 2
 
