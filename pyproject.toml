@@ -24,7 +24,6 @@ python = ">=3.7,<3.10"
 torch = "^1.4"
 pytorch-lightning = "^1.2"
 scipy = "^1.7.1"
-jupyter = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -32,6 +31,7 @@ pytest-cov = "^3.0.0"
 pytest-mock = "^3.6.1"
 pre-commit = "^2.14.0"
 Sphinx = "^4.1.2"
+nbconvert = "^6.2.0"
 asteroid-sphinx-theme = "^0.0.3"
 
 [build-system]
