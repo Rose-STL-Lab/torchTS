@@ -1,5 +1,7 @@
 #!/bin/bash
 
+poetry run
+
 for i in $(find ./examples -name '*.ipynb'); do
 
     # Converting notebook to markdown
