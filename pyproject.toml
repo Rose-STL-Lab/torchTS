@@ -30,8 +30,8 @@ pytest = "^6.2.4"
 pytest-cov = "^3.0.0"
 pytest-mock = "^3.6.1"
 pre-commit = "^2.14.0"
-Sphinx = "^4.1.2"
 nbconvert = "^6.2.0"
+Sphinx = "^4.3.2"
 asteroid-sphinx-theme = "^0.0.3"
 
 [build-system]
@@ -44,15 +44,14 @@ line-length = 88
 [tool.isort]
 profile = "black"
 
-[tool.flakehell]
+[tool.flakeheaven]
 exclude = ["*.ipynb"]
-extended_default_ignore = [] # hack from https://github.com/flakehell/flakehell/issues/10#issuecomment-822720074
 format = "grouped"
 max_complexity = 10
 max_line_length = 88
 show_source = true
 
-[tool.flakehell.plugins]
+[tool.flakeheaven.plugins]
 pycodestyle = ["+*", "-E203", "-E741"]
 pyflakes = ["+*"]
 mccabe = ["+*"]
