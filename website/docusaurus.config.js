@@ -47,12 +47,12 @@ module.exports = {
           label: "Docs",
         },
         {
-          href: "api",
+          href: "https://rose-stl-lab.github.io/torchTS/api",
           label: "API Reference",
           position: "left",
         },
         {
-          href: "https://rose-stl-lab.github.io/torchTS/api",
+          href: "https://github.com/Rose-STL-Lab/torchTS",
           label: "GitHub",
           position: "right",
         },
