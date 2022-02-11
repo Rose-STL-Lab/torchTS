@@ -182,7 +182,7 @@ class TimeSeriesModel(LightningModule):
         """
         
         if self.method=='conformal':
-            self.cal_score = self.calibration(batch, batch_idx, len(self.trainer.train_dataloader))
+            self.err_dist = self.calibration(batch, batch_idx, len(self.trainer.train_dataloader))
         val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloader))
         self.log("val_loss", val_loss)
         return val_loss
