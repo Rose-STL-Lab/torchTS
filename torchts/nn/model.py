@@ -92,13 +92,23 @@ class TimeSeriesModel(LightningModule):
             pred = self.scaler.inverse_transform(pred)
 
         if self.criterion_args is not None:
-            loss = self.criterion(pred, y, **self.criterion_args)
+            if self.eval:
+                intervals = np.zeros((x.shape[0], 3))
+                # ensure that we want to multiply our error distances by the size of our training set
+                err_dist = np.hstack([self.err_dist] * x.shape[0])
+
+                intervals[:, 0] = pred[:, 0] - err_dist[0, :]
+                intervals[:, 1] = pred[:, 1]
+                intervals[:, -1] = pred[:, -1] + err_dist[1, :]
+                loss = self.criterion(intervals, y, **self.criterion_args)
+            else:
+                loss = self.criterion(pred, y, **self.criterion_args)
         else:
             loss = self.criterion(pred, y)
 
         return loss
     
-    def calibration(self, batch, batch_idx):
+    def calibration(self, batch, batch_idx, num_batches):
         """
 
         Args:
@@ -129,8 +139,21 @@ class TimeSeriesModel(LightningModule):
         index = min(max(index, 0), nc.shape[0] - 1)
 
         err_dist = np.vstack([nc[index], nc[index]])
-        
+
         return err_dist
+    
+    def calibration_pred(self,x):
+        pred = self(x).detach()
+        intervals = np.zeros((x.shape[0], 3))
+        # ensure that we want to multiply our error distances by the size of our training set
+        err_dist = np.hstack([self.err_dist] * x.shape[0])
+
+        intervals[:, 0] = pred[:, 0] - err_dist[0, :]
+        intervals[:, 1] = pred[:, 1]
+        intervals[:, -1] = pred[:, -1] + err_dist[1, :]
+        conformal_intervals = intervals
+        return conformal_intervals
+
 
     def training_step(self, batch, batch_idx):
         """Trains model for one step.
@@ -157,7 +180,9 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        self.cal_score = self.calibration(batch, batch_idx, len(self.trainer.train_dataloader))
+        
+        if self.method=='conformal':
+            self.cal_score = self.calibration(batch, batch_idx, len(self.trainer.train_dataloader))
         val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloader))
         self.log("val_loss", val_loss)
         return val_loss
@@ -193,6 +218,8 @@ class TimeSeriesModel(LightningModule):
         Returns:
             torch.Tensor: Predicted data
         """
+        if self.method == 'conformal':
+            return self.calibration_pred(x).detach()
         return self(x).detach()
 
     def configure_optimizers(self):
