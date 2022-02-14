@@ -4,7 +4,7 @@ from functools import partial
 import torch.nn.functional as F
 import numpy as np
 from pytorch_lightning import LightningModule, Trainer
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, random_split
 from torchts.nn.loss import quantile_err
 
 class TimeSeriesModel(LightningModule):
@@ -60,10 +60,20 @@ class TimeSeriesModel(LightningModule):
             batch_size (int): Batch size for torch.utils.data.DataLoader
         """
         dataset = TensorDataset(x, y)
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        data_split = [0.6,0.2,0.2]
+        # lengths = [int(len(dataset)*0.6), int(len(dataset)*0.2),int(len(dataset)*0.2)]
+        lengths = [int(len(dataset)*0.6), int(len(dataset)*0.8)]
+        self.train_dataset, self.val_dataset, self.test_dataset = dataset[:lengths[0]], dataset[lengths[0]:lengths[1]], dataset[lengths[1]:]
+        # loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        train_dataloader = DataLoader(self.train_dataset, batch_size=batch_size, shuffle=True)
+        val_dataloader = DataLoader(self.val_dataset, batch_size=batch_size, shuffle=False)
+        # test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
         # split to only train on training set
-        trainer = Trainer(max_epochs=max_epochs)
-        trainer.fit(self, loader)
+        self.trainer = Trainer(max_epochs=max_epochs)
+        # trainer.fit(self, loader)
+        # self.trainer.fit(self, train_dataloader, val_dataloader)
+        self.trainer.fit(self, train_dataloader)
+        # self.trainer.validate(val_dataloader)
 
     def prepare_batch(self, batch):
         return batch
@@ -79,7 +89,6 @@ class TimeSeriesModel(LightningModule):
         Returns: loss for the batch
         """
         x, y = self.prepare_batch(batch)
-
         if self.training:
             batches_seen = batch_idx + self.current_epoch * num_batches
         else:
@@ -92,10 +101,14 @@ class TimeSeriesModel(LightningModule):
             pred = self.scaler.inverse_transform(pred)
 
         if self.criterion_args is not None:
-            if self.eval:
+            if (not self.training) and self.method=='conformal':
                 intervals = np.zeros((x.shape[0], 3))
+                # print(x.shape)
+                # print(pred.shape)
                 # ensure that we want to multiply our error distances by the size of our training set
                 err_dist = np.hstack([self.err_dist] * x.shape[0])
+                # print(err_dist)
+                # print(err_dist.shape)
 
                 intervals[:, 0] = pred[:, 0] - err_dist[0, :]
                 intervals[:, 1] = pred[:, 1]
@@ -118,7 +131,11 @@ class TimeSeriesModel(LightningModule):
 
         Returns: err_dist for the calibration set
         """
+        print(batch)
+        foo
         x, y = self.prepare_batch(batch)
+        print(batch)
+        foo
         batches_seen = batch_idx
         pred = self(x, y, batches_seen)
 
@@ -126,19 +143,26 @@ class TimeSeriesModel(LightningModule):
             y = self.scaler.inverse_transform(y)
             pred = self.scaler.inverse_transform(pred)
 
+        # print(pred.shape)
+        
         cal_scores = quantile_err(pred, y)
+        # print(cal_scores)
 
-        nc = {0: np.sort(cal_scores, 0)[::-1]}
+        # nc = {0: np.sort(cal_scores, 0)[::-1]}
         # significance = .1
         # Sort calibration scores in ascending order? TODO make sure this is correct
         # this is the apply_inverse portion of RegressorNC predict function
-        nc = np.sort(cal_scores, 0)
+        nc = np.sort(cal_scores, 0)[::-1]
+        # print(nc)
 
         index = int(np.ceil((1 - self.significance) * (nc.shape[0] + 1))) - 1
         # find largest error that gets us guaranteed coverage
         index = min(max(index, 0), nc.shape[0] - 1)
+        # print(index)
+        # print(nc[index])
 
         err_dist = np.vstack([nc[index], nc[index]])
+        # print(err_dist)
 
         return err_dist
     
@@ -147,6 +171,9 @@ class TimeSeriesModel(LightningModule):
         intervals = np.zeros((x.shape[0], 3))
         # ensure that we want to multiply our error distances by the size of our training set
         err_dist = np.hstack([self.err_dist] * x.shape[0])
+        # print(self.err_dist)
+        # print(err_dist)
+        # print(pred)
 
         intervals[:, 0] = pred[:, 0] - err_dist[0, :]
         intervals[:, 1] = pred[:, 1]
@@ -162,6 +189,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
+        # print(batch.shape)
         train_loss = self._step(batch, batch_idx, len(self.trainer.train_dataloader))
         self.log(
             "train_loss",
@@ -182,8 +210,8 @@ class TimeSeriesModel(LightningModule):
         """
         
         if self.method=='conformal':
-            self.err_dist = self.calibration(batch, batch_idx, len(self.trainer.train_dataloader))
-        val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloader))
+            self.err_dist = self.calibration(batch, batch_idx, len(self.trainer.val_dataloaders))
+        val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloaders))
         self.log("val_loss", val_loss)
         return val_loss
 
@@ -194,7 +222,7 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        test_loss = self._step(batch, batch_idx, len(self.trainer.test_dataloader))
+        test_loss = self._step(batch, batch_idx, len(self.trainer.test_dataloaders))
         self.log("test_loss", test_loss)
         return test_loss
 
@@ -218,8 +246,23 @@ class TimeSeriesModel(LightningModule):
         Returns:
             torch.Tensor: Predicted data
         """
+        return self(x).detach()
+
+    
+    def conformal_predict(self, x):
+        """Runs model inference.
+
+        Args:
+            x (torch.Tensor): Input data
+
+        Returns:
+            torch.Tensor: Predicted data
+        """
         if self.method == 'conformal':
-            return self.calibration_pred(x).detach()
+            val_dataloader = DataLoader(self.val_dataset, shuffle=False)
+            self.trainer.validate(self,val_dataloader)
+            return self.calibration_pred(x)
+        print(self.err)
         return self(x).detach()
 
     def configure_optimizers(self):

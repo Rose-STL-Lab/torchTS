@@ -59,8 +59,8 @@ def quantile_err(prediction, y):
     # Calculate error on our predicted upper and lower quantiles
     # this will get us an array of negative values with the distance between the upper/lower quantile and the
     # 50% quantile
-    error_low = y_lower - y
-    error_high = y - y_upper
+    error_low = y_lower - y.view(-1)
+    error_high = y.view(-1) - y_upper
     # Make an array where each entry is the highest error when comparing the upper and lower bounds for that entry prediction
     err = np.maximum(error_high, error_low)
     return err
