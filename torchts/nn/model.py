@@ -31,6 +31,7 @@ class TimeSeriesModel(LightningModule):
         criterion_args=None,
         significance=None,
         method=None,
+        mode=None,
         scheduler=None,
         scheduler_args=None,
         scaler=None,
@@ -41,6 +42,7 @@ class TimeSeriesModel(LightningModule):
         self.significance = significance
         self.method = method
         self.scaler = scaler
+        self.mode = mode
 
         if optimizer_args is not None:
             self.optimizer = partial(optimizer, **optimizer_args)
@@ -71,8 +73,11 @@ class TimeSeriesModel(LightningModule):
         # self.train_dataset, self.val_dataset, self.test_dataset = dataset[:lengths[0]], dataset[lengths[0]:lengths[1]], dataset[lengths[1]:]
         trainer = Trainer(max_epochs=max_epochs)
         if self.method=='conformal':
-            lengths = [int(len(dataset)*0.6), len(dataset) - int(len(dataset)*0.6)]  
-            self.train_dataset, self.cal_dataset = random_split(dataset, lengths)
+            lengths = [int(len(dataset)*0.6), len(dataset) - int(len(dataset)*0.6)]
+            if self.mode == 'regression':  
+                self.train_dataset, self.cal_dataset = random_split(dataset, lengths)
+            if self.mode == 'time_series':
+                self.train_dataset, self.cal_dataset = dataset[:lengths[0]], dataset[lengths[0]:]
             train_dataloader = DataLoader(self.train_dataset, batch_size=batch_size, shuffle=True)
             cal_dataloader = DataLoader(self.cal_dataset, batch_size=batch_size, shuffle=True)
             #self.trainer.fit(self, train_dataloader)
