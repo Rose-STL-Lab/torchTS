@@ -67,22 +67,29 @@ class TimeSeriesModel(LightningModule):
 
         # split data into train val test (will change after Dataloader set TODO)
         # data_split = [0.6,0.2,0.2]
-        # lengths = [int(len(dataset)*0.6), int(len(dataset)*0.2), int(len(dataset)*0.2)]
-        lengths = [int(len(dataset)*0.6), int(len(dataset)*0.8)]
-        self.train_dataset, self.val_dataset, self.test_dataset = dataset[:lengths[0]], dataset[lengths[0]:lengths[1]], dataset[lengths[1]:]
-        
-        train_dataloader = DataLoader(self.train_dataset, batch_size=batch_size, shuffle=True)
-        val_dataloader = DataLoader(self.val_dataset, batch_size=batch_size, shuffle=False)
-        test_dataloader = DataLoader(self.test_dataset, batch_size=batch_size, shuffle=False)
-        # split to only train on training set
-        self.trainer = Trainer(max_epochs=max_epochs)
-        
-        # self.trainer.fit(self, train_dataloader, val_dataloader)
-        self.trainer.fit(self, train_dataloader)
+        # lengths = [int(len(dataset)*0.6), int(len(dataset)*0.8)]
+        # self.train_dataset, self.val_dataset, self.test_dataset = dataset[:lengths[0]], dataset[lengths[0]:lengths[1]], dataset[lengths[1]:]
+        trainer = Trainer(max_epochs=max_epochs)
+        if self.method=='conformal':
+            lengths = [int(len(dataset)*0.6), len(dataset) - int(len(dataset)*0.6)]  
+            self.train_dataset, self.cal_dataset = random_split(dataset, lengths)
+            train_dataloader = DataLoader(self.train_dataset, batch_size=batch_size, shuffle=True)
+            cal_dataloader = DataLoader(self.cal_dataset, batch_size=batch_size, shuffle=True)
+            #self.trainer.fit(self, train_dataloader)
+            trainer.fit(self, train_dataloader, cal_dataloader)
+   
+        else:
+            # train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+            # val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+            # test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+            # split to only train on training set
+            loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+            trainer.fit(self, loader)
 
     def prepare_batch(self, batch):
-        if self.scaler is not None:
-            batch = self.scaler,fit_transform(batch)
+        # if self.scaler is not None:
+            # batch = self.scaler.fit_transform(batch)
         return batch
 
     def _step(self, batch, batch_idx, num_batches):
@@ -149,17 +156,13 @@ class TimeSeriesModel(LightningModule):
         
         cal_scores = quantile_err(pred, y)
 
-        # nc = {0: np.sort(cal_scores, 0)[::-1]}
-        # significance = .1
-        # Sort calibration scores in ascending order? TODO make sure this is correct
-        # this is the apply_inverse portion of RegressorNC predict function
+        # Sort calibration scores in ascending order? 
         nc = np.sort(cal_scores, 0)#[::-1]
         # print(nc)
 
         index = int(np.ceil((1 - self.significance) * (nc.shape[0] + 1))) - 1
         # find largest error that gets us guaranteed coverage
         index = min(max(index, 0), nc.shape[0] - 1)
-
         err_dist = np.vstack([nc[index], nc[index]])
 
         return err_dist
@@ -194,7 +197,6 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        # print(batch.shape)
         train_loss = self._step(batch, batch_idx, len(self.trainer.train_dataloader))
         self.log(
             "train_loss",
@@ -218,7 +220,7 @@ class TimeSeriesModel(LightningModule):
         if self.method=='conformal':
             self.err_dist = self.calibration(batch, batch_idx, len(self.trainer.val_dataloaders))
         val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloaders))
-        # self.log("val_loss", val_loss)
+        self.log("val_loss", val_loss)
         return val_loss
 
     def test_step(self, batch, batch_idx):
@@ -229,7 +231,7 @@ class TimeSeriesModel(LightningModule):
             batch_idx (int): Integer displaying index of this batch
         """
         test_loss = self._step(batch, batch_idx, len(self.trainer.test_dataloaders))
-        # self.log("test_loss", test_loss)
+        self.log("test_loss", test_loss)
         return test_loss
 
     @abstractmethod
@@ -265,8 +267,8 @@ class TimeSeriesModel(LightningModule):
             torch.Tensor: Predicted data
         """
         if self.method == 'conformal':
-            val_dataloader = DataLoader(self.val_dataset, batch_size=len(self.val_dataset[0]), shuffle=False)
-            self.trainer.validate(self,val_dataloader)
+            # val_dataloader = DataLoader(self.val_dataset, batch_size=len(self.val_dataset[0]), shuffle=False)
+            # self.trainer.validate(self,val_dataloader)
             return self.calibration_pred(x)
         return self(x).detach()
 
