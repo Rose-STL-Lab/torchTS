@@ -1,13 +1,15 @@
 from abc import abstractmethod
 from functools import partial
+from matplotlib import fontconfig_pattern
 import matplotlib.pyplot as plt
 
+import torch
 import torch.nn.functional as F
 import numpy as np
 from pytorch_lightning import LightningModule, Trainer
 from torch.utils.data import DataLoader, TensorDataset, random_split
 from torchts.nn.loss import quantile_err
-
+from sklearn.model_selection import train_test_split
 
 class TimeSeriesModel(LightningModule):
     """Base class for all TorchTS models.
@@ -77,7 +79,8 @@ class TimeSeriesModel(LightningModule):
             if self.mode == 'regression':  
                 self.train_dataset, self.cal_dataset = random_split(dataset, lengths)
             if self.mode == 'time_series':
-                self.train_dataset, self.cal_dataset = dataset[:lengths[0]], dataset[lengths[0]:]
+                self.train_dataset, self.cal_dataset = random_split(dataset, lengths)
+                # self.train_dataset, self.cal_dataset = train_test_split(dataset,test_size =0.4,shuffle=False)
             train_dataloader = DataLoader(self.train_dataset, batch_size=batch_size, shuffle=True)
             cal_dataloader = DataLoader(self.cal_dataset, batch_size=batch_size, shuffle=True)
             #self.trainer.fit(self, train_dataloader)
@@ -93,8 +96,10 @@ class TimeSeriesModel(LightningModule):
             trainer.fit(self, loader)
 
     def prepare_batch(self, batch):
-        # if self.scaler is not None:
-            # batch = self.scaler.fit_transform(batch)
+        if self.scaler is not None:
+            x = torch.tensor(self.scaler.fit_transform(batch[0])).float()
+            y = torch.tensor(self.scaler.fit_transform(batch[1])).float()
+            batch = (x,y)
         return batch
 
     def _step(self, batch, batch_idx, num_batches):
@@ -117,7 +122,9 @@ class TimeSeriesModel(LightningModule):
 
         if self.scaler is not None:
             y = self.scaler.inverse_transform(y)
-            pred = self.scaler.inverse_transform(pred)
+            y = torch.tensor(y).float()
+            pred = self.scaler.inverse_transform(pred.detach())
+            pred = torch.tensor(pred,requires_grad=True).float()
 
         if self.criterion_args is not None:
             if (not self.training) and self.method=='conformal':
@@ -152,18 +159,14 @@ class TimeSeriesModel(LightningModule):
 
         if self.scaler is not None:
             y = self.scaler.inverse_transform(y)
-            pred = self.scaler.inverse_transform(pred)
-        
-        # plt.plot(x, y.flatten(), label="y_true")
-        # plt.plot(x, pred[:, 0], label="y_low")
-        # plt.plot(x, pred[:, 1], label="y_mid")
-        # plt.plot(x, pred[:, 2], label="y_up")
+            y = torch.tensor(y).float()
+            pred = self.scaler.inverse_transform(pred.detach())
+            pred = torch.tensor(pred).float()
         
         cal_scores = quantile_err(pred, y)
 
         # Sort calibration scores in ascending order? 
         nc = np.sort(cal_scores, 0)#[::-1]
-        # print(nc)
 
         index = int(np.ceil((1 - self.significance) * (nc.shape[0] + 1))) - 1
         # find largest error that gets us guaranteed coverage
@@ -180,13 +183,11 @@ class TimeSeriesModel(LightningModule):
 
         Output: Predicted interval 
         """
-        pred = self(x).detach()
+
+        pred = self.predict(x)
         intervals = np.zeros((x.shape[0], 3))
         # ensure that we want to multiply our error distances by the size of our training set
         err_dist = np.hstack([self.err_dist] * x.shape[0])
-        # print(self.err_dist)
-        # print(err_dist)
-        # print(pred)
 
         intervals[:, 0] = pred[:, 0] - err_dist[0, :]
         intervals[:, 1] = pred[:, 1]
@@ -290,47 +291,3 @@ class TimeSeriesModel(LightningModule):
             return [optimizer], [scheduler]
 
         return optimizer
-
-
-# class TimeSeriesConformalModel(TimeSeriesModel):
-#     def __init__(
-#         self,
-#         optimizer,
-#         optimizer_args=None,
-#         criterion=F.mse_loss,
-#         criterion_args=None,
-#         scheduler=None,
-#         scheduler_args=None,
-#         scaler=None,
-#     ):
-#         super().__init__()
-#         self.criterion = criterion
-#         self.criterion_args = criterion_args
-#         self.scaler = scaler
-
-#         if optimizer_args is not None:
-#             self.optimizer = partial(optimizer, **optimizer_args)
-#         else:
-#             self.optimizer = optimizer
-
-#         if scheduler is not None and scheduler_args is not None:
-#             self.scheduler = partial(scheduler, **scheduler_args)
-#         else:
-#             self.scheduler = scheduler
-    
-#     def predict()
-
-#     def quantile_err(prediction, y):
-#         """
-#         prediction: arr where first 3 columns are: lower quantile, middle quantile (50%), upper quantile in that order
-#         """
-#         y_lower = prediction[:, 0]
-#         y_upper = prediction[:, 2]
-#         # Calculate error on our predicted upper and lower quantiles
-#         # this will get us an array of negative values with the distance between the upper/lower quantile and the
-#         # 50% quantile
-#         error_low = y_lower - y
-#         error_high = y - y_upper
-#         # Make an array where each entry is the highest error when comparing the upper and lower bounds for that entry prediction 
-#         err = np.maximum(error_high, error_low)
-#         return err
