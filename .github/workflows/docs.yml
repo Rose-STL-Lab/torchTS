@@ -36,7 +36,7 @@ jobs:
           node-version: 14
 
       - name: Build documentation
-        run: poetry run make -C docs html
+        run: ./scripts/build_docs.sh
 
       - name: Build Docusaurus website
         run: |

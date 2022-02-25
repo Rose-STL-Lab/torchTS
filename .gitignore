@@ -21,3 +21,5 @@ dist/
 *.h5
 *.npz
 *.pkl
+
+venv
