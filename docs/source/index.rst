@@ -6,12 +6,18 @@
 Welcome to TorchTS's documentation!
 ===================================
 
+Models Intro here!
+Code here!
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   modules
-   torchts
+   installation
+   torchts.nn
+   torchts.utils
+   contributing
 
 
 
