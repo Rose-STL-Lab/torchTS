@@ -47,6 +47,11 @@ module.exports = {
           label: "Docs",
         },
         {
+          href: "/tutorials",
+          label: "Tutorials",
+          position: "left",
+        },
+        {
           href: "https://github.com/Rose-STL-Lab/torchTS",
           label: "GitHub",
           position: "right",
@@ -141,6 +146,26 @@ module.exports = {
           customCss: require.resolve("./src/css/custom.css"),
         },
       },
+    ],
+  ],
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "tutorials",
+        path: "tutorials",
+        routeBasePath: "tutorials",
+        remarkPlugins: [math],
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        rehypePlugins: [katex],
+        // Please change this to your repo.
+        editUrl: "https://github.com/Rose-STL-Lab/torchTS/edit/main/website/",
+        sidebarPath: require.resolve("./sidebarsTutorials.js"),
+      },
+      // theme: {
+      //   customCss: require.resolve("./src/css/custom.css"),
+      // },
     ],
   ],
 };

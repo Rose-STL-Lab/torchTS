@@ -38,6 +38,10 @@ jobs:
       - name: Build documentation
         run: poetry run make -C docs html
 
+      - name: Build Tutorials
+        run: |
+          bash scripts/tutorials.sh
+
       - name: Build Docusaurus website
         run: |
           cd website
