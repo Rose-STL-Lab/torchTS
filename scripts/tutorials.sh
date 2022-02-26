@@ -21,7 +21,7 @@ for i in $(find ./examples -name '*.ipynb'); do
     # Fixes images path
     sed -i "s/$out/\/img/g" "$modified.md"
 
-    #Moves images into static folder of website
+    # Moves images into static folder of website
     mv $files/* website/static/img
 
     # Moves Markdown file into tutorial folder
