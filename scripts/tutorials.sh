@@ -4,7 +4,7 @@
 for i in $(find ./examples -name '*.ipynb'); do
 
     # Converting notebook to markdown
-    poetry run nbconvert --to markdown $i
+    poetry run jupyter nbconvert --to markdown $i
 
     # Removing ipynb extension from file path
     modified=${i::-6}
