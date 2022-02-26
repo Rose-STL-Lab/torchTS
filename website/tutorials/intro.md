@@ -4,4 +4,4 @@ title: TorchTS Tutorials
 slug: /
 ---
 
-TorchTs Tutorials
+TorchTS Tutorials
