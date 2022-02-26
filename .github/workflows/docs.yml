@@ -40,7 +40,6 @@ jobs:
 
       - name: Build Tutorials
         run: |
-          chmod +x scripts/tutorials.sh
           bash scripts/tutorials.sh
 
       - name: Build Docusaurus website
