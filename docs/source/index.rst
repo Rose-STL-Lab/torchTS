@@ -7,12 +7,13 @@ Welcome to TorchTS's documentation!
 ===================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    installation
-   torchts.nn
-   torchts.utils
+   torchts.nn/index
+   torchts.nn.loss
+   torchts.utils.data
    contributing
 
 

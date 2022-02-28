@@ -5,13 +5,22 @@ from torchts.nn.model import TimeSeriesModel
 
 
 class Encoder(nn.Module):
+    """Encoder
+    
+    Args:
+        input_dim: the dimension of input sequences.
+        hidden_dim: number hidden units.
+        num_layers: number of encode layers.
+        dropout_rate: recurrent dropout rate.
+    """
+
     def __init__(self, input_dim, hidden_dim, num_layers, dropout_rate):
         """
         Args:
             input_dim: the dimension of input sequences.
             hidden_dim: number hidden units.
             num_layers: number of encode layers.
-            dropout_rate: recurrent dropout rate.
+            dropout_rate: dropout rate.
         """
         super().__init__()
         self.num_layers = num_layers
@@ -38,6 +47,15 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
+    """Decoder
+    
+    Args:
+        output_dim: the dimension of output sequences.
+        hidden_dim: number hidden units.
+        num_layers: number of code layers.
+        dropout_rate: dropout rate.
+    """
+
     def __init__(self, output_dim, hidden_dim, num_layers, dropout_rate):
         """
         Args:
@@ -74,6 +92,15 @@ class Decoder(nn.Module):
 
 
 class Seq2Seq(TimeSeriesModel):
+    """Seq2Seq
+    
+    Args:
+        encoder: Encoder object.
+        decoder: Decoder object.
+        output_dim: the dimension of output sequences.
+        horizon: number of steps to predict.
+    """
+
     def __init__(self, encoder, decoder, output_dim, horizon, **kwargs):
         """
         Args:
@@ -98,8 +125,8 @@ class Seq2Seq(TimeSeriesModel):
         # Concatenate the hidden states of both directions.
         h = torch.cat(
             [
-                encoder_hidden[0][0 : self.encoder.num_layers, :, :],
-                encoder_hidden[0][-self.encoder.num_layers :, :, :],
+                encoder_hidden[0][0:self.encoder.num_layers, :, :],
+                encoder_hidden[0][-self.encoder.num_layers:, :, :],
             ],
             dim=2,
             out=None,
@@ -107,8 +134,8 @@ class Seq2Seq(TimeSeriesModel):
 
         c = torch.cat(
             [
-                encoder_hidden[1][0 : self.encoder.num_layers, :, :],
-                encoder_hidden[1][-self.encoder.num_layers :, :, :],
+                encoder_hidden[1][0:self.encoder.num_layers, :, :],
+                encoder_hidden[1][-self.encoder.num_layers:, :, :],
             ],
             dim=2,
             out=None,
@@ -122,8 +149,7 @@ class Seq2Seq(TimeSeriesModel):
 
         for _ in range(self.horizon):
             decoder_output, decoder_hidden = self.decoder(
-                decoder_output, decoder_hidden
-            )
+                decoder_output, decoder_hidden)
             outputs.append(decoder_output)
 
         return torch.cat(outputs, dim=1)
