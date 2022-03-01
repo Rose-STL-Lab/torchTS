@@ -93,7 +93,7 @@ class Decoder(nn.Module):
 
 class Seq2Seq(TimeSeriesModel):
     """Seq2Seq
-    
+
     Args:
         encoder: Encoder object.
         decoder: Decoder object.

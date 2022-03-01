@@ -73,7 +73,7 @@ We will get the following plots:
 
 
 Example prediction results for other datasets:
-
+        
 
 .. image:: ./_static/images/getting_started__sample_dataset.png
     :scale: 100%
