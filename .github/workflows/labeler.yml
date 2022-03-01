@@ -17,6 +17,6 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Label pull request
-        uses: actions/labeler@v3.0.2
+        uses: actions/labeler@v3.1.0
         with:
           repo-token: ${{ steps.generate-token.outputs.token }}
