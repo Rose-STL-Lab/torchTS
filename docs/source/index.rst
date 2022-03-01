@@ -6,16 +6,30 @@
 Welcome to TorchTS's documentation!
 ===================================
 
+
+
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: Getting Started:
 
    installation
+   getting_started
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: TorchTS Documentation:
+
    torchts.nn/index
    torchts.nn.loss
    torchts.utils.data
-   contributing
 
+.. toctree::
+   :maxdepth: 1
+   :caption: More Advanced
+
+   build_your_own_model
+   contributing
 
 
 Indices and tables
