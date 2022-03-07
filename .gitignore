@@ -21,3 +21,6 @@ dist/
 *.h5
 *.npz
 *.pkl
+
+# vscode
+.vscode

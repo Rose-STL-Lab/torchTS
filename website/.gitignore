@@ -1,8 +1,10 @@
 # Dependencies
 /node_modules
+yarn.lock
 
 # Production
 /build
+/static/api
 
 # Generated files
 .docusaurus
