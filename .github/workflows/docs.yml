@@ -37,8 +37,8 @@ jobs:
         with:
           node-version: 14
 
-      - name: Build documentation
-        run: ./scripts/build_docs.sh
+      - name: Build Sphinx documentation
+        run: scripts/build_docs.sh
 
       - name: Build Docusaurus website
         run: |
