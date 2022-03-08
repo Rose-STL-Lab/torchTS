@@ -6,17 +6,19 @@ on:
       - main
     paths:
       - 'docs/**'
+      - 'scripts/**'
       - 'torchts/**'
-      - 'poetry.lock'
       - 'website/**'
+      - 'poetry.lock'
   pull_request:
     branches:
       - main
     paths:
       - 'docs/**'
+      - 'scripts/**'
       - 'torchts/**'
-      - 'poetry.lock'
       - 'website/**'
+      - 'poetry.lock'
 
 jobs:
   build:
