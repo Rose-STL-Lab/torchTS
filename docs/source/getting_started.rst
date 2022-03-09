@@ -43,18 +43,19 @@ We will get the following plots:
 
 .. code-block:: python
     # model configs
-    inputDim = 1       
-    outputDim = 1 
+    inputDim = 1
+    outputDim = 1
     optimizer_args = {"lr": 0.01}
-    quantile = 0.025 # confidence level = 0.025
+    # confidence level = 0.025
+    quantile = 0.025
     batch_size = 10
 
     model = LSTM(
-        inputDim, 
-        outputDim, 
+        inputDim,
+        outputDim,
         torch.optim.Adam,
-        criterion=quantile_loss, 
-        criterion_args={"quantile": quantile}, 
+        criterion=quantile_loss,
+        criterion_args={"quantile": quantile},
         optimizer_args=optimizer_args
     )
     model.fit(x, y, max_epochs=100, batch_size=batch_size)
