@@ -11,6 +11,7 @@
 - Added pytest-mock to dev dependencies. ([#168](https://github.com/Rose-STL-Lab/torchTS/pull/168))
 - Added website descriptions for new features. ([#165](https://github.com/Rose-STL-Lab/torchTS/pull/165), [#169](https://github.com/Rose-STL-Lab/torchTS/pull/169))
 - Added mean interval score loss function. ([#188](https://github.com/Rose-STL-Lab/torchTS/pull/188))
+- Added API documentation to website. ([#206](https://github.com/Rose-STL-Lab/torchTS/pull/206), [#237](https://github.com/Rose-STL-Lab/torchTS/pull/237), [#238](https://github.com/Rose-STL-Lab/torchTS/pull/238))
 
 ### Changed
 
@@ -21,6 +22,7 @@
 - Updated flakehell pre-commit hook. ([#177](https://github.com/Rose-STL-Lab/torchTS/pull/177))
 - Removed pull requests from security workflow runs. ([#185](https://github.com/Rose-STL-Lab/torchTS/pull/185))
 - Switched from flakehell to flakeheaven. ([#203](https://github.com/Rose-STL-Lab/torchTS/pull/203))
+- Removed pre-commit actions. ([#224](https://github.com/Rose-STL-Lab/torchTS/pull/224))
 
 ### Fixed
 
