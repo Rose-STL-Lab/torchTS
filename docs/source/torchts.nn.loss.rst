@@ -26,4 +26,3 @@ Masked Mean Absolute Error Loss
 
 .. autofunction:: torchts.nn.loss.masked_mae_loss
     :noindex:
-
