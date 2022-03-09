@@ -16,7 +16,6 @@ In the following example, we will use the `torchTS` package to train a simple LS
     from torchts.nn.models.lstm import LSTM
     from torchts.nn.loss import quantile_loss
 
-
 1. Let's randomly generate a time-series dataset.
 
 .. code-block:: python
@@ -37,7 +36,6 @@ We will get the following plots:
 
 .. image:: ./_static/images/getting_started__dataset_plot.png
     :scale: 100%
-
 
 3. Then, we can start selecting and training our model. In this example, we will use LSTM model.
 
@@ -60,13 +58,11 @@ We will get the following plots:
     )
     model.fit(x, y, max_epochs=100, batch_size=batch_size)
 
-
 1. After model is trained, we can use it to predict the future values. And more importantly, since we enable uncertainty quantification method, we can also get a prediction interval!
 
 .. code-block:: python
 
     y_preds = model.predict(x)
-
 
 5. Let's plot prediction results
 
@@ -77,17 +73,13 @@ We will get the following plots:
     plt.legend()
     plt.show()
 
-
 .. image:: ./_static/images/getting_started__pred_results_1.png
     :scale: 100%
 
-
 Example prediction results for other datasets:
         
-
 .. image:: ./_static/images/getting_started__sample_dataset.png
     :scale: 100%
-
 
 .. image:: ./_static/images/getting_started__sample_results.png
     :scale: 100%

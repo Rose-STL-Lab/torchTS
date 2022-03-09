@@ -8,7 +8,6 @@ Dependencies
 * `PyTorch Lightning <https://www.pytorchlightning.ai/>`_
 * `SciPy <https://scipy.org/>`_
 
-
 Installing the Latest Release
 ------------------------------
 
@@ -63,12 +62,12 @@ Running a simple notebook with your local environment
 - Poetry essentially sets up a virtual environment that automatically configures itself with the dependencies needed to work with torchTS.
 - Once you’ve installed the dependencies for torchTS through Poetry, we can run a Jupyter Notebook with a base kernel built upon torchTS’ using these commands::
 
-    # Run this from the root directory of torchTS 
+    # Run this from the root directory of torchTS
     poetry run jupyter notebook
 
 - Similarly, we can run Python scripts through our compatible environment using this code configuration::
 
-    # Run any python script through our new 
+    # Run any python script through our new
     poetry run [PYTHON FILE]
 
 - Poetry is a very capable package management tool and we recommend you explore it’s functionalities further with `their documentation <https://python-poetry.org/docs/>`_ to get the most out of it.
