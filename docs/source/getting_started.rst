@@ -55,7 +55,7 @@ We will get the following plots:
         torch.optim.Adam,
         criterion=quantile_loss, 
         criterion_args={"quantile": quantile}, 
-        optimizer_args= 
+        optimizer_args=optimizer_args
     )
     model.fit(x, y, max_epochs=100, batch_size=batch_size)
 
