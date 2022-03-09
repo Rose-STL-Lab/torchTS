@@ -15,13 +15,11 @@ where :math:`p` is our fixed confidence interval parameterized by :math:`\theta`
 .. autofunction:: torchts.nn.loss.quantile_loss
     :noindex:
 
-
 Mean Interval Score Loss
 ------------------------
 
 .. autofunction:: torchts.nn.loss.mis_loss
     :noindex:
-
 
 Masked Mean Absolute Error Loss
 --------------------------------
