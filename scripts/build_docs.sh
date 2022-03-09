@@ -15,4 +15,3 @@ SPHINX_HTML_DIR="website/static/api/"
 
 cp -R "./docs/build/html/" "./${SPHINX_HTML_DIR}"
 echo "Sucessfully moved Sphinx docs to ${SPHINX_HTML_DIR}"
-
