@@ -1,15 +1,17 @@
 from abc import abstractmethod
 from functools import partial
-from matplotlib import fontconfig_pattern
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn.functional as F
-import numpy as np
+from matplotlib import fontconfig_pattern
 from pytorch_lightning import LightningModule, Trainer
-from torch.utils.data import DataLoader, TensorDataset, random_split
-from torchts.nn.loss import quantile_err
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader, TensorDataset, random_split
+
+from torchts.nn.loss import quantile_err
+
 
 class TimeSeriesModel(LightningModule):
     """Base class for all TorchTS models.
@@ -19,7 +21,7 @@ class TimeSeriesModel(LightningModule):
         opimizer_args (dict): Arguments for the optimizer
         criterion: Loss function
         criterion_args (dict): Arguments for the loss function
-        method: conformal prediction 
+        method: conformal prediction
         scheduler (torch.optim.lr_scheduler): Learning rate scheduler
         scheduler_args (dict): Arguments for the scheduler
         scaler (torchts.utils.scaler.Scaler): Scaler
@@ -72,18 +74,22 @@ class TimeSeriesModel(LightningModule):
         trainer = Trainer(max_epochs=max_epochs)
 
         # conformal prediction, data initiation
-        if self.method=='conformal':
-            lengths = [int(len(dataset)*0.6), len(dataset) - int(len(dataset)*0.6)]
-            if self.mode == 'regression':  
+        if self.method == "conformal":
+            lengths = [int(len(dataset) * 0.6), len(dataset) - int(len(dataset) * 0.6)]
+            if self.mode == "regression":
                 train_dataset, cal_dataset = random_split(dataset, lengths)
-            if self.mode == 'time_series':
-                train_dataset,cal_dataset = random_split(dataset, lengths)
+            if self.mode == "time_series":
+                train_dataset, cal_dataset = random_split(dataset, lengths)
                 # self.train_dataset, self.cal_dataset = train_test_split(dataset,test_size =0.4,shuffle=False)
-            train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-            cal_dataloader = DataLoader(cal_dataset, batch_size=batch_size, shuffle=True)
-            #self.trainer.fit(self, train_dataloader)
+            train_dataloader = DataLoader(
+                train_dataset, batch_size=batch_size, shuffle=True
+            )
+            cal_dataloader = DataLoader(
+                cal_dataset, batch_size=batch_size, shuffle=True
+            )
+            # self.trainer.fit(self, train_dataloader)
             trainer.fit(self, train_dataloader, cal_dataloader)
-   
+
         else:
             # train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
             # val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
@@ -118,11 +124,11 @@ class TimeSeriesModel(LightningModule):
             y = self.scaler.inverse_transform(y)
             y = torch.tensor(y).float()
             pred = self.scaler.inverse_transform(pred.detach())
-            pred = torch.tensor(pred,requires_grad=True).float()
+            pred = torch.tensor(pred, requires_grad=True).float()
 
         if self.criterion_args is not None:
-            # if in validation step, do the conformal on calibrition set 
-            if (not self.training) and self.method=='conformal':
+            # if in validation step, do the conformal on calibrition set
+            if (not self.training) and self.method == "conformal":
                 intervals = np.zeros((x.shape[0], 3))
                 # ensure that we want to multiply our error distances by the size of our training set
                 err_dist = np.hstack([self.err_dist] * x.shape[0])
@@ -163,10 +169,12 @@ class TimeSeriesModel(LightningModule):
             batch (torch.Tensor): Output of the torch.utils.data.DataLoader
             batch_idx (int): Integer displaying index of this batch
         """
-        
+
         # do calibration on validation set to prevent overfitting
-        if self.method=='conformal':
-            self.err_dist = self.calibration(batch, batch_idx, len(self.trainer.val_dataloaders))
+        if self.method == "conformal":
+            self.err_dist = self.calibration(
+                batch, batch_idx, len(self.trainer.val_dataloaders)
+            )
         val_loss = self._step(batch, batch_idx, len(self.trainer.val_dataloaders))
         self.log("val_loss", val_loss)
         return val_loss
@@ -181,7 +189,7 @@ class TimeSeriesModel(LightningModule):
         test_loss = self._step(batch, batch_idx, len(self.trainer.test_dataloaders))
         self.log("test_loss", test_loss)
         return test_loss
-    
+
     def calibration(self, batch, batch_idx, num_batches):
         """
 
@@ -200,11 +208,11 @@ class TimeSeriesModel(LightningModule):
             y = torch.tensor(y).float()
             pred = self.scaler.inverse_transform(pred.detach())
             pred = torch.tensor(pred).float()
-        
+
         cal_scores = quantile_err(pred, y)
 
         # Sort calibration scores in ascending order
-        nc = np.sort(cal_scores, 0)#[::-1]
+        nc = np.sort(cal_scores, 0)  # [::-1]
 
         index = int(np.ceil((1 - self.significance) * (nc.shape[0] + 1))) - 1
         # find largest error that gets us guaranteed coverage
@@ -212,14 +220,14 @@ class TimeSeriesModel(LightningModule):
         err_dist = np.vstack([nc[index], nc[index]])
 
         return err_dist
-    
-    def calibration_pred(self,x):
+
+    def calibration_pred(self, x):
         """
         Incorprating the err_dist, predict result
         Args:
             x (torch.Tensor): Input data
 
-        Output: Predicted interval 
+        Output: Predicted interval
         """
 
         pred = self.predict(x)
@@ -255,7 +263,6 @@ class TimeSeriesModel(LightningModule):
         """
         return self(x).detach()
 
-    
     def conformal_predict(self, x):
         """Runs model inference.
 
@@ -263,9 +270,9 @@ class TimeSeriesModel(LightningModule):
             x (torch.Tensor): Input data
 
         Returns:
-            torch.Tensor: Predicted confromal result 
+            torch.Tensor: Predicted confromal result
         """
-        if self.method == 'conformal':
+        if self.method == "conformal":
             return self.calibration_pred(x)
         return self(x).detach()
 

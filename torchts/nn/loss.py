@@ -1,7 +1,7 @@
 from typing import List, Union
 
-import torch
 import numpy as np
+import torch
 
 
 def masked_mae_loss(y_pred, y_true):
@@ -49,6 +49,7 @@ def quantile_loss(
     loss = torch.sum(loss)
 
     return loss
+
 
 def quantile_err(prediction, y):
     """
