@@ -24,9 +24,9 @@ class ODESolver(TimeSeriesModel):
             raise ValueError("Inconsistent keys in ode and init_vars")
 
         if solver == "euler":
-            self.step_solver = self.euler_step
+            self.step_solver = self._euler_step
         elif solver == "rk4":
-            self.step_solver = self.runge_kutta_4_step
+            self.step_solver = self._runge_kutta_4_step
         else:
             raise ValueError(f"Unrecognized solver {solver}")
 
@@ -48,7 +48,7 @@ class ODESolver(TimeSeriesModel):
 
         self.dt = dt
 
-    def euler_step(self, prev_val):
+    def _euler_step(self, prev_val):
         """Computes a single Euler's method step for the ODE
         Args:
             prev_val (dict): Previous values for each variable.
@@ -60,7 +60,7 @@ class ODESolver(TimeSeriesModel):
             pred[var] = prev_val[var] + self.ode[var](prev_val, self.coeffs) * self.dt
         return pred
 
-    def runge_kutta_4_step(self, prev_val):
+    def _runge_kutta_4_step(self, prev_val):
         """Computes a single 4th order Runge-Kutta method step for the ODE
         Args:
             prev_val (dict): Previous values for each variable.

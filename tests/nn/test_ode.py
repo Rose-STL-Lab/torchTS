@@ -40,7 +40,7 @@ def rk4_model():
 def test_euler(euler_model):
     """Test Euler's Method"""
     model, preds = euler_model
-    assert model.step_solver == model.euler_step
+    assert model.step_solver == model._euler_step
     assert model.get_coeffs() == {"alpha": 2.0}
     # Approximation for exp(0.2)
     assert abs(preds[1, 0].item() - 1.2) < 1e-6
@@ -49,7 +49,7 @@ def test_euler(euler_model):
 def test_rk4(rk4_model):
     """Test 4th order Runge-Kutta Method"""
     model, preds = rk4_model
-    assert model.step_solver == model.runge_kutta_4_step
+    assert model.step_solver == model._runge_kutta_4_step
     # Approximation for exp(0.1)
     assert abs(preds[1, 0].item() - np.exp(0.1)) < 1e-6
 
