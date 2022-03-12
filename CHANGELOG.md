@@ -12,6 +12,7 @@
 - Added website descriptions for new features. ([#165](https://github.com/Rose-STL-Lab/torchTS/pull/165), [#169](https://github.com/Rose-STL-Lab/torchTS/pull/169))
 - Added mean interval score loss function. ([#188](https://github.com/Rose-STL-Lab/torchTS/pull/188))
 - Added API documentation to website. ([#206](https://github.com/Rose-STL-Lab/torchTS/pull/206), [#237](https://github.com/Rose-STL-Lab/torchTS/pull/237), [#238](https://github.com/Rose-STL-Lab/torchTS/pull/238))
+- Added ODE solver and examples. ([#134](https://github.com/Rose-STL-Lab/torchTS/pull/134))
 
 ### Changed
 
