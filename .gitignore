@@ -13,6 +13,11 @@ lightning_logs/
 # pytest coverage files
 .coverage*
 
+# Sphinx
+docs/build/
+.vscode/
+examples/ode/lorenz63/.ipynb_checkpoints/
+
 # build artifacts
 build/
 dist/
