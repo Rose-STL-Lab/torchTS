@@ -126,7 +126,7 @@ class ODESolver(TimeSeriesModel):
 
     def fit(self, x, y, max_epochs=10, batch_size=128):
         """Fits the model to the given data.
-        
+
         Args:
             x (torch.Tensor): Input data
             y (torch.Tensor): Output data
