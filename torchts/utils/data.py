@@ -37,6 +37,20 @@ def concat(a, b):
     return torch.cat([a, b.unsqueeze(0)], dim=0)
 
 
+def generate_ode_dataset(x):
+    """Generates dataset for ODESolver when training with zero unobserved variables.
+
+    Args:
+        x (torch.Tensor): Original time series data
+
+    Returns:
+        torch.Tensor: Time series data from time step 0 to n-1
+        torch.Tensor: Time series data from time step 1 to n
+    """
+    n = x.shape[0]
+    return x[: n - 1], x[1:]
+
+
 def load_dataset(dataset_dir, batch_size, val_batch_size=None, test_batch_size=None):
     if val_batch_size is None:
         val_batch_size = batch_size

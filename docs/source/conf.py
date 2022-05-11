@@ -88,7 +88,7 @@ html_theme_path = [asteroid_sphinx_theme.get_html_theme_path()]
 # documentation.
 html_theme_options = {
     "pytorch_project": "tutorials",
-    "canonical_url": "https://github.com/Rose-STL-Lab/torchTS",
+    "canonical_url": "https://rose-stl-lab.github.io/torchTS/api/",
     "collapse_navigation": False,
     "display_version": True,
     "logo": "_static/images/torchTS_logo.png",

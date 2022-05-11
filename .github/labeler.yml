@@ -1,9 +1,13 @@
 dependencies:
+  - .github/actions/**
+  - .github/workflows/*
   - .github/dependabot.yml
   - .pre-commit-config.yaml
+  - poetry.lock
 
 documentation:
   - docs/**
+  - scripts/**
   - website/**
 
 examples:
@@ -19,6 +23,7 @@ pre-commit:
 
 python:
   - '*.py'
+  - poetry.lock
 
 source:
   - torchts/**
