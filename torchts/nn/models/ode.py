@@ -9,6 +9,7 @@ class ODESolver(TimeSeriesModel):
         self, ode, init_vars, init_coeffs, dt, solver="euler", outvar=None, **kwargs
     ):
         """TimeSeriesModel for modeling ordinary differential equations.
+
         Args:
             ode (dict): ODE in dictionary form
             init_vars (dict): Initial values for each variable
@@ -49,8 +50,10 @@ class ODESolver(TimeSeriesModel):
 
     def _euler_step(self, prev_val):
         """Computes a single step of the ODE using Euler's method.
+
         Args:
             prev_val (dict): Previous values for each variable
+
         Returns:
             dict: Euler's method step prediction
         """
@@ -63,8 +66,10 @@ class ODESolver(TimeSeriesModel):
 
     def _runge_kutta_4_step(self, prev_val):
         """Computes a single step of the ODE using a 4th order Runge-Kutta method.
+
         Args:
             prev_val (dict): Previous values for each variable
+
         Returns:
             dict: 4th order Runge-Kutta method step prediction
         """
@@ -95,9 +100,11 @@ class ODESolver(TimeSeriesModel):
 
     def solver(self, nt, initial=None):
         """Numerical simulation of the ODE using the selected solver method.
+
         Args:
             nt (int): Number of time-steps
             initial (dict): Initial values for each variable
+
         Returns:
             dict: Prediction of each variable after nt time steps
         """
@@ -119,6 +126,7 @@ class ODESolver(TimeSeriesModel):
 
     def fit(self, x, y, max_epochs=10, batch_size=128):
         """Fits the model to the given data.
+        
         Args:
             x (torch.Tensor): Input data
             y (torch.Tensor): Output data
