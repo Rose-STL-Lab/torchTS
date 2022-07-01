@@ -56,7 +56,7 @@ jobs:
 
       - name: Deploy documentation
         if: success() && github.event_name == 'push'
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        uses: JamesIves/github-pages-deploy-action@v4.3.4
         with:
           token: ${{ steps.generate-token.outputs.token }}
           git-config-name: torchts-bot[bot]
