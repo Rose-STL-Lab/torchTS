@@ -6,6 +6,22 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
+class TimeSeriesDataset(TensorDataset):
+    """
+    dataset tensor
+    """
+    def __init__(self, data_tensor):
+        self.data_tensor = data_tensor
+        
+    def __getitem__(self, index):
+        #use thrid column and onwards as sample, may change later
+        sample = self.data_tensor[index, 2:]
+        #predict third column, may change later
+        target = self.data_tensor[index, 2]
+        return sample, target
+    
+    def __len__(self):
+        return self.data_tensor.shape[0]
 
 class PaddedDataset(TensorDataset):
     def __init__(self, batch_size, *data, pad_with_last_sample=True):
@@ -20,18 +36,21 @@ class PaddedDataset(TensorDataset):
 
         super().__init__(*(torch.from_numpy(d).float() for d in data_pad))
 
-
-class StandardScaler:
-    def __init__(self, data):
-        self.mean = data.mean()
-        self.std = data.std()
-
-    def transform(self, data):
-        return (data - self.mean) / self.std
-
-    def inverse_transform(self, data):
-        return (data * self.std) + self.mean
-
+def standardize(data):
+    """
+    standardize each dimension
+    """
+    standardized_data = []
+    for sub_array in data:
+        sub_array = np.array(sub_array, dtype=object)
+        sub_array_standardized = sub_array[:, :2]
+        sub_array_standardized = np.append(sub_array_standardized,np.zeros(sub_array[:, 2:].shape),1)
+        for i in range(2, sub_array.shape[1]):
+            mean = np.mean(sub_array[:, i].astype(float))
+            std = np.std(sub_array[:, i].astype(float))
+            sub_array_standardized[:, i] = (sub_array[:, i].astype(float) - mean) / std
+        standardized_data.append(sub_array_standardized.tolist())
+    return standardized_data
 
 def concat(a, b):
     return torch.cat([a, b.unsqueeze(0)], dim=0)
@@ -50,39 +69,58 @@ def generate_ode_dataset(x):
     n = x.shape[0]
     return x[: n - 1], x[1:]
 
+def load_files(root_dir):
+    #I only test it for reading txt
+    dataArray = []
+    for filename in os.listdir(root_dir):
+        file_path = os.path.join(root_dir, filename)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as file:
+                file_contents = file.read()
+                lines = file_contents.strip().split("\n")
+                lists = [line.split(",") for line in lines]
+                #change string to float, if the string is a number
+                dataArray.append([[float(val) if val.replace('.','',1).isdigit() else val for val in sublist] for sublist in lists])
+    return dataArray
 
-def load_dataset(dataset_dir, batch_size, val_batch_size=None, test_batch_size=None):
-    if val_batch_size is None:
-        val_batch_size = batch_size
+def split_dataset(root_dir, train_proportion=0.8, test_proportion=0.1, val_proportion=0.1, standardize=None):
+    """
+    we split the data into train, test and validation by files. For example, we will use data in 1.txt,2.txt,...,8.txt as train
+    9.txt as test, 10.txt as val.
+    """
+    if not isinstance(train_proportion, float) or not isinstance(test_proportion, float) or not isinstance(val_proportion, float):
+        raise TypeError("Inputs must be floats.")
+    if train_proportion+test_proportion+val_proportion>1:
+        raise ValueError("train_proportion + test_proportion + val_proportion must not be greater than 1")
+    if train_proportion<=0 or test_proportion<=0:
+        raise ValueError("train_proportion or test_proportion must be larger than 0")
+    if val_proportion<0:
+        raise ValueError("val_proportion is smaller than 0")
+    
+    dataset = load_files(root_dir)
+    
+    if standardize:
+        dataset = standardize(dataset)
+    
+    l = len(dataset)
+    train = []
+    test = []
+    valid = []
+    for i in range(l):
+        if i<=l*train_proportion-1:
+            train.append(dataset[i])
+        elif i<=l*(train_proportion + test_proportion)-1:
+            test.append(dataset[i])
+        elif i<=l*(train_proportion + test_proportion + val_proportion)-1:
+            valid.append(dataset[i])
+        else:
+            break
+        
+    return train,test,valid
 
-    if test_batch_size is None:
-        test_batch_size = batch_size
-
-    data = {}
-
-    for category in ["train", "val", "test"]:
-        cat_data = np.load(os.path.join(dataset_dir, category + ".npz"))
-        data["x_" + category] = cat_data["x"]
-        data["y_" + category] = cat_data["y"]
-
-    scaler = StandardScaler(data["x_train"][..., 0])
-
-    for category in ["train", "val", "test"]:
-        data["x_" + category][..., 0] = scaler.transform(data["x_" + category][..., 0])
-        data["y_" + category][..., 0] = scaler.transform(data["y_" + category][..., 0])
-
-    data_train = PaddedDataset(batch_size, data["x_train"], data["y_train"])
-    data["train_loader"] = DataLoader(data_train, batch_size, shuffle=True)
-
-    data_val = PaddedDataset(val_batch_size, data["x_val"], data["y_val"])
-    data["val_loader"] = DataLoader(data_val, val_batch_size, shuffle=False)
-
-    data_test = PaddedDataset(test_batch_size, data["x_test"], data["y_test"])
-    data["test_loader"] = DataLoader(data_test, test_batch_size, shuffle=False)
-
-    data["scaler"] = scaler
-
-    return data
+def load_dataset(datasets, batch_size, val_batch_size=None, test_batch_size=None, standardize=None):
+    loadedData = DataLoader(TimeSeriesDataset(datasets), batch_size=batch_size, shuffle=False)
+    return loadedData
 
 
 def load_graph_data(pkl_filename):
