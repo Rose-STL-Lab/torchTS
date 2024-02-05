@@ -6,24 +6,24 @@ ci:
 
 repos:
   - repo: https://github.com/psf/black
-    rev: 22.1.0
+    rev: 24.1.1
     hooks:
       - id: black
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.31.0
+    rev: v3.15.0
     hooks:
       - id: pyupgrade
         args: [--py36-plus]
 
   - repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
+    rev: 5.13.2
     hooks:
       - id: isort
         additional_dependencies: [toml]
 
   - repo: https://github.com/flakeheaven/flakeheaven
-    rev: 0.11.0
+    rev: 3.3.0
     hooks:
       - id: flakeheaven
         additional_dependencies:
@@ -31,14 +31,14 @@ repos:
           - flake8-comprehensions
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+    rev: v4.5.0
     hooks:
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: trailing-whitespace
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.1.13
+    rev: v1.5.4
     hooks:
       - id: forbid-crlf
         exclude: docs/make.bat
