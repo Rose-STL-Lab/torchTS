@@ -31,6 +31,8 @@ jobs:
 
       - name: Set up TorchTS
         uses: ./.github/actions/setup-torchts
+        with:
+          python-version: 3.9
 
       - name: Set up Node
         uses: actions/setup-node@v4
