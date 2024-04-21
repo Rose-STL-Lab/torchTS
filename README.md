@@ -29,7 +29,7 @@ Existing time series analysis libraries include [statsmodels](https://www.statsm
 
 ### Installation Requirements
 
-TorchTS supports Python 3.7+ and has the following dependencies:
+TorchTS supports Python 3.8+ and has the following dependencies:
 
 - [PyTorch](https://pytorch.org/)
 - [PyTorch Lightning](https://pytorchlightning.ai/)
