@@ -42,7 +42,7 @@ jobs:
 
       - name: Run OSSAR
         id: ossar
-        uses: github/ossar-action@v2
+        uses: github/ossar-action@v1
 
       - name: Upload OSSAR results
         if: always()
