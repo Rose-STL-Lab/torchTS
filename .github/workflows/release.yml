@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies and build project
         run: |
-          poetry install --no-dev
+          poetry install --without test,docs
           poetry build
 
       - name: Upload build artifacts
