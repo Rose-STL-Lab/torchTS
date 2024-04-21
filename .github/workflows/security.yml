@@ -53,21 +53,15 @@ jobs:
   semgrep:
     name: Semgrep
     runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: >-
-            p/ci
-            p/secrets
-          auditOn: >-
-            push
-            pull_request
-          generateSarif: true
+        run: semgrep scan --config auto --sarif > semgrep.sarif
 
       - name: Upload Semgrep results
         if: always()
