@@ -21,7 +21,7 @@ runs:
 
     - name: Get Python version
       id: python-version
-      run: echo version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))") >> $GITHUB_OUTPUT
+      run: echo version=$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))") >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Install Poetry
