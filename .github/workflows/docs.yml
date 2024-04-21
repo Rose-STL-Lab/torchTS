@@ -27,13 +27,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v4
 
       - name: Set up TorchTS
         uses: ./.github/actions/setup-torchts
+        with:
+          python-version: 3.9
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 14
 
@@ -49,14 +51,14 @@ jobs:
       - name: Generate token
         if: success() && github.event_name == 'push'
         id: generate-token
-        uses: tibdex/github-app-token@v1.5
+        uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Deploy documentation
         if: success() && github.event_name == 'push'
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ steps.generate-token.outputs.token }}
           git-config-name: torchts-bot[bot]

@@ -13,24 +13,26 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
 
       - name: Install Poetry
-        uses: snok/install-poetry@v1.3
+        uses: snok/install-poetry@v1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
       - name: Install dependencies and build project
         run: |
-          poetry install --no-dev
+          poetry install --without test,docs
           poetry build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v4
         with:
           name: poetry-build
           path: dist/
@@ -42,10 +44,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v4
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v4
         with:
           name: poetry-build
           path: dist
@@ -68,14 +70,14 @@ jobs:
       - name: Generate token
         if: success() && github.event_name == 'push'
         id: generate-token
-        uses: tibdex/github-app-token@v1.5
+        uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Create release
         if: success() && github.event_name == 'push'
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           token: ${{ steps.generate-token.outputs.token }}
           body_path: RELEASE.md
@@ -89,19 +91,21 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v4
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v4
         with:
           name: poetry-build
           path: dist
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
 
       - name: Install Poetry
-        uses: snok/install-poetry@v1.3
+        uses: snok/install-poetry@v1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
