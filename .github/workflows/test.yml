@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v4
 
       - name: Set up TorchTS
         uses: ./.github/actions/setup-torchts
@@ -43,7 +43,7 @@ jobs:
 
       - name: Upload coverage report
         if: success()
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           fail_ci_if_error: true
