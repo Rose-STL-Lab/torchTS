@@ -40,7 +40,7 @@ class ODESolver(TimeSeriesModel):
             name: torch.tensor(value, device=self.device)
             for name, value in init_vars.items()
         }
-        self.coeffs = {name: param for name, param in self.named_parameters()}
+        self.coeffs = dict(self.named_parameters())
         self.outvar = self.var_names if outvar is None else outvar
 
         # determines method of training
