@@ -4,9 +4,8 @@
 
 ---
 
-[![Tests](https://github.com/Rose-STL-Lab/torchTS/workflows/Tests/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ATests)
-[![Quality](https://github.com/Rose-STL-Lab/torchTS/workflows/Quality/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3AQuality)
-[![Docs](https://github.com/Rose-STL-Lab/torchTS/workflows/Docs/badge.svg)](https://github.com/Rose-STL-Lab/torchTS/actions?query=workflow%3ADocs)
+[![Tests](https://github.com/Rose-STL-Lab/torchTS/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/Rose-STL-Lab/torchTS/actions/workflows/test.yml)
+[![Docs](https://github.com/Rose-STL-Lab/torchTS/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/Rose-STL-Lab/torchTS/actions/workflows/docs.yml)
 [![pre-commit.ci](https://results.pre-commit.ci/badge/github/Rose-STL-Lab/torchTS/main.svg)](https://results.pre-commit.ci/latest/github/Rose-STL-Lab/torchTS/main)
 [![Codecov](https://img.shields.io/codecov/c/github/Rose-STL-Lab/torchTS?label=Coverage&logo=codecov)](https://app.codecov.io/gh/Rose-STL-Lab/torchTS)
 [![PyPI](https://img.shields.io/pypi/v/torchts?label=PyPI&logo=python)](https://pypi.org/project/torchts)
