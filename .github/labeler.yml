@@ -1,32 +1,39 @@
 dependencies:
-  - .github/actions/**
-  - .github/workflows/*
-  - .github/dependabot.yml
-  - .pre-commit-config.yaml
-  - poetry.lock
+  - changed-files:
+    - any-glob-to-any-file:
+      - poetry.lock
+      - website/package-lock.json
 
 documentation:
-  - docs/**
-  - scripts/**
-  - website/**
+  - changed-files:
+    - any-glob-to-any-file:
+      - docs/**
+      - website/**
+      - scripts/build_docs.sh
+      - README.md
 
 examples:
-  - examples/**
+  - changed-files:
+    - any-glob-to-any-file: examples/**
 
 github actions:
-  - .github/actions/**
-  - .github/workflows/*
-  - .github/labeler.yml
+  - changed-files:
+    - any-glob-to-any-file: .github/**
 
 pre-commit:
-  - .pre-commit-config.yaml
+  - changed-files:
+    - any-glob-to-any-file: .pre-commit-config.yaml
 
 python:
-  - '*.py'
-  - poetry.lock
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.py'
+      - poetry.lock
 
 source:
-  - torchts/**
+  - changed-files:
+    - any-glob-to-any-file: torchts/**
 
 test:
-  - tests/**
+  - changed-files:
+    - any-glob-to-any-file: tests/**
