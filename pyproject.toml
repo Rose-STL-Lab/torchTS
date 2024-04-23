@@ -32,7 +32,7 @@ pytest-mock = "^3.14.0"
 pre-commit = "^3.7.0"
 
 [tool.poetry.group.docs.dependencies]
-sphinx = "^4.4.0"
+sphinx = "^7.3.7"
 asteroid-sphinx-theme = "^0.0.3"
 
 [build-system]
