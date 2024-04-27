@@ -90,7 +90,7 @@ def test_step_backward(euler_model):
     model, _ = euler_model
     loss = model._step(batch, 0, 0)
     assert (loss.item() - (1.2 - 1.1) ** 2) < 1e-6
-    model.backward(loss, None, 0)
+    model.backward(loss)
     model.optimizer(model.parameters()).step()
     coeffs = model.get_coeffs()
     assert coeffs["alpha"] < 2
