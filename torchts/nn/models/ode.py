@@ -162,6 +162,6 @@ class ODESolver(TimeSeriesModel):
         loss = self.criterion(predictions, y)
         return loss
 
-    def backward(self, loss, optimizer, optimizer_idx):
+    def backward(self, loss):
         # use retain_graph=True to mitigate RuntimeError
         loss.backward(retain_graph=True)
