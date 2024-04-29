@@ -59,6 +59,7 @@ def test_step(mocker):
 
 def test_train():
     torch.manual_seed(0)
+    torch.set_default_device("cpu")
 
     slope_init = 2
     intercept_init = -1

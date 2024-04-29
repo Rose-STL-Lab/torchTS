@@ -99,6 +99,7 @@ def test_step_backward(euler_model):
 def test_fit(euler_model):
     """Test the step and backward function"""
     torch.manual_seed(0)
+    torch.set_default_device("cpu")
     model, _ = euler_model
     model.fit(torch.Tensor([[1.0]]), torch.Tensor([[1.1]]), max_epochs=1, batch_size=1)
     coeffs = model.get_coeffs()

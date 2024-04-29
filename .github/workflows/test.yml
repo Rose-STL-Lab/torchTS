@@ -37,8 +37,6 @@ jobs:
 
       - name: Run tests
         run: poetry run pytest tests/ --cov=torchts
-        env:
-          PYTORCH_MPS_HIGH_WATERMARK_RATIO: 0.0
 
       - name: Generate coverage report
         run: poetry run coverage xml
