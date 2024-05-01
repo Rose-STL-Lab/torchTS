@@ -22,7 +22,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.8,<3.10"
 torch = "^1.4"
-pytorch-lightning = "^1.2"
+pytorch-lightning = ">=1.2,<3.0"
 scipy = "^1.7.1"
 
 [tool.poetry.group.test.dependencies]
