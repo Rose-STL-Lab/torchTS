@@ -7,6 +7,13 @@ from torchts.nn.model import TimeSeriesModel
 
 
 class Encoder(nn.Module):
+    """Encoder
+    
+    Args:
+        input_dim: the dimension of input sequences.
+        seq_len: sequence length.
+    """
+
     def __init__(self, input_dim, seq_len, **kwargs):
         super().__init__()
         self.input_dim = input_dim
@@ -19,6 +26,13 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
+    """Decoder
+    
+    Args:
+        output_dim: the dimension of output sequences.
+        horizon: prediction horizon.
+    """
+
     def __init__(self, output_dim, horizon, **kwargs):
         super().__init__()
         self.output_dim = output_dim
@@ -36,6 +50,24 @@ class Decoder(nn.Module):
 
 
 class DCRNN(TimeSeriesModel):
+    """DCRNN
+    
+    Args:
+        adj_mx: torch tensor of shape [num_nodes, num_nodes]
+        num_units: the dimension of the hidden state. 
+        seq_len: sequence length.
+        horizon: prediction horizon.
+        input_dim: the dimension of input sequences.
+        output_dim: the dimension of output sequences.
+        max_diffusion_step: the maximum diffusion time step 
+        filter_type: the type of filter to use.
+        num_nodes: number of nodes in the graph.
+        num_layers: number of hidden layers.
+        use_gc_for_ru: whether to use graph convolution
+        use_curriculum_learning: whether to use curriculum learning.
+        cl_decay_steps: the number of steps to use curriculum learning.
+    """
+
     def __init__(
         self,
         adj_mx,
@@ -76,8 +108,7 @@ class DCRNN(TimeSeriesModel):
 
     def _compute_sampling_threshold(self, batches_seen):
         return self.cl_decay_steps / (
-            self.cl_decay_steps + np.exp(batches_seen / self.cl_decay_steps)
-        )
+            self.cl_decay_steps + np.exp(batches_seen / self.cl_decay_steps))
 
     def encoder(self, inputs):
         batch_size = inputs.size(1)
@@ -86,8 +117,7 @@ class DCRNN(TimeSeriesModel):
 
         for t in range(self.encoder_model.seq_len):
             _, encoder_hidden_state = self.encoder_model(
-                inputs[t], encoder_hidden_state
-            )
+                inputs[t], encoder_hidden_state)
 
         return encoder_hidden_state
 
@@ -101,8 +131,7 @@ class DCRNN(TimeSeriesModel):
 
         for t in range(self.decoder_model.horizon):
             decoder_output, decoder_hidden_state = self.decoder_model(
-                decoder_input, decoder_hidden_state
-            )
+                decoder_input, decoder_hidden_state)
             decoder_input = decoder_output
             outputs.append(decoder_output)
 
@@ -117,7 +146,9 @@ class DCRNN(TimeSeriesModel):
 
     def forward(self, inputs, labels=None, batches_seen=None):
         encoder_hidden_state = self.encoder(inputs)
-        outputs = self.decoder(encoder_hidden_state, labels, batches_seen=batches_seen)
+        outputs = self.decoder(encoder_hidden_state,
+                               labels,
+                               batches_seen=batches_seen)
 
         return outputs
 
@@ -132,7 +163,7 @@ class DCRNN(TimeSeriesModel):
             batch_size,
             self.num_nodes * self.encoder_model.input_dim,
         )
-        y = y[..., : self.decoder_model.output_dim].view(
+        y = y[..., :self.decoder_model.output_dim].view(
             self.decoder_model.horizon,
             batch_size,
             self.num_nodes * self.decoder_model.output_dim,

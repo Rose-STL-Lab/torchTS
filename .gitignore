@@ -22,5 +22,5 @@ dist/
 *.npz
 *.pkl
 
-# vscode
+venv
 .vscode
